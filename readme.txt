@@ -45,6 +45,8 @@
 
 2) httpd.confを編集して以下のディレクティブを設定する
 DocumentRootは既存の設定を編集し、AliasとDirectoryはファイルの最後に追記する。
+c:/gitはgit cloneでクローンを作成したディレクトリにすること
+
 -- 以下、変更内容
 # DocumentRoot
 DocumentRoot "c:/git/11_isagi/fs/www/web"
