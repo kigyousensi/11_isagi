@@ -1,0 +1,3 @@
+## ignore filename in all directory
+*.swp
+adduser.sh
