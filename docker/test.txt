@@ -1,7 +1,7 @@
 #!/bin/bash
 : ${USID:=1000}
 : ${GRID:=1000}
-: ${NAME:='fennec'}
+: ${NAME:='XXXX'}
 
 useradd -u $USID -o -m $NAME
 groupmod -g $GRID $NAME
