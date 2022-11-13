@@ -8,7 +8,7 @@ CONFD="${BASE}/dbs/conf/"
 SQLD="${BASE}/dbs/sql/"
 
 ## main
-docker run -p 3306:3306 --network heya-net --name dbs\
+docker run -p 3306:3306 --network isagi-net --name dbs\
  -v "${DBDIR}:/var/lib/mysqlbackup"\
  -v "${CONFD}:/etc/mysql/conf.d" \
  -v "${SQLD}:/docker-entrypoint-initdb.d" \

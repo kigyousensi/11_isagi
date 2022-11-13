@@ -10,7 +10,7 @@ PHPDIR="${BASE}/apps/phpconf/"
 LOGDIR="${BASE}/apps/log/"
 
 ## main
-docker run -p 8081:80   --network heya-net --name apps \
+docker run -p 8081:80   --network isagi-net --name apps \
 -v "${AUTHDIR}:/var/www/html/auth" \
 -v "${APPSDIR}:/var/www/html/aspx" \
 -v "${IMGDIR}:/var/www/html/img" \

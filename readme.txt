@@ -20,6 +20,7 @@
 # git clone git@github.com:kigyousensi/11_isagi.git
 # cd docker
 # bash configure.sh
+# bash setup-net.sh   // isagi-netがなければ作成される
 # bash setup-image.sh // isagiのイメージファイルがまだない場合
 # bash start.sh       // コンテナ起動
 # bash stop.sh        // コンテナ停止
