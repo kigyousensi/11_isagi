@@ -85,7 +85,7 @@ Alias /ap/simg "c:/git/11_isagi/fs/simg"
 
 4) DBサーバのホスト名を登録
 　c:\windows\System32\drivers\etc/hostsに以下を追記する
-  127.0.0.7	dbs
+  127.0.0.1	dbs
 
   > ping dbs
     応答が返ってくること
