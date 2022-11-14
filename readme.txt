@@ -53,7 +53,7 @@ DocumentRoot "c:/git/11_isagi/fs/www/web"
 
 # アプリケーションサーバの仮想ディレクトリ
 Alias /ap "c:/git/11_isagi/fs/www/ap" 
-<Directory "c:/git/11_isagi/fs/www/web">
+<Directory "c:/git/11_isagi/fs/www/ap">
  Require all granted
 </Directory>
 
@@ -66,10 +66,10 @@ Alias /auth "c:/git/11_isagi/fs/www/auth"
 # imgファイルの仮想ディレクトリ
 Alias /img "c:/git/11_isagi/fs/img" 
 Alias /ap/img "c:/git/11_isagi/fs/img" 
-Alias /ap/simg "c:/git/11_isagi/fs/simg" 
 <Directory "c:/git/11_isagi/fs/img">
  Require all granted
 </Directory>
+Alias /ap/simg "c:/git/11_isagi/fs/simg" 
 <Directory "c:/git/11_isagi/fs/simg">
  Require all granted
 </Directory>
@@ -97,12 +97,12 @@ Alias /ap/simg "c:/git/11_isagi/fs/simg"
   インストールディレクトリ\my.ini
   インストールディレクトリ\my.cnf
 
-  11_isagi/dbs/conf/mysql.cnfの内容を転記して保存
+  11_isagi/dbs/conf/mysql.cnfの内容を上記のファイルに転記して保存
 
 6) mysqlを起動
 
 7) データベース作成
- > cd 11isagi\dbs\sql
+ > cd 11_isagi\dbs\sql
  > mysql -u root -p
    インストール時に指定したパスワードを入力
  mysql> show variables like "char%";
