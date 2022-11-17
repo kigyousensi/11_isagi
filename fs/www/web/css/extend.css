@@ -1,0 +1,34 @@
+.sidenav-list {
+  position: fixed;
+  top: 5px;
+  left: -16em;
+  width: 15em;
+  height: 100vh;
+  box-shadow: 3px 3px 0 rgba(175, 168, 168, 0.7);
+  background-color: #fff;
+  z-index: 99;
+  transition-property: left;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-out;
+}
+
+ul.sidenav-list > li.sidenav-line {
+  width: calc(100% - 2em);
+  margin-left: 1em;
+  padding: 1em;
+  border-style: solid none none none;
+  border-width: 1px;
+  border-color: rgb(175, 168, 168);
+}
+ul.sidenav-list > li.sidenav-line:first-child {
+  border: none;
+}
+
+img.side-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.hide {
+  display: none;
+}/*# sourceMappingURL=extend.css.map */
