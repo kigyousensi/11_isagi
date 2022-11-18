@@ -1,0 +1,85 @@
+// 拡張CSS /////////////////////////////////
+// サイドナビゲーション
+.sidenav-list {
+ position:fixed;
+ width:15em;height:100vh;
+ box-shadow:3px 3px 0 rgba(175, 168, 168, 0.7);
+ background-color:#fff;
+ z-index: 99;
+ transition-property:left;
+ transition-duration:0.5s;
+ transition-timing-function: ease-out;
+}
+.sidenav-list-open{top:5px;left:0;}
+.sidenav-list-close{top:5px;left:-16em;}
+ul.sidenav-list {
+ > li{
+    width:calc(100% - 2em);
+    margin-left:1em;
+    border-style:solid none none none;border-width:1px;border-color:rgba(175, 168, 168);
+    &:first-child{border:none;}
+  }
+ > li.sidenav-line{
+  padding:1em 1em 1em 1em;
+ }
+ > li.sidenav-subline{
+  padding:1em 1em 1em 2em;
+ }
+ >li.logined{
+  //このクラスを持っているメニューはログイン時に表示し、ログオフ時に非表示にする
+ }
+}
+
+img.side-icon{
+    width:1.5em;height:1.5em;
+}
+.hide{display:none;}
+
+// トップメニュー
+div.account-login{
+  position:absolute;
+  top:5px;right:20px;
+  height:56px;
+  display:flex;align-items:center;
+  >p{color:white;}
+}
+
+// channel //////////////////////////////////////////////////////////
+div.channel {
+  padding:1em;
+}
+
+// ログイン画面 /////////////////////////
+div.loginbox{
+  position:relative;
+  width:70vw;top:10vh;left:15vw;
+  padding:0px;
+  text-align:center;
+  border-color:$primary-color;border-style:solid;border-width:1px;
+  border-radius:5px;
+  box-shadow:1px 2px 0 $primary-color-light;
+  >div{padding:5px;}
+  >div:nth-child(1){
+    height:10px;
+    background-color:$primary-color;
+  }
+  >div:nth-child(3){width:50%;margin-left:25%;}
+  >div:nth-child(5){margin-top:5vh;}
+}
+
+// 画面サイズで表示を変更
+@media(min-width:993px){
+  .sidenav-list {
+   position:fixed; top:56px;left:0px;
+   >li:nth-child(1){display:none;}
+   >li:nth-child(2){border:none;}
+  }
+  .sidenav-list-close{top:56px;left:0em;}
+  
+  div.channel {
+   margin-left:16em;
+  }
+  div.loginbox{
+    width:70vw;top:10vh;left:0;
+  }
+ }

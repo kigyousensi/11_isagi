@@ -10,41 +10,73 @@
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
  <!--Import materialize.css-->
  <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
- <link type="text/css" rel="stylesheet" href="css/extend.css"  media="screen,projection"/>
  <!--Let browser know website is optimized for mobile-->
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>test</title>
-<script>
-   function slidein() {document.getElementById("slide-menu").style.left="0";}
-   function slideout(){document.getElementById("slide-menu").style.left="-16em";} 
-   function changech(n){
-    const items=document.querySelectorAll(".channel");
-    for(let i=1;i<=items.length;i++){
-        if(i==n){document.getElementById("ch"+i).classList.remove("hide");}
-            else{document.getElementById("ch"+i).classList.add("hide");}  
-    }
-    slideout();
-   }
-</script>
 </head>
 
 <body>
     <!-- Header -->
-    <nav><a data-target="slide-out" class="sidenav-trigger" onClick="slidein();"><i class="material-icons">menu</i></a> </nav>
+    <!-- navigation -->
+    <nav>
+        <a data-target="slide-out" class="sidenav-trigger" onClick="slide_open();"><i class="material-icons">menu</i></a>
+    </nav>
+    <div class="account-login"><p id="account-login" is="login-button">ログイン</p><p id="account-name" class="hide"></p></p></div></div>
+    
     <!--menu-->
-    <ul id="slide-menu" class="sidenav-list">
-        <li class="sidenav-line" onclick="slideout()"><img src="icon/arrow_back.png" class="side-icon"></li>
-        <li class="sidenav-line" onclick="changech(1)" id="side-mypage">マイページ</li>
-        <li class="sidenav-line" onclick="changech(2)">盗品チェック</li>
-        <li class="sidenav-line" onclick="changech(3)" id="side-logout">ログアウト</li>
+    <ul id="slide-menu" class="sidenav-list sidenav-list-close">
+        <li class="sidenav-line" onclick="slide_close()"><img src="icon/arrow_back.png" class="side-icon"></li>
+        <li class="sidenav-line logined hide">マイページ</li>
+        <li class="sidenav-subline logined hide" onclick="changech('ch1-1')">基本情報</li>
+        <li class="sidenav-subline logined hide" onclick="changech('ch1-2')">動産の編集</li>
+        <li class="sidenav-line" onclick="changech('ch2')">所有者を確認</li>
+        <li class="sidenav-line logined hide" onclick="tryLogout()">ログアウト</li>
     </ul>
+
+    <!--アラートボックス-->
+    <div id="ar1" class="alart-box hide">アラートボックス</div>
+
     <!--channel-->
-    <div id="ch1" class="channel hide">マイページ</div>
-    <div id="ch2" class="channel">盗品チェック</div>
-    <div id="ch3" class="channel hide">ログアウト</div>
-    <div id="ch4" class="channel hide">アカウント作成</div>
-    <div id="ch5" class="channel hide">パスワードリセット</div>
+    <div id="ch1-1" class="channel sub-channel hide">基本情報</div>
+    <div id="ch1-2" class="channel sub-channel hide">動産の編集</div>
+    <div id="ch2" class="channel ">所有者を確認</div>
+    <div id="ch3" class="channel hide">
+        <div class="loginbox">
+          <div></div>
+          <div>
+              <span id="login-error"></span>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="email" type="email" class="validate">
+                  <label for="email">Email</label>
+                  <span class="helper-text" data-error="メールアドレスの形式が不正です。"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="password" type="password" class="validate">
+                  <label for="password">Password</label>
+                </div>
+              </div>
+            <a id="login-button" class="waves-effect waves-light btn-large" onclick="tryLogin()">ログイン</a>
+          </div>
+          <div id="login-preload" class="progress hide"><div class="indeterminate"></div></div>
+          <div id="login-reset" class="hide">パスワードをお忘れですか? <a onclick="changech('ch6')">パスワードリセット</a></div>
+          <div>アカウントをお持ちで無い場合は<a onclick="changech('ch5')">新規登録</a></div>
+</div>
+      
+        </div>
+    </div>
+    <div id="ch4" class="channel hide">ログアウト
+    </div>
+    <div id="ch5" class="channel hide">アカウント作成
+        <p onclick="changech('ch3')">(テスト用)ここをクリックするとログイン画面に戻る</p>
+    </div>
+    <div id="ch6" class="channel hide">パスワードリセット
+        <p onclick="changech('ch3')">(テスト用)ここをクリックするとログイン画面に戻る</p>
+    </div>
 <!-- load javascript-->
 <script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/extend.js"></script>
 </body>
 </html>
