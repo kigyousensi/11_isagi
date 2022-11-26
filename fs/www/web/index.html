@@ -6,6 +6,7 @@
 <meta name="description" content="">
 <meta name="robots" content="nofollow">
 <meta name="author" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
  <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -17,17 +18,17 @@
     <!-- Header -->
     <!-- navigation -->
     <nav>
-        <a data-target="slide-out" class="sidenav-trigger" onClick="slide_open();"><i class="material-icons">menu</i></a>
+        <a id="slide-open" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </nav>
     <div class="account-login"><p id="account-login" is="login-button">ログイン</p><p id="account-name" class="hide"></p></p></div></div>
     
     <!--menu-->
     <ul id="slide-menu" class="sidenav-list sidenav-list-close">
-        <li class="sidenav-line" onclick="slide_close()"><img src="icon/arrow_back.png" class="side-icon"></li>
-        <li class="sidenav-line logined hide" onclick="changech('ch1-1')">基本情報</li>
-        <li class="sidenav-line logined hide" onclick="changech('ch1-2')">動産リスト</li>
-        <li class="sidenav-line" onclick="changech('ch2')">所有者を確認</li>
-        <li class="sidenav-line logined hide" onclick="tryLogout()">ログアウト</li>
+        <li id="slide-back" class="sidenav-line"><img src="icon/arrow_back.png" class="side-icon"></li>
+        <li id="slide-base" class="sidenav-line logined hide">基本情報</li>
+        <li id="slide-list" class="sidenav-line logined hide">動産リスト</li>
+        <li id="slide-ownr" class="sidenav-line">所有者を確認</li>
+        <li id="slide-loff" class="sidenav-line logined hide">ログアウト</li>
     </ul>
 
     <!--アラートボックス-->
@@ -40,9 +41,68 @@
     </div>
 
     <!--channel-->
-    <div id="ch1-1" class="channel sub-channel hide">基本情報</div>
+    <div id="ch1-1" class="channel sub-channel"><!--基本情報画面-->
+      <div class="section">アカウント</div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="base-id" type="text" class="validate" value="自動生成" disabled/>
+          <label for="base-id">アカウントID</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="base-token" type="text" class="validate" value="自動生成" disabled/>
+          <label for="base-token">トークン</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="base-email" type="email" class="validate">
+          <label for="base-email">Email</label>
+          <span class="helper-text" data-error="メールアドレスの形式が不正です"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="base-pword1" type="password" class="validate" pattern="^([a-zA-Z0-9@\-_=]{8,})$" required>
+          <label for="base-pword1">パスワード</label>
+          <span class="helper-text" data-error="8文字以上指定(半角英数字及び@_-=)"></span>
+        </div>
+        <div class="input-field col s6">
+          <input id="base-pword2" type="password" class="validate" pattern="^([a-zA-Z0-9@\-_=]{8,})$" required>
+          <label for="base-pword2">パスワード(確認用)</label>
+          <span class="helper-text" data-error="8文字以上指定(半角英数字及び@_-=)"></span>
+        </div>
+      </div>
+      <div class="row">
+        <a id="base-pword" class="waves-effect waves-light btn-small disabled">パスワード変更</a>
+        &nbsp;<span id="base-pwderror" class="helper-text error-msg"></span>
+      </div>
+      <div class="section">SNS・フリーマーケット</div>
+      <!-- twitter-->
+       <div class="flexsns">
+        <div class="row">
+          <div class="input-field col s12 snsicon-twitter">
+           <input id="base-sns-twtr" placeholder="@twitter_id" type="text" class="validate" pattern="^(@)([a-zA-Z0-9_]{5,})$"/>
+           <label for="base-sns-twtr">twitter</label>
+           <span class="helper-text" data-error="@から始まる5文字以上のID"></span>
+          </div>
+        </div>
+        <div class="switch"><label>Off<input id="base-sns-twtr-sw" type="checkbox"><span class="lever"></span>On</label></div>
+      </div>
+      <!-- instagram-->
+      <div class="flexsns">
+        <div class="row">
+          <div class="input-field col s12 snsicon-instagram">
+           <input id="base-sns-inst" placeholder="user id" type="text" class="validate" value=""/>
+           <label for="base-sns-inst">instagram</label>
+          </div>
+        </div>
+        <div class="switch"><label>Off<input id="base-sns-inst-sw" type="checkbox"><span class="lever"></span>On</label></div>
+      </div>
+    </div>
     <div id="ch1-2" class="channel sub-channel hide">動産リスト</div>
-    <div id="ch2" class="channel ">所有者を確認</div>
+    <div id="ch2" class="channel hide">所有者を確認</div>
     <div id="ch3" class="channel hide"><!--ログイン画面-->
         <div class="account-box login-box">
           <div></div>
@@ -63,11 +123,11 @@
                   <span class="helper-text" data-error="パスワードを入力して下さい。"></span>
                 </div>
               </div>
-            <a id="login-button" class="waves-effect waves-light btn-large disabled" onclick="tryLogin()">ログイン</a>
+            <a id="login-button" class="waves-effect waves-light btn-large disabled">ログイン</a>
           </div>
           <div id="login-preload" class="progress hide"><div class="indeterminate"></div></div>
-          <div id="login-reset" class="hide">パスワードをお忘れですか? <a onclick="changech('ch5')">パスワードリセット</a></div>
-          <div>アカウントをお持ちで無い場合は<a onclick="changech('ch4');">新規登録</a></div>
+          <div id="login-reset" class="hide">パスワードをお忘れですか? <a>パスワードリセット</a></div>
+          <div >アカウントをお持ちで無い場合は<a id="login-signup">新規登録</a></div>
         </div>
     </div>
     <div id="ch4" class="channel hide"><!--サインアップ画面-->
@@ -86,16 +146,16 @@
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input id="signup-pword1" type="password" class="validate" minlength="8" required>
+                <input id="signup-pword1" type="password" class="validate" pattern="^([a-zA-Z0-9@\-_=]{8,})$" required>
                 <label for="signup-pword1">Password</label>
-                <span class="helper-text" data-error="8文字以上のパスワードを入力して下さい"></span>
+                <span class="helper-text" data-error="8文字以上指定(半角英数字及び@_-=)"></span>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input id="signup-pword2" type="password" class="validate" minlength="8" required>
+                <input id="signup-pword2" type="password" class="validate" pattern="^([a-zA-Z0-9@\-_=]{8,})$" required>
                 <label for="signup-pword2">Password(確認用)</label>
-                <span class="helper-text" data-error="8文字以上のパスワードを入力して下さい"></span>
+                <span class="helper-text" data-error="8文字以上指定(半角英数字及び@_-=)"></span>
               </div>
             </div>
             <!-- 利用条件の同意 -->
@@ -106,8 +166,8 @@
             <div id="signup-modal" class="modal modal-fixed-foote">
               <div class="modal-content"><h4 id="signup-modal-header"></h4><p id="signup-modal-text" class="modal-text"></p></div>
               <div class="modal-footer">
-                <a id="signup-agree-ng" href="#!" class="modal-close waves-effect waves-green btn-flat">同意しない</a>
-                <a id="signup-agree-ok" href="#!" class="modal-close waves-effect waves-green btn-flat">同意する</a>
+                <a id="signup-agree-ng" class="modal-close waves-effect waves-green btn-flat">同意しない</a>
+                <a id="signup-agree-ok" class="modal-close waves-effect waves-green btn-flat">同意する</a>
               </div>
             </div>
           <a id="signup-button" class="waves-effect waves-light btn-large disabled" onclick="trySignup()">アカウント登録</a>
@@ -134,8 +194,16 @@
       </div>
     </div>
 <!-- load javascript-->
-<script type="text/javascript" src="js/materialize.min.js"></script>
-<script type="text/javascript" src="js/extend.js"></script>
-<script type="text/javascript" src="js/cAjax.js"></script>
+<script type="text/javascript" src="js/if.min.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
+<script type="text/javascript" src="js/_cAjax.js"></script>
+<script type="text/javascript" src="js/_fUtil.js"></script>
+<script type="text/javascript" src="js/_menu.js"></script>
+<script type="text/javascript" src="js/_base.js"></script>
+<script type="text/javascript" src="js/_login.js"></script>
+<script type="text/javascript" src="js/_signup.js"></script>
+<script type="text/javascript" src="js/_reset.js"></script>
+<script type="text/javascript" src="js/_logout.js"></script>
+
 </body>
 </html>

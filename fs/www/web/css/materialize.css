@@ -8141,7 +8141,7 @@ div.alart-box {
 }
 div.alart-box > div {
   position: absolute;
-  top: 30vh;
+  top: 20vh;
   left: 10vw;
   height: 48vh;
   width: 80vw;
@@ -8243,6 +8243,45 @@ div.account-login {
 }
 div.account-login > p {
   color: white;
+}
+
+.flexsns {
+  display: flex;
+}
+.flexsns > div.row {
+  margin: 0 0 0 33px;
+  width: calc(50% - 33px);
+}
+.flexsns > div.row > div > input::-moz-placeholder {
+  color: #26a69a;
+}
+.flexsns > div.row > div > input:-ms-input-placeholder {
+  color: #26a69a;
+}
+.flexsns > div.row > div > input::placeholder {
+  color: #26a69a;
+}
+.flexsns > div.row > div::before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  left: -33px;
+  background-size: cover;
+}
+.flexsns > div.row > div.snsicon-twitter::before {
+  background-image: url("../icon/twitter.png");
+}
+.flexsns > div.row > div.snsicon-instagram::before {
+  background-image: url("../icon/instagram.png");
+}
+.flexsns > div.switch {
+  padding-top: 1.5rem;
 }
 
 div.account-box {
