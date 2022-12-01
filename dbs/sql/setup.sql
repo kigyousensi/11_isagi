@@ -7,7 +7,7 @@ grant create,select,update,delete,insert,alter on `assetdb`.* to isagi;
 
 CREATE TABLE IF NOT EXISTS account(
 usid INT UNSIGNED primary key AUTO_INCREMENT,
-token char(10),
+token char(32),
 name char(16),
 mail VARBINARY(120),
 pass char(255));

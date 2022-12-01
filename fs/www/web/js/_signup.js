@@ -40,8 +40,8 @@ function signupModalRecv(){ //利用条件の同意用モーダルボックス
     let read=readFile("data/contruct");
     read.then((recv)=>{
         /// モーダルボックスにテキストを設定
-        Elm_text("signup-modal-header","利用条件");
-        Elm_text("signup-modal-text",recv);
+        Elm_html("signup-modal-header","利用条件");
+        Elm_html("signup-modal-text",recv);
 
         /// モーダルボックスを表示
         instance.open();

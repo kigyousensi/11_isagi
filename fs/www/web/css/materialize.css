@@ -8126,6 +8126,15 @@ input[type=range]::-ms-thumb {
   display: flex;
 }
 
+.hradio {
+  margin: 1rem 0;
+}
+
+.section {
+  display: flex;
+  font-weight: bold;
+}
+
 div.channel {
   padding: 1em;
 }
@@ -8140,49 +8149,58 @@ div.alart-box {
   z-index: 99;
 }
 div.alart-box > div {
+  display: block;
   position: absolute;
+  overflow: hidden;
   top: 20vh;
   left: 10vw;
-  height: 48vh;
+  height: 0vh;
   width: 80vw;
   background-color: white;
   background-image: url("../icon/info.png");
   background-size: contain;
   background-position: -100px 0;
   background-repeat: no-repeat;
+  transition-timing-function: linear;
+  transition-duration: 0.2s;
 }
 div.alart-box > div > p {
   position: absolute;
   left: 5vw;
   width: 70vw;
   margin: 0;
-  padding: 1vh 5px;
   display: block;
   background-color: rgba(255, 255, 255, 0.7);
 }
 
 p#alert-title {
   top: 5vh;
-  height: 7vh;
-  line-height: 7vh;
-  font-size: 3vh;
+  height: 8vh;
+  padding: 2vh 2vw 1vh 2vw;
+  font-size: max(3vh, 14px);
   font-weight: bold;
 }
 
 p#alert-text {
-  top: 15vh;
-  height: 22vh;
+  top: 13vh;
+  height: 21vh;
+  line-height: 3vh;
+  font-size: max(2.5vh, 10px);
+  padding: 2vh max(2vw, 10px) 1vh max(2vw, 10px);
+  overflow-x: visible;
+  overflow-y: scroll;
 }
 
 p#alert-submit {
-  top: 39vh;
+  top: 36vh;
   height: 7vh;
+  padding-top: 2vh;
   width: 30vw;
   right: 5vw;
   left: auto;
-  line-height: 5vh;
+  line-height: 3vh;
   text-align: center;
-  font-size: 3vh;
+  font-size: max(3vh, 10px);
   color: white;
   border-style: none;
   border-radius: 5px;
@@ -8245,6 +8263,28 @@ div.account-login > p {
   color: white;
 }
 
+.flexbase {
+  display: flex;
+}
+.flexbase > div.row {
+  margin: 0 0;
+  width: 75%;
+}
+.flexbase > div.sns-wait {
+  margin-top: 1.5rem;
+}
+
+.flexbutton {
+  display: flex;
+  margin: 0 0 3rem 0;
+}
+.flexbutton > div.row {
+  margin: 0 0 0 33px;
+}
+.flexbutton > div.sns-wait {
+  margin: 0 0 0 1rem;
+}
+
 .flexsns {
   display: flex;
 }
@@ -8282,6 +8322,17 @@ div.account-login > p {
 }
 .flexsns > div.switch {
   padding-top: 1.5rem;
+}
+.flexsns > div.sns-wait {
+  margin: 1.5rem 0 0 1.5rem;
+}
+
+div.ownr-box {
+  position: relative;
+  width: 80vw;
+  height: 60vh;
+  left: 10vw;
+  top: 20vh;
 }
 
 div.account-box {
@@ -8382,18 +8433,24 @@ div.reset-header > span:before {
 @media (min-width: 993px) {
   .sidenav-list {
     position: fixed;
-    top: 56px;
+    top: 0px;
     left: 0px;
+    margin-top: 0px;
   }
   .sidenav-list > li:nth-child(1) {
     display: none;
   }
   .sidenav-list-close {
-    top: 56px;
+    top: 0px;
     left: 0em;
   }
   div.channel {
     margin-left: 16em;
+  }
+  div.ownr-box {
+    width: 40vw;
+    left: 0;
+    right: auto;
   }
   div.account-box {
     left: 0;

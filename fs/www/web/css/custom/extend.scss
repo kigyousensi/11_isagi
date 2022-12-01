@@ -11,6 +11,17 @@
 .flex{
   display:flex;
 }
+
+// ラジオボックス(縦)
+.hradio{
+  margin:1rem 0;
+}
+
+// セクションタイトル
+.section{
+  display:flex;
+  font-weight:bold;
+}
 ///////////////////////////////////////////////////////////////////////////////
 // channel
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,18 +39,22 @@ div.alart-box{
   background-color:rgba(128, 128, 128, 0.4);
   z-index:99;
   >div{
+    display:block;
     position:absolute;
+    overflow:hidden;
     top:20vh;left:10vw;
-    height:48vh;width:80vw;
+    height:0vh;width:80vw;
     background-color:white;
     background-image:url('../icon/info.png');
     background-size:contain;
     background-position:-100px 0;
     background-repeat: no-repeat;
+    transition-timing-function:linear;
+    transition-duration:0.2s;
     >p{
       position:absolute;
       left:5vw;width:70vw;
-      margin:0;padding:1vh 5px;
+      margin:0;
       display:block;
       background-color: rgba(255,255,255,0.7);
     }
@@ -47,19 +62,24 @@ div.alart-box{
   
 } 
 p#alert-title{
-  top:5vh;height:7vh;
-  line-height:7vh;
-  font-size:3vh;font-weight:bold;
+  top:5vh;height:8vh;
+  padding:2vh 2vw 1vh 2vw;
+  font-size:max(3vh,14px);font-weight:bold;
 }
 p#alert-text{
-  top:15vh; height:22vh;
+  top:13vh; height:21vh;
+  line-height:3vh;font-size:max(2.5vh,10px);
+  padding:2vh max(2vw,10px) 1vh max(2vw,10px);
+  overflow-x:visible;
+  overflow-y:scroll;
 }
 p#alert-submit{
-  top:39vh; height:7vh;
+  top:36vh; height:7vh;
+  padding-top:2vh;
   width:30vw;right:5vw;left:auto;
-  line-height:5vh;
+  line-height:3vh;
   text-align:center;
-  font-size:3vh;
+  font-size:max(3vh,10px);
   color:white;
   border-style:none;border-radius: 5px;
   background-color:$secondary-color;
@@ -124,6 +144,28 @@ ul.sidenav-list {
  ///////////////////////////////////////////////////////////////////////////////
 // 基本情報
 ///////////////////////////////////////////////////////////////////////////////
+// e-mailボックス
+.flexbase{
+ display:flex;
+  >div.row{
+    margin:0 0;
+    width:75%;
+  }
+  >div.sns-wait{
+    margin-top:1.5rem;
+  }
+}
+// パスワード変更ボタンボックス
+.flexbutton{
+  display:flex;
+  margin: 0 0 3rem 0;
+  >div.row{
+    margin:0 0 0 33px;
+  }
+  >div.sns-wait{
+     margin:0 0 0 1rem;
+   }
+}
 // SNSボックス
 .flexsns{
   display:flex;
@@ -152,8 +194,19 @@ ul.sidenav-list {
   >div.switch{
     padding-top:1.5rem;
   }
+  >div.sns-wait{
+    margin:1.5rem 0 0 1.5rem;
+  }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// 所有者を確認
+///////////////////////////////////////////////////////////////////////////////
+div.ownr-box{
+  position:relative;
+  width:80vw;height:60vh;
+  left:10vw;top:20vh;
+}
 ///////////////////////////////////////////////////////////////////////////////
 // ログイン/アカウント作成/パスワードリセット
 ///////////////////////////////////////////////////////////////////////////////
@@ -191,7 +244,10 @@ div.account-header{
     }
 }
 
-
+////////////////////////////////////////
+// 所有者確認画面
+////////////////////////////////////////
+/// 
 ////////////////////////////////////////
 // ログイン画面
 ////////////////////////////////////////
@@ -240,13 +296,18 @@ div.reset-box{
  ///////////////////////////////////////////////////////////////////////////////
 @media(min-width:993px){
   .sidenav-list {
-   position:fixed; top:56px;left:0px;
+   position:fixed; top:0px;left:0px;
+   margin-top:0px;
    >li:nth-child(1){display:none;}
   }
-  .sidenav-list-close{top:56px;left:0em;}
+  .sidenav-list-close{top:0px;left:0em;}
   
   div.channel {
    margin-left:16em;
+  }
+  div.ownr-box{
+    width:40vw;
+    left:0;right:auto;
   }
   div.account-box{
     left:0;

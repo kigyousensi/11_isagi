@@ -16,24 +16,72 @@ function readFile(filepath){
 // ////////////////////////////////////
 // 要素制御のショートカット
 // ////////////////////////////////////
-let Elm_active=function(id){document.getElementById(id).classList.remove("disabled");}  // フォームを活性化する
-let Elm_disable=function(id){document.getElementById(id).classList.add("disabled");}    // フォームを非活性化する
+let Elm_active=function(id){ // 要素を活性化する
+    let obj=document.getElementById(id);
+    //フォームの場合はdisabled属性を削除。それ以外の場合はdisableクラスを削除
+    switch(document.getElementById(id).tagName.toLowerCase()){
+        case "input":obj.removeAttribute("disabled","disabled");break;
+        default:obj.classList.remove("disabled");
+    }
+}  
+let Elm_disable=function(id){ // 要素を非活性化する
+    let obj=document.getElementById(id);
+    //フォームの場合はdisabled属性を追加。それ以外の場合はdisableクラスを追加
+    switch(document.getElementById(id).tagName.toLowerCase()){
+        case "input":obj.setAttribute("disabled","disabled");break;
+        default:obj.classList.add("disabled");
+    }
+}
 let Elm_hide=function(id){document.getElementById(id).classList.add("hide");}          //要素を非表示にする
 let Elm_view=function(id){document.getElementById(id).classList.remove("hide");}       //要素を表示する
-let Elm_text=function(id,txt){document.getElementById(id).innerHTML=txt;}              //要素のテキストを編集する
+let Elm_text=function(id,txt){document.getElementById(id).textContent=txt;}              //要素のテキストを編集する
+let Elm_html=function(id,txt){document.getElementById(id).innerHTML=txt;}              //要素のテキストを編集する
 let Elm_velue=function(id,txt){document.getElementById(id).value=txt;}                 //フォームの内容を編集する
 let Elm_attribute=function(id,name,value){document.getElementById(id).setAttribute(name,value);}//属性を変更
-
+let Elm_style=function(id,typ,val){
+    let obj=document.getElementById(id);
+    switch(typ){
+        case "height":obj.style.height=val;break;
+        case "backgroundImage":obj.style.backgroundImage=val;break;
+        case "top":obj.style.top=val;break;
+    }
+}
 // ////////////////////////////////////
 // アラートメッセージ
 // ////////////////////////////////////
-function artMsg(type="info",title="info",text="",submit="ok"){
+function artMsg(type="info",title="info",text="",submit="閉じる"){
+    // Boxサイズを決定
+    // 100文字まではデフォルトの21vh。20文字超える毎に3vh追加
+    // div,br,p,liタグを発見したら1行とみなす
+    let texth=21,boxh,buttontop,lines=0;
+    if(text.length > 100){
+        lines=(Math.ceil(text.length-100)/20);
+        lines+=(text.match(/\<br|\<p|\<div|\<li/g)||[]).length;
+        if(lines>5){lines=3;}//多くても追加は３行まで。それ以上はスクロール。
+    }
+    // Boxサイズを決定
+    texth+=lines*3;
+    buttontop=13+texth+2;
+    boxh=buttontop+7+5;
+    //高さ調整
+    Elm_style("alert-text","height",`${texth}vh`);
+    Elm_style("alert-submit","top",`${buttontop}vh`);
+
+    // テキストと画像を設定
     Elm_text("alert-title",title);
-    Elm_text("alert-text",text);
+    Elm_html("alert-text",text);
     Elm_text("alert-submit",submit);
+    Elm_attribute("alert-submit","onclick","artMsgClose()");
+    Elm_style("ar1-bord","backgroundImage",`url('icon/${type}.png')`);
+
+    // 表示
     Elm_view("ar1");
-    Elm_attribute("alert-submit","onclick","Elm_hide('ar1')");
-    document.getElementById("ar1-bord").style.backgroundImage = `url('icon/${type}.png')`;
+    let timeout=setTimeout(Elm_style,10,"ar1-bord","height",`${boxh}vh`);
+}
+function artMsgClose(){
+    //閉じる
+    Elm_style("ar1-bord","height",0);
+    let timeout=setTimeout(Elm_hide,200,"ar1");
 }
 
 // ////////////////////////////////////
@@ -42,9 +90,14 @@ function artMsg(type="info",title="info",text="",submit="ok"){
 function changech(ch){
     const items=document.querySelectorAll(".channel");
     for(let i=0;i<items.length;i++){
-        if(items[i].getAttribute("id") == ch)
-                {items[i].classList.remove("hide");}
-            else{items[i].classList.add("hide");}  
+        if(items[i].getAttribute("id") == ch){
+            items[i].classList.remove("hide");
+            //document.body.classList.add(`${ch}_color`);
+        }
+        else{
+            items[i].classList.add("hide");
+            // document.body.classList.remove(ch+"color");
+        }  
     }
     slide_close();
    }
