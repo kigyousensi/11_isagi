@@ -44,7 +44,7 @@ let ownr_init=function(){
 // イベント関数
 ///////////////////////////////////////
 /// カテゴリーを選択際の動作
-let own_select_category=function(el){
+let ownr_select_category=function(el){
   let katamei;
    // 照合方法の選択欄を変更
    // 通常は型名。自転車の場合は防犯登録番号か車体番号
@@ -79,8 +79,41 @@ let own_autocomplete=((id)=>{
   });
 });
    
+// 検索ボタンを押した場合の動作
+let ownr_search=()=>{
+  // フォームの値を取得して検索を実行
+}
+
+// フォームの値が変わったら検索ボタンを有効にするか判断する
+let ownr_check_search=()=>{
+  // 自転車の場合
+  // どちらかのラジオボックスが必ず選択されているので個体番号が入力されているかのみ確認して問題なければ検索ボタンを活性化する
+  // 自転車以外の場合
+  // 型名と個体番号が入力されていることを確認して問題なければ検索ボタンを活性化する
+  let rc=0;
+  if(document.getElementById("ownr_category").value==="Roadbike"){ //自転車の場合
+    // チェック不要
+  }
+  else{ // 自転車以外の場合
+    //型名が入力されていることを確認
+    let buf=document.getElementById("ownr_model").value;
+    if(( buf.match( / /g ) || [] ).length == buf.length){rc=2;}
+  }
+  if(! document.getElementById("ownr_bind_selial").validity.valid || document.getElementById("ownr_bind_selial").value.length ==0 ){rc=1;}
+  // ボタンの状態を変更
+  if(rc==0){Elm_active("ownr-search");}else{Elm_disable("ownr-search");}
+}
 
 // ///////////////////////
 // イベントリスナー
 // ///////////////////////
-document.getElementById("ownr_category").addEventListener("change",(el)=>{own_select_category(el)});
+document.getElementById("ownr_category").addEventListener("change",(el)=>{ownr_select_category(el)});
+document.getElementById("ownr-search").addEventListener("click",()=>{ownr_search();})
+let ownr_evlist=["ownr_category","ownr_model","ownr_bind_selial"];
+for(let i=0;i<ownr_evlist.length;i++){
+  document.getElementById(ownr_evlist[i]).addEventListener("change",()=>{ownr_check_search();})
+}
+let ownr_radios=document.querySelectorAll(`input[type='radio'][name='ownr_radio1']`);
+for(let obj of ownr_radios){ //ラジオボタン
+  obj.addEventListener("change",()=>{ownr_check_search();})
+}

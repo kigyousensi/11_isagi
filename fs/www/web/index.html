@@ -178,7 +178,7 @@
        <div class="col s12">
          <div class="row">
            <div class="input-field col s12">
-              <input type="text" id="ownr_model" class="autocomplete">
+              <input type="text" id="ownr_model" class="autocomplete"/>
               <label for="ownr_model">型名 or モデル名</label>
             </div>
           </div>
@@ -188,18 +188,22 @@
       <!--照会方法 自転車の場合-->
       <div id="ownr_bind_Roadbike" class="row hide">
         <div class="hradio">
-          <p><label><input name="group1" type="radio" checked="checked" /><span>防犯登録番号</span></label></p>
-          <p><label><input name="group1" type="radio" /><span>車体番号</span></label></p>
+          <p><label><input name="ownr_radio1" type="radio" checked="checked" value="bn"/><span>防犯登録番号</span></label></p>
+          <p><label><input name="ownr_radio1" type="radio" value="sn"/><span>車体番号</span></label></p>
         </div>
       </div>
 
       <!--個体番号の入力欄-->
       <div class="row">
         <div class="input-field col s12">
-          <input placeholder="" id="ownr_bind_selial" type="text" class="validate">
+          <input id="ownr_bind_selial" type="text" class="validate" pattern="^([^ ])*$" />
           <label for="ownr_bind_selial" id="ownr_bind_selial_label"></label>
+          <span class="helper-text" data-error="スペースは使用できません"></span>
         </div>
       </div>
+
+      <!--検索ボタン-->
+      <a id="ownr-search" class="waves-effect waves-light btn-large disabled">照会</a>
     </div>
     </div>
     <!--ログイン画面--><div id="ch3" class="channel hide">
