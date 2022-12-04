@@ -10,6 +10,7 @@
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
  <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <meta http-equiv="Cache-Control" content="no-cache">
 <link rel="icon" type="image/png" href="icon/fav.png"/>
 <title>test</title>
 </head>
@@ -42,7 +43,7 @@
 
     <!--channel-->
     <!--基本情報画面--><div id="ch1-1" class="channel hide">
-      <div class="section">アカウント</div>
+      <div class="sectiontitle">アカウント</div>
       <div class="flexbase">
         <div class="row">
          <div class="input-field col s12">
@@ -120,7 +121,7 @@
           </div>
         </div></div>
       </div>
-      <div class="section"><p>SNS・フリーマーケット</p></div>
+      <div class="section-title">SNS・フリーマーケット</div>
       <!-- twitter-->
        <div class="flexsns">
         <div class="row">
@@ -173,19 +174,7 @@
         </div>
       </div>
 
-      <!--照会方法 型名の場合-->
-      <div  id="ownr_bind_others" class="row hide">
-       <div class="col s12">
-         <div class="row">
-           <div class="input-field col s12">
-              <input type="text" id="ownr_model" class="autocomplete"/>
-              <label for="ownr_model">型名 or モデル名</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!--照会方法 自転車の場合-->
+      <!--自転車の場合のみ照会方法-->
       <div id="ownr_bind_Roadbike" class="row hide">
         <div class="hradio">
           <p><label><input name="ownr_radio1" type="radio" checked="checked" value="bn"/><span>防犯登録番号</span></label></p>
@@ -193,12 +182,28 @@
         </div>
       </div>
 
+      <!--照会方法 メーカーと型名-->
+      <div id="ownr-bind-product" class="row hide">
+        <div class="row">
+            <div class="input-field col s6">
+               <input type="text" id="ownr_maker" class="autocomplete validate" required/>
+               <label for="ownr_maker">メーカー</label>
+               <span class="helper-text" data-error="必須の入力項目です"></span>
+           </div>
+            <div class="input-field col s6">
+               <input type="text" id="ownr_model" class="autocomplete validate"/ pattern="^([^ 　]).*$">
+               <label for="ownr_model">型名 or モデル名</label>
+               <span class="helper-text" data-error="先頭にスペースは使用できません。"></span>
+             </div>
+         </div>
+      </div>
+
       <!--個体番号の入力欄-->
-      <div class="row">
+      <div id="ownr_selial" class="row hide">
         <div class="input-field col s12">
-          <input id="ownr_bind_selial" type="text" class="validate" pattern="^([^ ])*$" />
+          <input id="ownr_bind_selial" type="text" class="validate" pattern="^([^ ])*$" required/>
           <label for="ownr_bind_selial" id="ownr_bind_selial_label"></label>
-          <span class="helper-text" data-error="スペースは使用できません"></span>
+          <span class="helper-text" data-error="必須の入力項目です。スペースは使用できません"></span>
         </div>
       </div>
 
@@ -298,7 +303,7 @@
       </div>
     </div>
 <!-- load javascript-->
-<script type="text/javascript" src="js/if.min.js"></script>
+<script type="text/javascript" src="js/if.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
 <script type="text/javascript" src="js/_cAjax.js"></script>
 <script type="text/javascript" src="js/_fUtil.js"></script>

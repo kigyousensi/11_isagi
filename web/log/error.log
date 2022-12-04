@@ -1323,3 +1323,310 @@
 2022/12/01 21:32:07 [notice] 1#1: start worker process 39
 2022/12/01 21:32:07 [notice] 1#1: start worker process 40
 2022/12/01 21:32:07 [notice] 1#1: start worker process 41
+2022/12/01 22:22:41 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2022/12/01 22:22:41 [notice] 32#32: gracefully shutting down
+2022/12/01 22:22:41 [notice] 36#36: gracefully shutting down
+2022/12/01 22:22:41 [notice] 35#35: gracefully shutting down
+2022/12/01 22:22:41 [notice] 34#34: gracefully shutting down
+2022/12/01 22:22:41 [notice] 37#37: gracefully shutting down
+2022/12/01 22:22:41 [notice] 39#39: gracefully shutting down
+2022/12/01 22:22:41 [notice] 30#30: gracefully shutting down
+2022/12/01 22:22:41 [notice] 31#31: gracefully shutting down
+2022/12/01 22:22:41 [notice] 40#40: gracefully shutting down
+2022/12/01 22:22:41 [notice] 38#38: gracefully shutting down
+2022/12/01 22:22:41 [notice] 33#33: gracefully shutting down
+2022/12/01 22:22:41 [notice] 41#41: gracefully shutting down
+2022/12/01 22:22:41 [notice] 41#41: exiting
+2022/12/01 22:22:41 [notice] 38#38: exiting
+2022/12/01 22:22:41 [notice] 33#33: exiting
+2022/12/01 22:22:41 [notice] 36#36: exiting
+2022/12/01 22:22:41 [notice] 30#30: exiting
+2022/12/01 22:22:41 [notice] 37#37: exiting
+2022/12/01 22:22:41 [notice] 32#32: exiting
+2022/12/01 22:22:41 [notice] 31#31: exiting
+2022/12/01 22:22:41 [notice] 39#39: exiting
+2022/12/01 22:22:41 [notice] 40#40: exiting
+2022/12/01 22:22:41 [notice] 35#35: exiting
+2022/12/01 22:22:41 [notice] 34#34: exiting
+2022/12/01 22:22:41 [notice] 41#41: exit
+2022/12/01 22:22:41 [notice] 38#38: exit
+2022/12/01 22:22:41 [notice] 33#33: exit
+2022/12/01 22:22:41 [notice] 36#36: exit
+2022/12/01 22:22:41 [notice] 31#31: exit
+2022/12/01 22:22:41 [notice] 30#30: exit
+2022/12/01 22:22:41 [notice] 37#37: exit
+2022/12/01 22:22:41 [notice] 32#32: exit
+2022/12/01 22:22:41 [notice] 39#39: exit
+2022/12/01 22:22:41 [notice] 35#35: exit
+2022/12/01 22:22:41 [notice] 40#40: exit
+2022/12/01 22:22:41 [notice] 34#34: exit
+2022/12/01 22:22:41 [notice] 1#1: signal 17 (SIGCHLD) received from 33
+2022/12/01 22:22:41 [notice] 1#1: worker process 32 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: worker process 30 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: worker process 33 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: worker process 34 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: worker process 35 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/01 22:22:41 [notice] 1#1: signal 17 (SIGCHLD) received from 34
+2022/12/01 22:22:41 [notice] 1#1: signal 17 (SIGCHLD) received from 39
+2022/12/01 22:22:41 [notice] 1#1: worker process 39 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: worker process 40 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/01 22:22:41 [notice] 1#1: signal 17 (SIGCHLD) received from 40
+2022/12/01 22:22:41 [notice] 1#1: signal 17 (SIGCHLD) received from 38
+2022/12/01 22:22:41 [notice] 1#1: worker process 38 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/01 22:22:41 [notice] 1#1: signal 17 (SIGCHLD) received from 41
+2022/12/01 22:22:41 [notice] 1#1: worker process 41 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/01 22:22:41 [notice] 1#1: signal 17 (SIGCHLD) received from 31
+2022/12/01 22:22:41 [notice] 1#1: worker process 31 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/01 22:22:41 [notice] 1#1: signal 17 (SIGCHLD) received from 36
+2022/12/01 22:22:41 [notice] 1#1: worker process 36 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: signal 17 (SIGCHLD) received from 37
+2022/12/01 22:22:41 [notice] 1#1: worker process 37 exited with code 0
+2022/12/01 22:22:41 [notice] 1#1: exit
+2022/12/02 14:52:37 [notice] 1#1: using the "epoll" event method
+2022/12/02 14:52:37 [notice] 1#1: nginx/1.23.1
+2022/12/02 14:52:37 [notice] 1#1: built by gcc 10.2.1 20210110 (Debian 10.2.1-6) 
+2022/12/02 14:52:37 [notice] 1#1: OS: Linux 5.15.0-53-generic
+2022/12/02 14:52:37 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/12/02 14:52:37 [notice] 1#1: start worker processes
+2022/12/02 14:52:37 [notice] 1#1: start worker process 30
+2022/12/02 14:52:37 [notice] 1#1: start worker process 31
+2022/12/02 14:52:37 [notice] 1#1: start worker process 32
+2022/12/02 14:52:37 [notice] 1#1: start worker process 33
+2022/12/02 14:52:37 [notice] 1#1: start worker process 34
+2022/12/02 14:52:37 [notice] 1#1: start worker process 35
+2022/12/02 14:52:37 [notice] 1#1: start worker process 36
+2022/12/02 14:52:37 [notice] 1#1: start worker process 37
+2022/12/02 14:52:37 [notice] 1#1: start worker process 38
+2022/12/02 14:52:37 [notice] 1#1: start worker process 39
+2022/12/02 14:52:37 [notice] 1#1: start worker process 40
+2022/12/02 14:52:37 [notice] 1#1: start worker process 41
+2022/12/02 16:03:20 [error] 30#30: *29 open() "/usr/share/nginx/html/data/1,Roadbike_giant.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/1,Roadbike_giant.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:05:26 [error] 31#31: *31 open() "/usr/share/nginx/html/data/1,Roadbike_giant.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/1,Roadbike_giant.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:17:50 [error] 31#31: *32 open() "/usr/share/nginx/html/data/1,Roadbike_giant.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/1,Roadbike_giant.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:18:11 [error] 31#31: *32 open() "/usr/share/nginx/html/data/Roadbike_giant .ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_giant%20.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:20:21 [error] 31#31: *34 open() "/usr/share/nginx/html/data/Roadbike_gianta.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gianta.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:20:30 [error] 31#31: *34 open() "/usr/share/nginx/html/data/Roadbike_giant_.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_giant_.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:21:19 [error] 31#31: *34 open() "/usr/share/nginx/html/data/Roadbike_giant_a.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_giant_a.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:21:45 [error] 31#31: *34 open() "/usr/share/nginx/html/data/Roadbike_gian.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gian.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:21:55 [error] 31#31: *34 open() "/usr/share/nginx/html/data/Roadbike_gian.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gian.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:38:20 [error] 31#31: *37 open() "/usr/share/nginx/html/data/Roadbike_bia.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_bia.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:38:37 [error] 31#31: *37 open() "/usr/share/nginx/html/data/Roadbike_b.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_b.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:38:50 [error] 31#31: *37 open() "/usr/share/nginx/html/data/Roadbike_b.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_b.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:39:17 [error] 31#31: *37 open() "/usr/share/nginx/html/data/Roadbike_gia.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gia.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:39:44 [error] 31#31: *37 open() "/usr/share/nginx/html/data/Roadbike_bia.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_bia.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 16:41:39 [error] 31#31: *41 open() "/usr/share/nginx/html/data/Roadbike_g.ary" failed (2: No such file or directory), client: 192.168.0.13, server: localhost, request: "GET /data/Roadbike_g.ary HTTP/1.1", host: "192.168.0.32:8080", referrer: "http://192.168.0.32:8080/"
+2022/12/02 16:46:56 [error] 32#32: *47 open() "/usr/share/nginx/html/data/Roadbike_bian.ary" failed (2: No such file or directory), client: 192.168.0.13, server: localhost, request: "GET /data/Roadbike_bian.ary HTTP/1.1", host: "192.168.0.32:8080", referrer: "http://192.168.0.32:8080/"
+2022/12/02 17:35:52 [error] 32#32: *50 open() "/usr/share/nginx/html/data/Roadbike_spe.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_spe.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 18:15:14 [error] 32#32: *52 open() "/usr/share/nginx/html/data/Roadbike_pana.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_pana.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 18:42:21 [error] 32#32: *53 open() "/usr/share/nginx/html/data/Roadbike_tre.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_tre.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 18:52:20 [error] 32#32: *54 open() "/usr/share/nginx/html/data/Roadbike_a.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_a.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 18:58:19 [error] 32#32: *55 open() "/usr/share/nginx/html/data/Roadbike_ara.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_ara.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 19:08:59 [error] 32#32: *57 open() "/usr/share/nginx/html/data/Roadbike_bh.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_bh.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 19:33:41 [error] 32#32: *58 open() "/usr/share/nginx/html/data/Roadbike_can.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_can.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 19:36:28 [error] 32#32: *59 open() "/usr/share/nginx/html/data/Roadbike_cann.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_cann.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 19:44:39 [error] 32#32: *60 open() "/usr/share/nginx/html/data/Roadbike_ca.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_ca.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/02 19:45:21 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2022/12/02 19:45:21 [notice] 31#31: gracefully shutting down
+2022/12/02 19:45:21 [notice] 33#33: gracefully shutting down
+2022/12/02 19:45:21 [notice] 30#30: gracefully shutting down
+2022/12/02 19:45:21 [notice] 31#31: exiting
+2022/12/02 19:45:21 [notice] 36#36: gracefully shutting down
+2022/12/02 19:45:21 [notice] 37#37: gracefully shutting down
+2022/12/02 19:45:21 [notice] 32#32: gracefully shutting down
+2022/12/02 19:45:21 [notice] 38#38: gracefully shutting down
+2022/12/02 19:45:21 [notice] 33#33: exiting
+2022/12/02 19:45:21 [notice] 34#34: gracefully shutting down
+2022/12/02 19:45:21 [notice] 40#40: gracefully shutting down
+2022/12/02 19:45:21 [notice] 41#41: gracefully shutting down
+2022/12/02 19:45:21 [notice] 39#39: gracefully shutting down
+2022/12/02 19:45:21 [notice] 30#30: exiting
+2022/12/02 19:45:21 [notice] 36#36: exiting
+2022/12/02 19:45:21 [notice] 37#37: exiting
+2022/12/02 19:45:21 [notice] 32#32: exiting
+2022/12/02 19:45:21 [notice] 31#31: exit
+2022/12/02 19:45:21 [notice] 38#38: exiting
+2022/12/02 19:45:21 [notice] 34#34: exiting
+2022/12/02 19:45:21 [notice] 33#33: exit
+2022/12/02 19:45:21 [notice] 41#41: exiting
+2022/12/02 19:45:21 [notice] 40#40: exiting
+2022/12/02 19:45:21 [notice] 39#39: exiting
+2022/12/02 19:45:21 [notice] 30#30: exit
+2022/12/02 19:45:21 [notice] 37#37: exit
+2022/12/02 19:45:21 [notice] 36#36: exit
+2022/12/02 19:45:21 [notice] 32#32: exit
+2022/12/02 19:45:21 [notice] 38#38: exit
+2022/12/02 19:45:21 [notice] 35#35: gracefully shutting down
+2022/12/02 19:45:21 [notice] 34#34: exit
+2022/12/02 19:45:21 [notice] 41#41: exit
+2022/12/02 19:45:21 [notice] 40#40: exit
+2022/12/02 19:45:21 [notice] 39#39: exit
+2022/12/02 19:45:21 [notice] 35#35: exiting
+2022/12/02 19:45:21 [notice] 35#35: exit
+2022/12/02 19:45:21 [notice] 1#1: signal 17 (SIGCHLD) received from 36
+2022/12/02 19:45:21 [notice] 1#1: worker process 36 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: worker process 33 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/02 19:45:21 [notice] 1#1: signal 17 (SIGCHLD) received from 33
+2022/12/02 19:45:21 [notice] 1#1: signal 17 (SIGCHLD) received from 34
+2022/12/02 19:45:21 [notice] 1#1: worker process 34 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: worker process 38 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: worker process 39 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/02 19:45:21 [notice] 1#1: signal 17 (SIGCHLD) received from 32
+2022/12/02 19:45:21 [notice] 1#1: worker process 32 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/02 19:45:21 [notice] 1#1: signal 17 (SIGCHLD) received from 35
+2022/12/02 19:45:21 [notice] 1#1: worker process 35 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: worker process 31 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/02 19:45:21 [notice] 1#1: signal 17 (SIGCHLD) received from 31
+2022/12/02 19:45:21 [notice] 1#1: signal 17 (SIGCHLD) received from 30
+2022/12/02 19:45:21 [notice] 1#1: worker process 30 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: worker process 37 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/02 19:45:21 [notice] 1#1: signal 17 (SIGCHLD) received from 41
+2022/12/02 19:45:21 [notice] 1#1: worker process 41 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/02 19:45:21 [notice] 1#1: signal 17 (SIGCHLD) received from 40
+2022/12/02 19:45:21 [notice] 1#1: worker process 40 exited with code 0
+2022/12/02 19:45:21 [notice] 1#1: exit
+2022/12/03 05:55:12 [notice] 1#1: using the "epoll" event method
+2022/12/03 05:55:12 [notice] 1#1: nginx/1.23.1
+2022/12/03 05:55:12 [notice] 1#1: built by gcc 10.2.1 20210110 (Debian 10.2.1-6) 
+2022/12/03 05:55:12 [notice] 1#1: OS: Linux 5.15.0-56-generic
+2022/12/03 05:55:12 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/12/03 05:55:12 [notice] 1#1: start worker processes
+2022/12/03 05:55:12 [notice] 1#1: start worker process 30
+2022/12/03 05:55:12 [notice] 1#1: start worker process 31
+2022/12/03 05:55:12 [notice] 1#1: start worker process 32
+2022/12/03 05:55:12 [notice] 1#1: start worker process 33
+2022/12/03 05:55:12 [notice] 1#1: start worker process 34
+2022/12/03 05:55:12 [notice] 1#1: start worker process 35
+2022/12/03 05:55:12 [notice] 1#1: start worker process 36
+2022/12/03 05:55:12 [notice] 1#1: start worker process 37
+2022/12/03 05:55:12 [notice] 1#1: start worker process 38
+2022/12/03 05:55:12 [notice] 1#1: start worker process 39
+2022/12/03 05:55:12 [notice] 1#1: start worker process 40
+2022/12/03 05:55:12 [notice] 1#1: start worker process 41
+2022/12/03 05:56:03 [error] 32#32: *3 open() "/usr/share/nginx/html/data/Roadbike_gia.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gia.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 07:28:18 [error] 35#35: *6 open() "/usr/share/nginx/html/data/Roadbike_g.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_g.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 07:45:39 [error] 39#39: *10 open() "/usr/share/nginx/html/data/Roadbike_gi.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gi.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 12:23:25 [error] 31#31: *17 open() "/usr/share/nginx/html/data/Roadbike_gianta.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gianta.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 12:30:47 [error] 31#31: *23 open() "/usr/share/nginx/html/data/Roadbike_gianta.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gianta.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 13:03:19 [error] 31#31: *27 open() "/usr/share/nginx/html/data/kaden_gianta.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/kaden_gianta.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 13:04:02 [error] 31#31: *27 open() "/usr/share/nginx/html/data/Roadbike_giantaa.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_giantaa.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 13:18:13 [error] 30#30: *30 open() "/usr/share/nginx/html/data/Roadbike_gianta.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gianta.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 13:41:07 [error] 30#30: *34 open() "/usr/share/nginx/html/data/Roadbike_giant1.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_giant1.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 13:52:13 [error] 30#30: *39 open() "/usr/share/nginx/html/data/Roadbike_gianta.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gianta.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 13:54:21 [error] 30#30: *41 open() "/usr/share/nginx/html/data/Roadbike_giant1.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_giant1.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 13:54:28 [error] 30#30: *41 open() "/usr/share/nginx/html/data/Roadbike_gian.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gian.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 13:55:01 [error] 30#30: *41 open() "/usr/share/nginx/html/data/Roadbike_giana.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_giana.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 13:55:54 [error] 30#30: *41 open() "/usr/share/nginx/html/data/Roadbike_gian.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gian.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 13:57:40 [error] 30#30: *44 open() "/usr/share/nginx/html/data/Roadbike_gia.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gia.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:03:03 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_a.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_a.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:03:27 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_daho.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_daho.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:03:45 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_dahos.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_dahos.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:04:28 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_a.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_a.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:04:46 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_g.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_g.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:05:06 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_ga.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_ga.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:05:28 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_gi.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_gi.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:06:01 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_aaaaa.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_aaaaa.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:06:07 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_aaa.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_aaa.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:06:16 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_a.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_a.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:06:25 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_daho.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_daho.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:08:20 [error] 32#32: *46 open() "/usr/share/nginx/html/data/Roadbike_a.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_a.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:17:35 [error] 32#32: *51 open() "/usr/share/nginx/html/data/Roadbike_a.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_a.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:27:41 [error] 32#32: *55 open() "/usr/share/nginx/html/data/Roadbike_dahona.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_dahona.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:39:30 [error] 32#32: *59 open() "/usr/share/nginx/html/data/Roadbike_dahonq.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_dahonq.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:45:31 [error] 33#33: *61 open() "/usr/share/nginx/html/data/Roadbike_dahona.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_dahona.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:50:56 [error] 33#33: *66 open() "/usr/share/nginx/html/data/Roadbike_dahona.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_dahona.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 14:52:40 [error] 33#33: *68 open() "/usr/share/nginx/html/data/Roadbike_dahona.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/Roadbike_dahona.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 15:10:54 [error] 33#33: *76 open() "/usr/share/nginx/html/data/.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 15:11:09 [error] 33#33: *76 open() "/usr/share/nginx/html/data/.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 15:12:40 [error] 34#34: *78 open() "/usr/share/nginx/html/data/.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 15:13:29 [error] 34#34: *78 open() "/usr/share/nginx/html/data/.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 15:14:21 [error] 34#34: *78 open() "/usr/share/nginx/html/data/.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 15:16:39 [error] 34#34: *81 open() "/usr/share/nginx/html/data/.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 15:17:41 [error] 34#34: *81 open() "/usr/share/nginx/html/data/.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 15:18:05 [error] 34#34: *81 open() "/usr/share/nginx/html/data/.ary" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /data/.ary HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+2022/12/03 17:05:30 [error] 35#35: *96 open() "/usr/share/nginx/html/js/data.js" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /js/data.js HTTP/1.1", host: "localhost:8080"
+2022/12/03 17:18:32 [error] 36#36: *109 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/js/_data.js"
+2022/12/03 18:28:31 [error] 39#39: *169 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/css/materialize.css"
+2022/12/03 18:52:34 [error] 41#41: *190 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/css/materialize.css"
+2022/12/03 19:35:51 [error] 31#31: *217 open() "/usr/share/nginx/html/js_ownr.js" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /js_ownr.js HTTP/1.1", host: "localhost:8080"
+2022/12/03 19:35:51 [error] 31#31: *218 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.19.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/js_ownr.js"
+2022/12/03 19:51:34 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2022/12/03 19:51:34 [notice] 30#30: gracefully shutting down
+2022/12/03 19:51:34 [notice] 33#33: gracefully shutting down
+2022/12/03 19:51:34 [notice] 34#34: gracefully shutting down
+2022/12/03 19:51:34 [notice] 37#37: gracefully shutting down
+2022/12/03 19:51:34 [notice] 38#38: gracefully shutting down
+2022/12/03 19:51:34 [notice] 40#40: gracefully shutting down
+2022/12/03 19:51:34 [notice] 30#30: exiting
+2022/12/03 19:51:34 [notice] 36#36: gracefully shutting down
+2022/12/03 19:51:34 [notice] 35#35: gracefully shutting down
+2022/12/03 19:51:34 [notice] 33#33: exiting
+2022/12/03 19:51:34 [notice] 39#39: gracefully shutting down
+2022/12/03 19:51:34 [notice] 32#32: gracefully shutting down
+2022/12/03 19:51:34 [notice] 31#31: gracefully shutting down
+2022/12/03 19:51:34 [notice] 34#34: exiting
+2022/12/03 19:51:34 [notice] 37#37: exiting
+2022/12/03 19:51:34 [notice] 38#38: exiting
+2022/12/03 19:51:34 [notice] 40#40: exiting
+2022/12/03 19:51:34 [notice] 36#36: exiting
+2022/12/03 19:51:34 [notice] 35#35: exiting
+2022/12/03 19:51:34 [notice] 39#39: exiting
+2022/12/03 19:51:34 [notice] 30#30: exit
+2022/12/03 19:51:34 [notice] 32#32: exiting
+2022/12/03 19:51:34 [notice] 33#33: exit
+2022/12/03 19:51:34 [notice] 31#31: exiting
+2022/12/03 19:51:34 [notice] 34#34: exit
+2022/12/03 19:51:34 [notice] 37#37: exit
+2022/12/03 19:51:34 [notice] 38#38: exit
+2022/12/03 19:51:34 [notice] 40#40: exit
+2022/12/03 19:51:34 [notice] 36#36: exit
+2022/12/03 19:51:34 [notice] 35#35: exit
+2022/12/03 19:51:34 [notice] 39#39: exit
+2022/12/03 19:51:34 [notice] 32#32: exit
+2022/12/03 19:51:34 [notice] 31#31: exit
+2022/12/03 19:51:34 [notice] 41#41: gracefully shutting down
+2022/12/03 19:51:34 [notice] 41#41: exiting
+2022/12/03 19:51:34 [notice] 41#41: exit
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 35
+2022/12/03 19:51:34 [notice] 1#1: worker process 35 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 34
+2022/12/03 19:51:34 [notice] 1#1: worker process 34 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 37
+2022/12/03 19:51:34 [notice] 1#1: worker process 37 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 30
+2022/12/03 19:51:34 [notice] 1#1: worker process 30 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 39
+2022/12/03 19:51:34 [notice] 1#1: worker process 39 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 31
+2022/12/03 19:51:34 [notice] 1#1: worker process 31 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 32
+2022/12/03 19:51:34 [notice] 1#1: worker process 32 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: worker process 40 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 40
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 36
+2022/12/03 19:51:34 [notice] 1#1: worker process 33 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: worker process 36 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 41
+2022/12/03 19:51:34 [notice] 1#1: worker process 41 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: signal 29 (SIGIO) received
+2022/12/03 19:51:34 [notice] 1#1: signal 17 (SIGCHLD) received from 38
+2022/12/03 19:51:34 [notice] 1#1: worker process 38 exited with code 0
+2022/12/03 19:51:34 [notice] 1#1: exit

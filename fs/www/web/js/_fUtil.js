@@ -14,6 +14,22 @@ function readFile(filepath){
 }
 
 // ////////////////////////////////////
+// テキスト編集
+// ////////////////////////////////////
+/// ///////////////
+/// 連想配列の中に特定のキーが存在するか確認する
+/// return : {true:false}
+/// usage  : txcompkey(key,ary)
+///          key: 検索するキー
+///          ary: 検索対象の連想配列
+/// ///////////////
+function txcompkey(key,ary){
+  let rc=false;
+  for (k in ary){if(k === key){rc=true;}}
+  return rc;
+}
+
+// ////////////////////////////////////
 // 要素制御のショートカット
 // ////////////////////////////////////
 let Elm_active=function(id){ // 要素を活性化する
@@ -32,11 +48,79 @@ let Elm_disable=function(id){ // 要素を非活性化する
         default:obj.classList.add("disabled");
     }
 }
+let Elm_get=function(id){// フォームから値を取得する。
+    // 結果は配列であることに注意
+    // 要素が無い場合 [] (length=0)
+    // 単一要素の場合 [1,value]
+    // 複数要素の場合 [要素数,[要素配列]] ([0,[]]もありえる)
+    let rc=[];
+    if(document.querySelectorAll("#"+id).length==1){// IDで検索できる場合(通常)
+        let obj=document.getElementById(id);
+        switch(obj.tagName.toLowerCase()){
+            case "input":rc[0]=1;rc[1]=obj.value;
+            break;
+            case "select":
+                //複数選択されている可能性があるためmaltipleを判断
+                if(obj.maltiple){
+                    let buf=[];
+                    for(let i=0;i<obj.length;i++){
+                        if(obj[i].selected){buf.push(obj[i].value);}
+                    }
+                    rc[0]=buf.length;rc[1]=buf;
+                }
+                else{rc[0]=1;rc[1]=obj.value;}
+                break;
+        }
+    }else{ // radioの場合
+        let radios=document.querySelectorAll(`input[type='radio'][name='${id}']`);
+        for(let i=0;i<radios.length;i++){
+            if(radios[i].checked){rc[0]=1;rc[1]=radios[i].value;i=radios.length;}
+        }
+    }
+    return rc;
+}
+let Elm_check=function(id){ //フォームの値をチェックする
+    // return {true | false}
+    // text-passwordの場合は制約違反が無いか確認する。
+    // text-checkboxの場合はチェックされているか否かを返す
+    // selectの場合は選択されているか否かを返す
+    rc=true;
+    let obj=document.getElementById(id);
+    if(obj.tagName.toLowerCase()==="input"){
+      switch(obj.getAttribute("type").toLowerCase()){
+        case "text":rc=obj.validity.valid;break;
+        case "password":rc=obj.validity.valid;break;
+        case "checkbox":rc=obj.selected;break;
+      }
+    }
+    if(obj.tagName.toLowerCase()=="select"){
+        if(obj.selectedIndex == -1 || obj.value === ""){rc=false;}
+    }
+    return rc;
+}
+let Elm_require=function(id,status=true){ //入力を必須にするまたは必須を解除する
+    // status=on or true ->必須
+    // status=off or false ->必須解除
+    let obj=document.getElementById(id);
+    if(status ==="on" ){status=true;}
+    if(status ==="off"){status=false;}
+    if(status){
+      obj.setAttribute("required","required");
+    }
+    else{obj.removeAttribute("required");}
+    obj.checkValidity();
+}
 let Elm_hide=function(id){document.getElementById(id).classList.add("hide");}          //要素を非表示にする
 let Elm_view=function(id){document.getElementById(id).classList.remove("hide");}       //要素を表示する
 let Elm_text=function(id,txt){document.getElementById(id).textContent=txt;}              //要素のテキストを編集する
 let Elm_html=function(id,txt){document.getElementById(id).innerHTML=txt;}              //要素のテキストを編集する
 let Elm_velue=function(id,txt){document.getElementById(id).value=txt;}                 //フォームの内容を編集する
+let Elm_radio_select=function(grp,val){
+    let radios=document.querySelectorAll(`input[type='radio'][name='${grp}']`);
+    for(let i=0;i<radios.length;i++){
+        if(radios[i].value===val){radios[i].checked=true;i=radios.length;}
+    }
+};
 let Elm_attribute=function(id,name,value){document.getElementById(id).setAttribute(name,value);}//属性を変更
 let Elm_style=function(id,typ,val){
     let obj=document.getElementById(id);
@@ -104,7 +188,14 @@ function changech(ch){
 
 // ////////////////////////////////////
 // パスワードのチェック
-//// 2つのパスワード入力欄にエラーが無く一致する場合にtrueを返す
+// ////////////////////////////////////
+/// ///////////////
+/// 2つのパスワード入力欄にエラーが無く一致する場合にtrueを返す
+/// return : { true | false }
+/// usage  : pwdcheck(id1,id2)
+///          id1,id2 : パスワード入力欄のID。パスワード自体ではない点に注意
+/// ex     : pwdcheck("pwd1","pad2")
+// ////////////////
 let pwdcheck=(id1,id2)=>{
     let rt=true;
     if(! document.getElementById(id1).validity.valid){rt=false;}
@@ -112,9 +203,16 @@ let pwdcheck=(id1,id2)=>{
     if(document.getElementById(id1).value !== document.getElementById(id2).value){rt=false;}
     return rt;
 }
+/// ///////////////
 // パスワードが一致しない場合のエラー表示
-//// 指定したidにパスワードチェックエラーを表示させる
-//// 片方の入力が完了していない場合はエラーを表示しない
+/// 指定したidにパスワードチェックエラーを表示させる
+/// 片方の入力が完了していない場合はエラーを表示しない
+/// return : なし。指定したtxtidへメッセージを表示
+/// usage  : pwderr(id1,id2,txtid)
+///          id1,id2 : パスワード入力欄のID。パスワード自体ではない点に注意
+///          txtid   : パスワードが一致しない場合にメッセージを出力する先のid
+/// ex     : pwdcheck("pwd1","pad2")
+// ////////////////
 let pwderr=(id1,id2,txtid)=>{
     // 既にエラー判定がされれている前提。
     // 片方がまだ未入力の場合はエラー扱いとしない。両方入力されていた場合はエラーを表示する
@@ -122,3 +220,32 @@ let pwderr=(id1,id2,txtid)=>{
         Elm_text(txtid,"パスワードが一致しません");
     }
 }
+
+// ////////////////////////////////////
+// オートコンプリート
+// ファイルから読み込んだテーブルから変換予測データを作成してtextフォームに割り当てる
+// usage:fAutocomlete(fileid,id)
+//   fileid:ファイル名の.aryを抜いた部分
+//   id    :予測変換を埋め込む要素のid
+// ////////////////////////////////////
+let fAutocomlete=((fileid,id)=>{
+    // fileid:ファイル名
+    // return:promice
+    // この処理でMakerの値が書き換わる
+    // バインド
+    let elems = document.querySelectorAll('#'+id);
+    let instances = M.Autocomplete.init(elems);
+    let instance=M.Autocomplete.getInstance(elems[0]);
+  
+    // 設定ファイルを読み込み
+    if(fileid!==""){ //ファイルが指定されている場合
+        let data=readFile("data/"+fileid+".ary");
+        let ary=[];
+        return data.then((recv)=>{
+        ary=(new Function("return"+recv))();
+        instance.updateData(ary);
+        });
+    }else{ //リセットする場合
+        instance.updateData([]);
+    }
+  });

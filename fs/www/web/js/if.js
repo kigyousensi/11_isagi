@@ -6776,7 +6776,6 @@ $jscomp.polyfill = function (e, r, p, m) {
       key: "_renderDropdown",
       value: function _renderDropdown(data, val) {
         var _this39 = this;
-
         this._resetAutocomplete();
 
         var matchingData = [];

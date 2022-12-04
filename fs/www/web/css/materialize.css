@@ -8130,9 +8130,16 @@ input[type=range]::-ms-thumb {
   margin: 1rem 0;
 }
 
-.section {
-  display: flex;
+.sectiontitle {
+  margin: 1rem 0;
+  font-size: 1.5rem;
   font-weight: bold;
+}
+
+.require::after {
+  display: inline-block;
+  position: absolute;
+  content: "*";
 }
 
 div.channel {
