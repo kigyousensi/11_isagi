@@ -46,10 +46,10 @@ run mkdir /var/www/html/img
 
 ##ファイルを入れ替える
 run mkdir /usr/local/share/script
-copy resource/aduser.sh /usr/local/share/script/aduser.sh
-run chmod 777 /usr/local/share/script/aduser.sh
+copy resource/adduser.sh /usr/local/share/script/adduser.sh
+run chmod 777 /usr/local/share/script/adduser.sh
 
 ##エントリーポイントのスクリプトを起動する
-# CMD /bin/sh "/usr/local/share/script/aduser.sh" ←インスタンス起動時に実行
+# CMD /bin/sh "/usr/local/share/script/adduser.sh" ←インスタンス起動時に実行
 
 

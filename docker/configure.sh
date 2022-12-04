@@ -29,6 +29,3 @@ fi
 ## ##########################
 [ $RC -eq 1 ] && echo "usage: configure.sh username"
 exit $RC
-A
-A
-exit 1

@@ -20,6 +20,6 @@ docker run -p 8081:80   --network isagi-net --name apps \
 -v "${LOGDIR}:/var/log/apache2" \
 -d isagi-apache 
 
-docker exec apps /usr/local/share/script/aduser.sh
+docker exec apps /usr/local/share/script/adduser.sh
 docker ps | grep apps
 
