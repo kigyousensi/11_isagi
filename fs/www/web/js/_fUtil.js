@@ -176,6 +176,9 @@ function changech(ch){
     for(let i=0;i<items.length;i++){
         if(items[i].getAttribute("id") == ch){
             items[i].classList.remove("hide");
+            switch(ch){
+                case "ch2":ownr_const();
+            }
             //document.body.classList.add(`${ch}_color`);
         }
         else{
@@ -249,3 +252,7 @@ let fAutocomlete=((fileid,id)=>{
         instance.updateData([]);
     }
   });
+
+// ////////////////////////////////////
+// クラスリスナー
+// ////////////////////////////////////

@@ -28,7 +28,8 @@
 // channel
 ///////////////////////////////////////////////////////////////////////////////
 div.channel {
-  padding:1em;
+  margin:0;
+  padding:1em 0 5vh 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -66,11 +67,11 @@ div.alart-box{
 p#alert-title{
   top:5vh;height:8vh;
   padding:2vh 2vw 1vh 2vw;
-  font-size:max(3vh,14px);font-weight:bold;
+  font-size:max(2.5vh,12px);font-weight:bold;
 }
 p#alert-text{
   top:13vh; height:21vh;
-  line-height:3vh;font-size:max(2.5vh,10px);
+  line-height:3vh;font-size:max(2vh,10px);
   padding:2vh max(2vw,10px) 1vh max(2vw,10px);
   overflow-x:visible;
   overflow-y:scroll;
@@ -81,7 +82,7 @@ p#alert-submit{
   width:30vw;right:5vw;left:auto;
   line-height:3vh;
   text-align:center;
-  font-size:max(3vh,10px);
+  font-size:max(2vh,10px);
   color:white;
   border-style:none;border-radius: 5px;
   background-color:$secondary-color;
@@ -146,6 +147,10 @@ ul.sidenav-list {
  ///////////////////////////////////////////////////////////////////////////////
 // 基本情報
 ///////////////////////////////////////////////////////////////////////////////
+// 全体
+.basebox{
+  margin:0 24px;
+}
 // e-mailボックス
 .flexbase{
  display:flex;
@@ -204,10 +209,23 @@ ul.sidenav-list {
 ///////////////////////////////////////////////////////////////////////////////
 // 所有者を確認
 ///////////////////////////////////////////////////////////////////////////////
+div.ownr-head{
+  width:80vw;height:10vh;
+  left:10vw;top:5vh;
+  overflow:hidden;
+  background-image: url("../icon/ownr-header.jpg");
+  background-size:cover;
+  background-position:right 10% bottom 10%;
+  transition-duration:2s;
+}
+
 div.ownr-box{
   position:relative;
   width:80vw;height:60vh;
-  left:10vw;top:20vh;
+  left:10vw;top:5vh;
+}
+div.ownr-result{
+  padding:0;margin-bottom:auto;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -247,10 +265,6 @@ div.account-header{
     }
 }
 
-////////////////////////////////////////
-// 所有者確認画面
-////////////////////////////////////////
-/// 
 ////////////////////////////////////////
 // ログイン画面
 ////////////////////////////////////////
@@ -294,6 +308,49 @@ div.reset-box{
      background-image: url("../icon/reset-header.png");
   }
  }
+
+////////////////////////////////////////
+// materializeのオーバーライド or 追加
+////////////////////////////////////////
+// カードの追加クラス
+.card-maker{
+  font-size:12px;
+}
+.card-info{
+  padding:0 24px 0 24px;
+  margin-bottom:0;
+  overflow-y:hidden;
+  overflow-x:hidden;
+  height:0;
+  transition-duration:0.2s;
+  transition-timing-function: linear;
+}
+.card-sns{
+  >span{
+    display:block;
+    position:relative;
+    left:30px;margin:12px 0;
+    &::before{
+      position:absolute;
+      content:"";
+      width:25px;height:25px;left:-28px;
+      top:0;bottom:0;margin:auto auto;
+      background-size:cover;
+    }
+  }
+  >span.twitter::before{
+    width:25px;height:20px;left:-28px;
+    background-image: url("../icon/twitter.svg");
+  }
+  >span.instagram::before{
+    background-image: url("../icon/instagram.png");
+  }
+}
+.card-param{
+  size:1rem;
+}
+
+
  ///////////////////////////////////////////////////////////////////////////////
 // 画面サイズで表示を変更
  ///////////////////////////////////////////////////////////////////////////////
@@ -308,6 +365,10 @@ div.reset-box{
   div.channel {
    margin-left:16em;
   }
+  div.ownr-head{
+    width:40vw;
+    left:0;right:auto;
+  }
   div.ownr-box{
     width:40vw;
     left:0;right:auto;
@@ -316,3 +377,4 @@ div.reset-box{
     left:0;
   }
  }
+

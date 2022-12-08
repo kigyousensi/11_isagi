@@ -4,6 +4,31 @@
 ///////////////////////////////////////
 // 初期化
 ///////////////////////////////////////
+//////////////////////////
+// チャンネルの初期化
+//////////////////////////
+let ownr_const=()=>{
+  //ヘッダーの位置を変更する
+  let header=document.querySelector(".ownr-head");
+  header.style.transitionDuration="0s";
+  setTimeout(()=>{
+    header.style.backgroundPosition="right 0 bottom 0";
+    setTimeout(()=>{
+      header.style.transitionDuration="2s";
+      header.style.backgroundPosition="right 20% bottom 20%";
+      header.style.transitionDuration="0s";
+    },1000);
+  },100);
+
+  
+  setTimeout(()=>{
+    header.style.transitionDuration="2s";
+    header.style.backgroundPosition="right 20% bottom 20%";
+    header.style.transitionDuration="0";
+  },1000);
+  console.log(header);
+}
+
 let ownr_init=function(){
   //////////////////////////
   // カテゴリーリストを作成
@@ -126,10 +151,142 @@ let own_change_maker=(()=>{
 ///////////////////
 let ownr_search=()=>{
   // フォームの値を取得して検索を実行
-  //[カテゴリ,型名,自転車の照合方法,個体番号]
+  ///リスナーをすべてオフ
+  let cards=document.querySelectorAll("ownr-card");
+  let imgs=[];
+  for(let obj of cards){
+    imgs=obj.querySelectorAll("card-detail");
+    for(let itm of items){
+      //itm.removeEventListener("click");
+    }
+  }
+  ///[カテゴリ,メーカー,型名,自転車の照合方法,個体番号]
+  let data=[];
+  data["category"]=Elm_get("ownr_category")[1];
+  data["maker"]=Elm_get("ownr_maker")[1];
+  data["model"]=Elm_get("ownr_model")[1];
+  data["method"]=Elm_get("ownr_radio1")[1];
+  data["selial"]=Elm_get("ownr_bind_selial")[1];
+  
+  // 検索
+  /// 前回の検索結果を非表示
+  Elm_text("ownr_serched_msg","");
+
+  /// wait表示
+  Elm_view("ownr-preload");
+  let ajaxcall=new Promise((resolve_func)=>{
+    let rt=[];
+    if(data["maker"] ==="GIANT"){
+      rt=[
+        {"maker":"GIANT","model":"TCR SL1","twitter":"YahooCare","instagram":"inst","serial":"A0000001","comment":"コメント","caution":"false","assetid":"X1000001"}
+      ];
+    }
+    else{
+      rt=[
+        {"maker":"GIANT","model":"TCR SL1","twitter":"YahooCare","instagram":"","serial":"A0000001","comment":"コメント","caution":"false","assetid":"X1000001"},
+        {"maker":"GIANT","model":"TCR SL1","twitter":"","instagram":"finefennec","serial":"A0000001","comment":"コメント","caution":"true","assetid":"X1000002"}
+      ];
+    }
+    setTimeout(resolve_func,2000,rt);
+  });
+  
   // 検索結果を元にカードを作成
+  ajaxcall.then((recv)=>{
+    // waitを非表示
+    Elm_hide("ownr-preload");
+
+    // 既存の結果を削除
+    let olds=document.querySelectorAll(".ownr-card");
+    for(let obj of olds){obj.remove();}
+    
+    // 結果の件数を表示
+    let tx=recv.length+"件";
+    if(recv.length>1){tx=`${tx} &gt;&gt;<a onclick="ownr_serched_msg()">複数の結果が表示される場合</a>`}
+    Elm_html("ownr_serched_msg","検索結果 : "+tx);
+
+    // 検索結果をテンプレートに反映してカードを表示
+    /// テンプレート取得
+    let rslt=document.getElementById("ownr-result-top");
+    let tmp=document.getElementById("ownr_result_tmp");
+    let node,items,flg;
+    
+    for(let i=0;i<recv.length;i++){
+      flg=0;
+      node=tmp.content.cloneNode(true);
+      // 画像
+      items=node.querySelectorAll('[name="img"]');
+      items[0].setAttribute("src","img/"+recv[i]["assetid"]+".jpg");
+      items[0].setAttribute("onclick","setOwnrCardDetail(this)");
+      // メーカー、型名、警告
+      items=node.querySelectorAll('[name="product"]');
+      items[0].textContent=recv[i]["maker"];
+      items[1].textContent=recv[i]["model"];
+      items[1].setAttribute("onclick","setOwnrCardDetail(this)");
+      if(recv[i]["caution"]==="true"){
+        items[2].classList.remove("hide");
+        //盗品の説明
+          items[2].addEventListener("click",()=>{
+            artMsg(type="warn",title="盗難品の可能性があります",text="この動産は所有者によって盗難届が提出されています。<br/>SNSやフリマアプリで購入しようとしている場合は取引の中止を推奨します。<br/><br/>[お願い]<br/>差し支えなければ発見した場所を本来の所有者へ連絡して下さい。所収者のSNSのアカウントへ直接連絡するか、匿名でメッセージを送信できます。",submit="閉じる");
+          });
+      }    
+      else{items[2].classList.add("hide");}
+
+      // twitter
+      items=node.querySelectorAll('[name="twitter"]');
+      if(recv[i]["twitter"] !==""){
+        items[0].classList.remove("hide");
+        items[1].setAttribute("href","https://twitter.com/"+recv[i]["twitter"]);
+        items[1].textContent=recv[i]["twitter"];
+        flg++;
+      }
+      else{items[0].classList.add("hide");}
+      // instagram
+      items=node.querySelectorAll('[name="instagram"]');
+      if(recv[i]["instagram"] !==""){
+        items[0].classList.remove("hide");
+        items[1].setAttribute("href","https://www.instagram.com/"+recv[i]["instagram"]);
+        items[1].textContent=recv[i]["instagram"];
+        flg++;
+      }
+      else{items[0].classList.add("hide");}
+      //SNS枠
+      items=node.querySelectorAll('[name="sns"]');
+      if(flg==0){items[0].classList.add("hide");}else{items[0].classList.remove("hide");}
+      // 車体番号、メモ
+      items=node.querySelectorAll('[name="param"]');
+      items[0].textContent=recv[i]["serial"];
+      items[1].textContent=recv[i]["comment"];
+      rslt.appendChild(node);
+    }
+  });
 }
 
+// カードの画像かタイトルを選択したら詳細を表示/非表示に切り替える
+let setOwnrCardDetail=(el)=>{
+    // 各要素の高さを算出
+    let tgt=el.parentElement.parentElement.querySelectorAll(".card-info");
+    let higt=0;let style;
+    for(let obj of tgt[0].querySelectorAll(":scope> p")){
+        let style=window.getComputedStyle(obj);
+         higt+=obj.offsetHeight+parseInt(style.marginTop.replace(/[a-zA-Z]/g,""))+parseInt(style.marginBottom.replace(/[a-zA-Z]/g,""));
+    }
+    //higt+=parseInt(window.getComputedStyle(tgt[0]).paddingInline.replace(/[a-zA-Z]/g,""));//無くても十分スペースが空いている
+    setTimeout(()=>{
+    if(tgt[0].clientHeight==0){
+        tgt[0].style.height=higt+"px";
+        tgt[0].style.paddingBottom="24px";
+    }
+    else{
+        tgt[0].style.height=0;
+        tgt[0].style.paddingBottom="0";
+    }
+    },10);
+}
+
+// 検索結果が複数ある場合のメッセージ
+let ownr_serched_msg=()=>{
+  artMsg(type='warn',title='検索結果が複数ある場合',text='複数の結果が表示される場合は盗品の可能性を疑って下さい。<br/>通常はメーカー、型名、シリアル番号の組み合わせが重複することはありません。メーカーによってはモデルをマイナーチェンジした際にシリアル番号が重複する場合がありますが稀なケースです。');
+}
 ///////////////////
 // フォームの値が変わったら検索ボタンを有効にするか判断する
 ///////////////////
