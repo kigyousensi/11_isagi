@@ -43,6 +43,7 @@
 
     <!--channel-->
     <!--基本情報画面--><div id="ch1-1" class="channel hide">
+      <div class="basebox">
       <div class="sectiontitle">アカウント</div>
       <div class="flexbase">
         <div class="row">
@@ -160,8 +161,10 @@
         </div></div>
       </div>
     </div>
+    </div>
     <div id="ch1-2" class="channel hide">動産リスト</div>
     <!--所有者の確認--><div id="ch2" class="channel">
+      <div class="ownr-head"></div>
       <div class="ownr-box">
       <!--カテゴリ-->
       <div class="row">
@@ -208,7 +211,33 @@
       </div>
 
       <!--検索ボタン-->
-      <a id="ownr-search" class="waves-effect waves-light btn-large disabled">照会</a>
+      <div class="row"><a id="ownr-search" class="waves-effect waves-light btn-large disabled">照会</a></div>
+      <div id="ownr-preload" class="progress hide"><div class="indeterminate"></div></div>
+
+      <!-- 検索結果 -->
+    <div id="ownr-result-top" class="ownr-result">
+      <div class="row"><hr/><span id="ownr_serched_msg"></span></div>
+      <template id="ownr_result_tmp">
+      <div class="card ownr-card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img name="img" class="card-detail" src="" oncontextmenu="return false;">
+        </div>
+        <div class="card-content">
+          <span name="product" class="card-maker grey-text"></span>
+          <span name="product" class="card-title card-detail grey-text text-darken-4"></span>
+          <p name="product" class="hide"><i class="material-icons left">warning</i><a id="ownr-stolenmsg">盗難届が提出されています</a></p>
+        </div>
+        <div class="card-info">
+           <p name="sns" class="card-sns">
+            <span name="twitter" class="twitter"><a name="twitter" href="" target="new"></a></span>
+            <span name="instagram" class="instagram"><a name="instagram" href="" target="new"></a></span>
+          </p>
+          <p name="param" class="card-param"></p>
+          <p name="param" class="card-param"></p>
+        </div>
+      </div>
+      </template>
+    </div>
     </div>
     </div>
     <!--ログイン画面--><div id="ch3" class="channel hide">

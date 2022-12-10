@@ -8136,14 +8136,9 @@ input[type=range]::-ms-thumb {
   font-weight: bold;
 }
 
-.require::after {
-  display: inline-block;
-  position: absolute;
-  content: "*";
-}
-
 div.channel {
-  padding: 1em;
+  margin: 0;
+  padding: 1em 0 5vh 0;
 }
 
 div.alart-box {
@@ -8184,7 +8179,7 @@ p#alert-title {
   top: 5vh;
   height: 8vh;
   padding: 2vh 2vw 1vh 2vw;
-  font-size: max(3vh, 14px);
+  font-size: max(2.5vh, 12px);
   font-weight: bold;
 }
 
@@ -8192,7 +8187,7 @@ p#alert-text {
   top: 13vh;
   height: 21vh;
   line-height: 3vh;
-  font-size: max(2.5vh, 10px);
+  font-size: max(2vh, 10px);
   padding: 2vh max(2vw, 10px) 1vh max(2vw, 10px);
   overflow-x: visible;
   overflow-y: scroll;
@@ -8207,7 +8202,7 @@ p#alert-submit {
   left: auto;
   line-height: 3vh;
   text-align: center;
-  font-size: max(3vh, 10px);
+  font-size: max(2vh, 10px);
   color: white;
   border-style: none;
   border-radius: 5px;
@@ -8268,6 +8263,10 @@ div.account-login {
 }
 div.account-login > p {
   color: white;
+}
+
+.basebox {
+  margin: 0 24px;
 }
 
 .flexbase {
@@ -8334,12 +8333,28 @@ div.account-login > p {
   margin: 1.5rem 0 0 1.5rem;
 }
 
+div.ownr-head {
+  width: 80vw;
+  height: 10vh;
+  left: 10vw;
+  top: 5vh;
+  overflow: hidden;
+  background-image: url("../icon/ownr-header.jpg");
+  background-size: cover;
+  background-position: right 10% bottom 10%;
+}
+
 div.ownr-box {
   position: relative;
   width: 80vw;
   height: 60vh;
   left: 10vw;
-  top: 20vh;
+  top: 5vh;
+}
+
+div.ownr-result {
+  padding: 0;
+  margin-bottom: auto;
 }
 
 div.account-box {
@@ -8437,6 +8452,51 @@ div.reset-header > span:before {
   background-image: url("../icon/reset-header.png");
 }
 
+.card-maker {
+  font-size: 12px;
+}
+
+.card-info {
+  padding: 0 24px 0 24px;
+  margin-bottom: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 0;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
+}
+
+.card-sns > span {
+  display: block;
+  position: relative;
+  left: 30px;
+  margin: 12px 0;
+}
+.card-sns > span::before {
+  position: absolute;
+  content: "";
+  width: 25px;
+  height: 25px;
+  left: -28px;
+  top: 0;
+  bottom: 0;
+  margin: auto auto;
+  background-size: cover;
+}
+.card-sns > span.twitter::before {
+  width: 25px;
+  height: 20px;
+  left: -28px;
+  background-image: url("../icon/twitter.svg");
+}
+.card-sns > span.instagram::before {
+  background-image: url("../icon/instagram.png");
+}
+
+.card-param {
+  size: 1rem;
+}
+
 @media (min-width: 993px) {
   .sidenav-list {
     position: fixed;
@@ -8453,6 +8513,11 @@ div.reset-header > span:before {
   }
   div.channel {
     margin-left: 16em;
+  }
+  div.ownr-head {
+    width: 40vw;
+    left: 0;
+    right: auto;
   }
   div.ownr-box {
     width: 40vw;
