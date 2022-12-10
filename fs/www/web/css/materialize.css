@@ -8334,14 +8334,17 @@ div.account-login > p {
 }
 
 div.ownr-head {
+  position: relative;
   width: 80vw;
   height: 10vh;
   left: 10vw;
   top: 5vh;
+  margin-bottom: 2vh;
   overflow: hidden;
   background-image: url("../icon/ownr-header.jpg");
   background-size: cover;
   background-position: right 10% bottom 10%;
+  transition-duration: 2s;
 }
 
 div.ownr-box {
