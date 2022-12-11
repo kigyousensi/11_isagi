@@ -130,6 +130,10 @@ let Elm_style=function(id,typ,val){
         case "top":obj.style.top=val;break;
     }
 }
+let Elm_switch_hide=function(el){
+    if(el.classList.contains('hide')==true){el.classList.remove("hide");}
+    else{el.classList.add("hide");}
+}
 // ////////////////////////////////////
 // アラートメッセージ
 // ////////////////////////////////////

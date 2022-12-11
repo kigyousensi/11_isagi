@@ -26,7 +26,6 @@ let ownr_const=()=>{
     header.style.backgroundPosition="right 20% bottom 20%";
     header.style.transitionDuration="0";
   },1000);
-  console.log(header);
 }
 
 let ownr_init=function(){
@@ -263,14 +262,13 @@ let ownr_search=()=>{
 
 // カードの画像かタイトルを選択したら詳細を表示/非表示に切り替える
 let setOwnrCardDetail=(el)=>{
-    // 各要素の高さを算出
+    // card-info領域の高さを算出
     let tgt=el.parentElement.parentElement.querySelectorAll(".card-info");
     let higt=0;let style;
     for(let obj of tgt[0].querySelectorAll(":scope> p")){
         let style=window.getComputedStyle(obj);
          higt+=obj.offsetHeight+parseInt(style.marginTop.replace(/[a-zA-Z]/g,""))+parseInt(style.marginBottom.replace(/[a-zA-Z]/g,""));
     }
-    //higt+=parseInt(window.getComputedStyle(tgt[0]).paddingInline.replace(/[a-zA-Z]/g,""));//無くても十分スペースが空いている
     setTimeout(()=>{
     if(tgt[0].clientHeight==0){
         tgt[0].style.height=higt+"px";
@@ -322,6 +320,13 @@ let ownr_check_search=()=>{
 // ///////////////////////
 // イベントリスナー
 // ///////////////////////
+// // onload
+window.addEventListener('load',()=>{
+  ownr_const();
+  asset_const();
+});
+
+// // input & click
 document.getElementById("ownr_category").addEventListener("change",(el)=>{ownr_select_category(el)});
 document.getElementById("ownr-search").addEventListener("click",()=>{ownr_search();});
 document.getElementById("ownr_maker").addEventListener("change",()=>{own_change_maker();});

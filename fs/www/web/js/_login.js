@@ -36,7 +36,8 @@ function tryLogin(){ //ログイン
             Elm_view("account-name");
             
             // チャンネルを所有者確認画面に切替え
-            changech("ch2");
+            asset_const();    //資産を取得
+            changech("ch2");  //ページを切替え
         }
         else {//失敗した場合
             Elm_text("login-error","メールアドレスまたはパスワードが一致しません");//エラーを表示

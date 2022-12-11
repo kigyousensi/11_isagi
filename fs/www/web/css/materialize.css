@@ -8126,6 +8126,15 @@ input[type=range]::-ms-thumb {
   display: flex;
 }
 
+.flex-line {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+.flex-line > p {
+  margin-top: 0;
+}
+
 .hradio {
   margin: 1rem 0;
 }
@@ -8333,6 +8342,14 @@ div.account-login > p {
   margin: 1.5rem 0 0 1.5rem;
 }
 
+div.asset-box {
+  position: relative;
+  width: 80vw;
+  height: 60vh;
+  left: 10vw;
+  top: 0;
+}
+
 div.ownr-head {
   position: relative;
   width: 80vw;
@@ -8455,8 +8472,19 @@ div.reset-header > span:before {
   background-image: url("../icon/reset-header.png");
 }
 
+.sw-onoff {
+  margin-bottom: 14px;
+}
+.sw-onoff label:has(input[type=checkbox]:checked) {
+  color: #26a69a;
+}
+
 .card-maker {
   font-size: 12px;
+}
+
+.card-content > span {
+  display: block;
 }
 
 .card-info {
@@ -8500,6 +8528,10 @@ div.reset-header > span:before {
   size: 1rem;
 }
 
+.card {
+  width: calc(100% - 10px);
+}
+
 @media (min-width: 993px) {
   .sidenav-list {
     position: fixed;
@@ -8518,6 +8550,11 @@ div.reset-header > span:before {
     margin-left: 16em;
   }
   div.ownr-head {
+    width: 40vw;
+    left: 0;
+    right: auto;
+  }
+  div.asset-box {
     width: 40vw;
     left: 0;
     right: auto;

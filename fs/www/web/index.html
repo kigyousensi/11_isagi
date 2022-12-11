@@ -27,7 +27,7 @@
     <ul id="slide-menu" class="sidenav-list sidenav-list-close">
         <li id="slide-back" class="sidenav-line"><i class="small material-icons">arrow_back</i></li>
         <li id="slide-base" class="sidenav-line logined hide">基本情報</li>
-        <li id="slide-list" class="sidenav-line logined hide">動産リスト</li>
+        <li id="slide-list" class="sidenav-line logined hide">動産の管理</li>
         <li id="slide-ownr" class="sidenav-line">所有者を確認</li>
         <li id="slide-loff" class="sidenav-line logined hide">ログアウト</li>
     </ul>
@@ -162,8 +162,113 @@
       </div>
     </div>
     </div>
-    <div id="ch1-2" class="channel hide">動産リスト</div>
-    <!--所有者の確認--><div id="ch2" class="channel">
+    <!--動産の管理--><div id="ch1-2" class="channel">
+      <div id="asset-top" class="asset-box">
+      <!--テンプレート-->
+        <template id="asset-tmp">
+        <div class="card">
+          <!--画像-->
+          <div class="card-image waves-effect waves-block waves-light">
+            <img name="img" class="card-detail" src="" oncontextmenu="return false;">
+          </div>
+          <!--概要-->
+          <div class="card-content">
+            <span name="product" class="card-maker grey-text">メーカー</span>
+            <span name="product" class="card-title card-detail grey-text text-darken-4">モデル</span>
+            <span name="info" class="grey-text"></span>
+            <span name="info" class="grey-text"></span>
+          </div>
+          <div class="card-info">
+            <!--スイッチ-->
+            <div class="flexbase">
+              <div class="switch sw-onoff"><label><input type="checkbox" name="sw"><span class="lever"></span>公開</label></div>
+              <div class="switch sw-onoff"><label><input type="checkbox" name="sw"><span class="lever"></span>盗難</label></div>
+            </div>
+            <!--資産情報-->
+            <div class="flexbase">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" name="asset-bouhan" class="validate" maxlength="16"/>
+                  <label name="asset-bouhan">防犯登録番号</label>
+                  <span class="helper-text" data-error=""></span>
+                </div>
+              </div>
+              <i  name="asset-bouhan" class="material-icons">help_outline</i>
+              <div class="sns-wait">
+                <div  name="asset-bouhan" class="preloader-wrapper small active hide">
+                <div class="spinner-layer spinner-green-only">
+                  <div class="circle-clipper left"><div class="circle"></div></div>
+                  <div class="gap-patch"><div class="circle"></div></div>
+                  <div class="circle-clipper right"><div class="circle"></div></div>
+                </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flexbase">
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea name="asset-comment" class="materialize-textarea" data-length="64"></textarea>
+                  <label name="asset-comment" for="">コメント</label>
+                </div>
+              </div>
+              <i name="asset-comment" class="material-icons">help_outline</i>
+              <div class="sns-wait">
+                <div name="asset-comment" class="preloader-wrapper small active hide">
+                <div class="spinner-layer spinner-green-only">
+                  <div class="circle-clipper left"><div class="circle"></div></div>
+                  <div class="gap-patch"><div class="circle"></div></div>
+                  <div class="circle-clipper right"><div class="circle"></div></div>
+                </div>
+              </div>
+              </div>
+            </div>
+
+            <!--盗難届-->
+            <div class="flexbase">
+              <div class="row">
+                <div class="input-field col s12">
+                <input name="asset-repdate" type="text" class="datepicker"/>
+                <label name="asset-repdate" for="">盗難届の提出日</label>
+                </div>
+              </div>
+              <i  name="asset-repdate" class="material-icons">help_outline</i>
+              <div class="sns-wait">
+                <div  name="asset-repdate" class="preloader-wrapper small active hide">
+                <div class="spinner-layer spinner-green-only">
+                  <div class="circle-clipper left"><div class="circle"></div></div>
+                  <div class="gap-patch"><div class="circle"></div></div>
+                  <div class="circle-clipper right"><div class="circle"></div></div>
+                </div>
+                </div>
+              </div>
+            </div>
+            <div class="flexbase">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" name="asset-repno" class="validate" maxlength="16"/>
+                  <label name="asset-repno">被害届の受理番号</label>
+                  <span class="helper-text" data-error=""></span>
+                </div>
+              </div>
+              <i  name="asset-repno" class="material-icons">help_outline</i>
+              <div class="sns-wait">
+                <div  name="asset-repno" class="preloader-wrapper small active hide">
+                <div class="spinner-layer spinner-green-only">
+                  <div class="circle-clipper left"><div class="circle"></div></div>
+                  <div class="gap-patch"><div class="circle"></div></div>
+                  <div class="circle-clipper right"><div class="circle"></div></div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+     </div>
+      <!--テンプレート-->
+    </div>
+    </div>
+    <!--所有者の確認--><div id="ch2" class="channel hide">
       <div class="ownr-head"></div>
       <div class="ownr-box">
       <!--カテゴリ-->
@@ -340,6 +445,7 @@
 <script type="text/javascript" src="js/_menu.js"></script>
 <script type="text/javascript" src="js/_base.js"></script>
 <script type="text/javascript" src="js/_ownr.js"></script>
+<script type="text/javascript" src="js/_asset.js"></script>
 <script type="text/javascript" src="js/_login.js"></script>
 <script type="text/javascript" src="js/_signup.js"></script>
 <script type="text/javascript" src="js/_reset.js"></script>

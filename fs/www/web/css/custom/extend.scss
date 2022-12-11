@@ -11,6 +11,11 @@
 .flex{
   display:flex;
 }
+.flex-line{
+  display:flex;
+  margin:0;padding:0;
+  >p{margin-top:0;}
+}
 
 // ラジオボックス(縦)
 .hradio{
@@ -207,6 +212,15 @@ ul.sidenav-list {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// 資産登録
+///////////////////////////////////////////////////////////////////////////////
+div.asset-box{
+  position:relative;
+  width:80vw;height:60vh;
+  left:10vw;top:0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // 所有者を確認
 ///////////////////////////////////////////////////////////////////////////////
 div.ownr-head{
@@ -314,9 +328,20 @@ div.reset-box{
 ////////////////////////////////////////
 // materializeのオーバーライド or 追加
 ////////////////////////////////////////
+// スイッチ
+.sw-onoff{
+  margin-bottom:14px;
+  label:has(input[type="checkbox"]:checked){
+    color:$secondary-color;
+  }
+}
+
 // カードの追加クラス
 .card-maker{
   font-size:12px;
+}
+.card-content{
+ >span{display:block;}
 }
 .card-info{
   padding:0 24px 0 24px;
@@ -351,6 +376,9 @@ div.reset-box{
 .card-param{
   size:1rem;
 }
+.card{
+  width:calc(100% - 10px);
+}
 
 
  ///////////////////////////////////////////////////////////////////////////////
@@ -368,6 +396,10 @@ div.reset-box{
    margin-left:16em;
   }
   div.ownr-head{
+    width:40vw;
+    left:0;right:auto;
+  }
+  div.asset-box{
     width:40vw;
     left:0;right:auto;
   }
