@@ -91,9 +91,89 @@ p#alert-submit{
   color:white;
   border-style:none;border-radius: 5px;
   background-color:$secondary-color;
-  
 }
 
+// yesno-box
+div.yesno-box{
+  position:fixed;
+  width:100vw;height:100vh;
+  top:0;left:0;
+  background-color:rgba(128, 128, 128, 0.4);
+  z-index:99;
+}
+div.yesno-top{
+  position:fixed;
+  width:calc(80vw + 24px);height:0;
+  top:10vh;left:10vw;
+  background-color:#fff;
+  overflow:hidden;
+  transition-duration:0.2s;
+  transition-timing-function:ease-in;
+  >div:nth-child(1){
+    margin:24px;
+    //title
+    >p:nth-child(1){
+      margin:0;
+      display:inline;
+      vertical-align:middle;
+      line-height:2.5vh;
+      font-size:max(2.5vh,12px);
+      font-weight:bold;
+    }
+    //text
+    >p:nth-child(2){
+      line-height:2vh;font-size:max(2vh,10px);
+    }
+  }
+  >div:nth-child(2){
+    // button
+    display:flex;
+    justify-content: flex-end;
+    >p{
+      width:max(15vw,30px);height:max(5vh,30px);
+      margin:1vh 5px 0 0;padding:1vh 0;text-align:center;
+      line-height:3vh;font-size:max(2vh,10px);
+      border-style:solid;border-width:1px;
+      border-color:color("grey","lighten-2");
+      border-radius:5px;
+      color:color("grey","darken-1");
+    }
+    >p:nth-child(2){
+      margin-right:24px;
+    }
+    >p:nth-child(1):hover{
+      background-color:$primary-color-light;
+      color:white;
+    }
+    >p:nth-child(2):hover{
+      background-color:$secondary-color;
+      color:white;
+    }
+  }
+}
+///////////////////////////////////////////////////////////////////////////////
+// ファンクションボックス
+///////////////////////////////////////////////////////////////////////////////
+div.function-box{
+  position:fixed;
+  width:100vw;height:100vh;
+  top:0;left:0;
+  background-color:rgba(128, 128, 128, 0.4);
+  z-index:95;
+  >div{
+    position:relative;
+    width:calc(80vw + 48px);
+    left:calc(10vw - 24px);top:10vh;
+    padding:24px;
+    background-color:#fff;
+    >p:nth-child(1){
+      >span{
+      font-weight:bold;
+      font-size:1.5rem;
+    }
+  }
+  }
+}
 ///////////////////////////////////////////////////////////////////////////////
 // モーダルボックス
 ///////////////////////////////////////////////////////////////////////////////
@@ -218,6 +298,23 @@ div.asset-box{
   position:relative;
   width:80vw;height:60vh;
   left:10vw;top:0;
+}
+//譲渡スタンプ
+p.asset-jyoto-stamp{
+  position:absolute;
+  width:50%;height:60px;
+  top:25%;left:25%;
+  border-style:solid;
+  border-width:4px;
+  border-radius:10px;
+  border-color:rgba(255,0,0,0.7);
+  font-size:20px;
+  text-align:center;
+  line-height:60px;
+  font-weight:bold;
+  color:rgba(255,0,0,0.7);
+  background-color:rgba(255,255,255,0.7);
+  z-index:20;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -380,7 +477,35 @@ div.reset-box{
   width:calc(100% - 10px);
 }
 
-
+// ulメニューアイテムの追加
+.card-content{
+  >.functool{
+    margin:0;
+    position:absolute;
+    right:5px;left:auto;
+    width:0px;
+    height:0;
+    background-color:rgba(255,255,255,0);
+    z-index:10;
+    transition-duration: 0.2s;
+    transition-timing-function:ease-in;
+    overflow:hidden;
+    >li{
+      width:150px;
+      padding-right:10px;
+      display:block;
+      padding-top:14px;
+      height:42px;
+      line-height:14px;
+      font-size:14px;
+      text-align:right;
+      border-style:none solid solid solid;
+      border-width:1px;
+      border-color:color("grey","lighten-2");
+    }
+    >li:nth-child(1){border-style:solid;}
+  }
+}
  ///////////////////////////////////////////////////////////////////////////////
 // 画面サイズで表示を変更
  ///////////////////////////////////////////////////////////////////////////////

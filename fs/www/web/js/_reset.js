@@ -28,7 +28,7 @@ function tryReset(){ // リセットを実行
         // アラートメッセージを表示(メールしました)
         // チャンネルをログイン画面に切替え
         Elm_text("login-error","");    //ログイン画面のエラーメッセージを初期化
-        Elm_velue("login-pword","");   //ログイン画面のパスワードを初期化
+        Elm_value("login-pword","");   //ログイン画面のパスワードを初期化
         Elm_hide("login-reset");       //リセット画面へのリンクを非表示
         Elm_disable("login-button");   //ログインボタンを非活性化
         changech("ch3");

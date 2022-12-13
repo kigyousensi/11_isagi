@@ -32,12 +32,21 @@
         <li id="slide-loff" class="sidenav-line logined hide">ログアウト</li>
     </ul>
 
-    <!--アラートボックス-->
+    <!-- アラートボックス -->
     <div id="ar1" class="alart-box hide">
       <div id="ar1-bord">
        <p id="alert-title"></p>
        <p id="alert-text"></p>
        <p id="alert-submit"></p>
+      </div>
+    </div>
+
+    <!--Yes/noボックス-->
+    <div id="yesno" class="yesno-box hide">
+      <div id="yesno-top" class="yesno-top">
+       <div><p name="bord">title</p><p name="bord">text</p></div>
+       <div><p name="anser" data-val="yes">はい</p><p name="anser" data-val="no">いいえ</p></div>
+       <span data-cb="" data-prm="" class="hide"></span>
       </div>
     </div>
 
@@ -163,18 +172,75 @@
     </div>
     </div>
     <!--動産の管理--><div id="ch1-2" class="channel">
+      <!-- 新規譲渡画面 -->
+      <div id="ch1-2-sub1" class="function-box hide" data-assetid="" data-user="">
+        <div>
+          <p><span name="product"></span> <span name="product"></span> を譲渡します。<p>
+          <p>譲渡先を指定して下さい</p>
+          <p id="asset-jyoto-account-msg"></p>
+          <div class="flexbase">
+            <div class="row">
+              <div class="input-field col s12">
+                <input type="text" id="asset-jyoto-account" class="validate" pattern="[A-Z0-9]{11}" maxlength="11" required/>
+                <label>譲渡先アカウントID</label>
+                <span class="helper-text" data-error="アカウントID(半角大文字英数字11桁)を指定して下さい"></span>
+              </div>
+            </div>
+            <i id="asset-jyoto-account-help" class="material-icons">help_outline</i>
+          </div>
+
+          <div class="flexbase">
+            <div class="row">
+              <div class="input-field col s12">
+                <input type="text" id="asset-jyoto-pin" class="validate" pattern="[0-9a-zA-Z]{6}" maxlength="6" required/>
+                <label>譲渡用PIN(6桁の英数字)</label>
+                <span class="helper-text" data-error="6桁の英数字を指定して下さい"></span>
+              </div>
+            </div>
+            <i id="asset-jyoto-pin-help" class="material-icons">help_outline</i>
+          </div>
+          <div class="flex">
+             <a id="asset-jyoto-run" class="btn disabled">譲渡する</a> &nbsp; <a class="btn" onClick="asset_jyoto_close()">キャンセル</a>
+          </div>
+          <div id="asset-jyoto-preload" class="progress hide"><div class="indeterminate"></div></div>
+        </div>
+      </div>
+
+      <!-- 譲渡取り消し画面 -->
+      <div id="ch1-2-sub2" class="function-box hide">
+        <div>
+          <p><span name="product"></span> <span name="product"></span> は <span name="user"></span> さんへ譲渡する手続き中です。<p>
+          <p>譲渡を取り消しますか?</p>
+          <div class="flex">
+            <a class="btn" onclick="asset_jyoto_reset_run()">譲渡を取り消す</a> &nbsp; <a class="btn" onClick="asset_jyoto_reset_close()">取り消さない</a>
+         </div>
+         <div id="asset-jyoto-reset-preload" class="progress hide"><div class="indeterminate"></div></div>
+        </div>
+      </div>
+
       <div id="asset-top" class="asset-box">
       <!--テンプレート-->
         <template id="asset-tmp">
-        <div class="card">
+        <div class="card" data-assetid="">
           <!--画像-->
           <div class="card-image waves-effect waves-block waves-light">
             <img name="img" class="card-detail" src="" oncontextmenu="return false;">
+            <p name="jyoto" class="asset-jyoto-stamp hide" data-state="false" data-user=""><span>譲渡手続中</span></p>
           </div>
           <!--概要-->
           <div class="card-content">
+            <!--カードメニュー-->
+            <ul class="functool" name="cardmenu">
+             <li onclick="asset_delete_item(this)">削除</li>
+             <li onclick="asset_jyoto_item(this)">譲渡</li>
+             <li onclick="asset_prof_item(this)">証明書類を送る</li>
+             <li onclick="asset_photo_item(this)">画像を変更</li>
+            </ul>
             <span name="product" class="card-maker grey-text">メーカー</span>
-            <span name="product" class="card-title card-detail grey-text text-darken-4">モデル</span>
+            <span class="card-title card-detail grey-text text-darken-4">
+              <span name="product"></span>
+              <i class="material-icons right" name="more">more_vert</i>
+            </span>
             <span name="info" class="grey-text"></span>
             <span name="info" class="grey-text"></span>
           </div>
@@ -188,7 +254,7 @@
             <div class="flexbase">
               <div class="row">
                 <div class="input-field col s12">
-                  <input type="text" name="asset-bouhan" class="validate" maxlength="16"/>
+                  <input type="text" name="asset-bouhan" maxlength="16"/>
                   <label name="asset-bouhan">防犯登録番号</label>
                   <span class="helper-text" data-error=""></span>
                 </div>
@@ -246,7 +312,7 @@
             <div class="flexbase">
               <div class="row">
                 <div class="input-field col s12">
-                  <input type="text" name="asset-repno" class="validate" maxlength="16"/>
+                  <input type="text" name="asset-repno" maxlength="16"/>
                   <label name="asset-repno">被害届の受理番号</label>
                   <span class="helper-text" data-error=""></span>
                 </div>
@@ -265,7 +331,17 @@
           </div>
         </template>
      </div>
-      <!--テンプレート-->
+     <!--テンプレートここまで-->
+     <!--アクションボタン-->
+     <div id="asset-add" class="fixed-action-btn">
+      <a class="btn-floating btn-large red">
+      <i class="large material-icons">mode_edit</i>
+      </a>
+      <ul>
+      <li><a class="btn-floating red"><i class="material-icons">add</i></a></li>
+      </ul>
+     </div>
+      
     </div>
     </div>
     <!--所有者の確認--><div id="ch2" class="channel hide">

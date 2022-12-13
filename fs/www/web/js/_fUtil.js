@@ -112,9 +112,9 @@ let Elm_require=function(id,status=true){ //入力を必須にするまたは必
 }
 let Elm_hide=function(id){document.getElementById(id).classList.add("hide");}          //要素を非表示にする
 let Elm_view=function(id){document.getElementById(id).classList.remove("hide");}       //要素を表示する
-let Elm_text=function(id,txt){document.getElementById(id).textContent=txt;}              //要素のテキストを編集する
+let Elm_text=function(id,txt){document.getElementById(id).textContent=txt;}            //要素のテキストを編集する
 let Elm_html=function(id,txt){document.getElementById(id).innerHTML=txt;}              //要素のテキストを編集する
-let Elm_velue=function(id,txt){document.getElementById(id).value=txt;}                 //フォームの内容を編集する
+let Elm_value=function(id,txt){document.getElementById(id).value=txt;}                 //フォームの内容を編集する
 let Elm_radio_select=function(grp,val){
     let radios=document.querySelectorAll(`input[type='radio'][name='${grp}']`);
     for(let i=0;i<radios.length;i++){
@@ -137,6 +137,7 @@ let Elm_switch_hide=function(el){
 // ////////////////////////////////////
 // アラートメッセージ
 // ////////////////////////////////////
+// アラート
 function artMsg(type="info",title="info",text="",submit="閉じる"){
     // Boxサイズを決定
     // 100文字まではデフォルトの21vh。20文字超える毎に3vh追加
@@ -164,14 +165,86 @@ function artMsg(type="info",title="info",text="",submit="閉じる"){
 
     // 表示
     Elm_view("ar1");
-    let timeout=setTimeout(Elm_style,10,"ar1-bord","height",`${boxh}vh`);
+    setTimeout(Elm_style,10,"ar1-bord","height",`${boxh}vh`);
 }
 function artMsgClose(){
     //閉じる
     Elm_style("ar1-bord","height",0);
-    let timeout=setTimeout(Elm_hide,200,"ar1");
+    setTimeout(Elm_hide,200,"ar1");
 }
 
+// yesno
+/// yesnoメッセージを表示
+let yesnoMsg=(title,msg,cb,prm)=>{
+    // テキストとコールバック関数をセット
+    let root=document.getElementById("yesno-top");
+
+    /// タイトルとメッセージを表示
+    let elms=root.querySelectorAll('[name="bord"]');
+    elms[0].textContent=title;
+    elms[1].textContent=msg;
+
+    /// コールバック関数とパラメタをセット
+    elms=root.querySelectorAll(':scope>span');
+    elms[0].dataset.cb=cb;
+    let str=[];for(let i=0;i<prm.length;i++){str[i]=`'${prm[i]}'`;}
+    elms[0].dataset.prm=str.join(',');
+    
+    /// yes/noリスナーをセット
+    elms=root.querySelectorAll('[name="anser"]');
+    elms[0].addEventListener("click",yesnoMsg_submit);
+    elms[1].addEventListener("click",yesnoMsg_submit);
+
+    // boxを表示(hideになっていると高さの取得ができないので先に表示する)
+　　   Elm_view("yesno");
+
+    // boxの大きさを算出
+    let higt=24;let style;
+    for(let obj of root.querySelectorAll(":scope> div")){
+        style=window.getComputedStyle(obj);
+        higt+=obj.offsetHeight+parseInt(style.marginTop.replace(/[a-zA-Z]/g,""))+parseInt(style.marginBottom.replace(/[a-zA-Z]/g,""));
+    }
+
+    // boxのサイズを変更
+    Elm_style("yesno-top","height",higt+"px");
+}
+
+/// yesnoメッセージを消してコールバック関数を実行
+/// addEventListernerで引数を渡してremoveEventListernerを実行するにはfunction関数で
+/// この関数を定義する必要がある。
+function yesnoMsg_submit(ev){
+    //ボックスを小さくして非表示にする
+    Elm_style("yesno-top","height",0);
+    setTimeout(Elm_hide,210,"yesno");
+
+    //リスナーを削除する
+    let root=document.getElementById("yesno-top");
+    let elms=root.querySelectorAll('[name="anser"]');
+    elms[0].removeEventListener("click",yesnoMsg_submit);
+    elms[1].removeEventListener("click",yesnoMsg_submit);
+    
+    // callback関数とパラメタを取得
+    let cb,prm;
+    elms=root.querySelectorAll(":scope>span");
+    cb=elms[0].dataset.cb;prm=elms[0].dataset.prm;
+
+    //callback関数を実行(ansr,prm);
+    let ansr=ev.currentTarget.dataset.val;
+    Function(`${cb}('${ansr}',[${prm}])`)();
+}
+
+// テキストメッセージ
+// textMsg(id,type,msg);
+// 指定したIDにinfo,warn,errのメッセージを表示する
+let textMsg=(id,typ,msg)=>{
+    let target=document.getElementById(id);
+    switch(typ){
+        case "info":target.style.color="#66BB6A";break
+        case "warn":target.style.color="#fbc02d";break
+        case "err":target.style.color="#d84315";break
+    }
+    Elm_text(id,msg);
+}
 // ////////////////////////////////////
 // チャンネルの制御
 // ////////////////////////////////////
