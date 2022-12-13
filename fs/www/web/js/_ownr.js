@@ -323,7 +323,7 @@ let ownr_check_search=()=>{
 // // onload
 window.addEventListener('load',()=>{
   ownr_const();
-  asset_const();
+  asset_const(); // テスト時のみ
 });
 
 // // input & click
