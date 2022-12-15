@@ -18,14 +18,16 @@ function readFile(filepath){
 // ////////////////////////////////////
 /// ///////////////
 /// 連想配列の中に特定のキーが存在するか確認する
-/// return : {true:false}
+/// return : {"" | 一致した配列のキー}
 /// usage  : txcompkey(key,ary)
 ///          key: 検索するキー
 ///          ary: 検索対象の連想配列
 /// ///////////////
 function txcompkey(key,ary){
-  let rc=false;
-  for (k in ary){if(k === key){rc=true;}}
+  let rc="";
+  for (k in ary){
+    if(k === key || k.toLowerCase() === key.toLowerCase()){rc=k;}
+  }
   return rc;
 }
 
@@ -79,7 +81,9 @@ let Elm_get=function(id){// フォームから値を取得する。
     }
     return rc;
 }
-let Elm_check=function(id){ //フォームの値をチェックする
+let Elm_check=function(id,opt=false){ //フォームの値をチェックする
+    // id:element id
+    // opt:false=空白はエラーとみなさない,true=空白をエラーとみなす
     // return {true | false}
     // text-passwordの場合は制約違反が無いか確認する。
     // text-checkboxの場合はチェックされているか否かを返す
@@ -88,8 +92,12 @@ let Elm_check=function(id){ //フォームの値をチェックする
     let obj=document.getElementById(id);
     if(obj.tagName.toLowerCase()==="input"){
       switch(obj.getAttribute("type").toLowerCase()){
-        case "text":rc=obj.validity.valid;break;
-        case "password":rc=obj.validity.valid;break;
+        case "text":rc=obj.validity.valid;
+            if(opt==true && obj.value === ""){rc=false;}
+            break;
+        case "password":rc=obj.validity.valid;
+            if(opt==true && obj.value === ""){rc=false;}
+            break;
         case "checkbox":rc=obj.selected;break;
       }
     }
@@ -319,8 +327,8 @@ let fAutocomlete=((fileid,id)=>{
   
     // 設定ファイルを読み込み
     if(fileid!==""){ //ファイルが指定されている場合
-        let data=readFile("data/"+fileid+".ary");
         let ary=[];
+        let data=readFile("data/"+fileid+".ary");
         return data.then((recv)=>{
         ary=(new Function("return"+recv))();
         instance.updateData(ary);

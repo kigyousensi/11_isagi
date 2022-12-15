@@ -92,6 +92,8 @@ let ownr_select_category=function(el){
       Elm_require("ownr_model",true);  ///型名
     }
     maker=fAutocomlete(el.target.value,"ownr_maker"); //メーカーの予測変換候補を編集
+    Elm_value("ownr_maker","");       //メーカーを初期化
+    Elm_value("ownr_model","");       //型名を初期化
    }
    //個体番号入力欄の表示のラベルを変更
      Elm_text("ownr_bind_selial_label",gCategorys[el.target.value]["selial"]);
@@ -123,28 +125,46 @@ let ownr_check_radio=(()=>{
 ///////////////////
 // メーカーを変更した場合の動作
 ///////////////////
-let own_change_maker=(()=>{
-  // 空白でなければメーカー名を取得し、空白を_に変換して小文字にする
-  // カテゴリとメーカー名からモデルの予測変換ファイル名を作成
-  let cat,maker,model;
-  if(Elm_check("ownr_maker")){
+let ownr_change_maker=(()=>{
+  // 空白でなければフォームからメーカー名を取得する。
+  // メーカー名は大文字/小文字の差異を吸収して予測変換のメーカー名に置き換える
+  // その後空白を_に変換して小文字し、モデル予測変換ファイル名を作成する
+  let cat,maker,model,chk;
+  if(Elm_check("ownr_maker",true)){
     cat=Elm_get("ownr_category")[1];
-    maker=Elm_get("ownr_maker")[1];
+    maker=Elm_get("ownr_maker")[1].replace(/ *$/,"");
     //メーカーリストの中から選択された場合はモデルの予測変換リストを更新
     /// 入力値からファイル名を指定してモデル入力欄の予測変換リストを更新する
     /// メーカーリストkeysと入力値が一致している場合のみ本処理を行う。
     /// (この判断が無いと存在しない定義ファイルを読むためのhttp callが発生してしまう)
     /// 入力値が一致しない場合はモデルの予測変換リストをリセットする
-    if(txcompkey(maker,document.getElementById("ownr_maker").M_Autocomplete.options.data)){
+    chk=txcompkey(maker,document.getElementById("ownr_maker").M_Autocomplete.options.data);//メーカー予測リストの内容と比較
+    if(chk !==""){
+      // 大文字と小文字が不一致の場合はフォームの値を予測変換値に置き換え
+      if(chk !== maker){Elm_value("ownr_maker",chk);}
+      //型名を初期化
+      Elm_value("ownr_model","");
+      // カテゴリとメーカー名からモデル予測変換ファイル名を作成する
       maker=maker.replace(/ *$/,"");
       maker=maker.replace(" ","_");
       model=fAutocomlete(cat+"_"+maker.toLowerCase(),"ownr_model");
     }
     else{model=fAutocomlete("","ownr_model");}
   }
-  ownr_check_search();
+  ownr_check_search(); // 入力内容を確認して照会ボタンをアクティブ化
 });
 
+///////////////////
+// モデルを変更した場合
+///////////////////
+let ownr_change_model=()=>{
+  //大文字小文字の差異を吸収して予測変換文字に寄せる
+  let model=Elm_get("ownr_model")[1].replace(/ *$/,"");
+  let chk=txcompkey(model,document.getElementById("ownr_model").M_Autocomplete.options.data);//モデル予測リストの内容と比較
+  if(chk !== "" && chk !== model){Elm_value("ownr_model",chk);}
+  // 入力内容を確認して照会ボタンをアクティブ化
+  ownr_check_search(); 
+}
 ///////////////////
 // 検索ボタンを押した場合の動作
 ///////////////////
@@ -303,8 +323,8 @@ let ownr_check_search=()=>{
        //個別の確認項目なし
      }
      else{ /// 車体番号の場合
-       if(! Elm_check("ownr_maker")){rc=1;}
-       if(! Elm_check("ownr_model")){rc=2;}
+       if(! Elm_check("ownr_maker",true)){rc=1;}
+       if(! Elm_check("ownr_model",true)){rc=2;}
      }
    }
    else{ // 自転車以外の場合
@@ -329,8 +349,9 @@ window.addEventListener('load',()=>{
 // // input & click
 document.getElementById("ownr_category").addEventListener("change",(el)=>{ownr_select_category(el)});
 document.getElementById("ownr-search").addEventListener("click",()=>{ownr_search();});
-document.getElementById("ownr_maker").addEventListener("change",()=>{own_change_maker();});
-let ownr_evlist=["ownr_maker","ownr_model","ownr_bind_selial"];
+document.getElementById("ownr_maker").addEventListener("change",()=>{ownr_change_maker();});
+document.getElementById("ownr_model").addEventListener("change",()=>{ownr_change_model();});
+let ownr_evlist=["ownr_bind_selial"];
 for(let i=0;i<ownr_evlist.length;i++){
   document.getElementById(ownr_evlist[i]).addEventListener("change",()=>{ownr_check_search();})
 }
