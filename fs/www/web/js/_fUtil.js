@@ -84,16 +84,18 @@ let Elm_get=function(id){// フォームから値を取得する。
 let Elm_check=function(id,opt=false){ //フォームの値をチェックする
     // id:element id
     // opt:false=空白はエラーとみなさない,true=空白をエラーとみなす
+    // 
     // return {true | false}
-    // text-passwordの場合は制約違反が無いか確認する。
-    // text-checkboxの場合はチェックされているか否かを返す
+    // input-textの場合は成約違反と空白のチェック
+    // input-passwordの場合は制約違反が無いか確認する。
+    // input-checkboxの場合はチェックされているか否かを返す
     // selectの場合は選択されているか否かを返す
     rc=true;
     let obj=document.getElementById(id);
     if(obj.tagName.toLowerCase()==="input"){
       switch(obj.getAttribute("type").toLowerCase()){
-        case "text":rc=obj.validity.valid;
-            if(opt==true && obj.value === ""){rc=false;}
+        case "text":rc=obj.validity.valid;  // 成約チェック
+            if(opt==true && obj.value === ""){rc=false;} //opt=trueの時は空白チェック
             break;
         case "password":rc=obj.validity.valid;
             if(opt==true && obj.value === ""){rc=false;}
@@ -142,11 +144,33 @@ let Elm_switch_hide=function(el){
     if(el.classList.contains('hide')==true){el.classList.remove("hide");}
     else{el.classList.add("hide");}
 }
+let Elm_dataset_get=function(id,key){
+    /// dataset["key"]から値を取得。キーが存在しない場合は""を返す
+    let rc="";
+    if(document.getElementById(id).dataset[key] !=="undefined"){rc=document.getElementById(id).dataset[key];}
+    return rc;
+}
+let Elm_dataset_set=function(id,key,value){
+    /// dataset["key"]に値を設定
+    document.getElementById(id).dataset[key]=value;
+}
+let Elm_dataset_check=function(id){
+    /// dataset["checkstate"]の状態をチェック。
+    /// checkstateが存在しない場合はtrue。
+    let rt=true;
+    let key="checkstate";
+    switch(document.getElementById(id).dataset[key]){
+        case "true":rc=true;break;
+        case "false":rc=false;break;
+    }
+    return rc;
+}
 // ////////////////////////////////////
 // アラートメッセージ
 // ////////////////////////////////////
 // アラート
 function artMsg(type="info",title="info",text="",submit="閉じる"){
+    // type : { info | warn | error }
     // Boxサイズを決定
     // 100文字まではデフォルトの21vh。20文字超える毎に3vh追加
     // div,br,p,liタグを発見したら1行とみなす
@@ -175,6 +199,7 @@ function artMsg(type="info",title="info",text="",submit="閉じる"){
     Elm_view("ar1");
     setTimeout(Elm_style,10,"ar1-bord","height",`${boxh}vh`);
 }
+
 function artMsgClose(){
     //閉じる
     Elm_style("ar1-bord","height",0);

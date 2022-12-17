@@ -181,8 +181,8 @@
           <div class="flexbase">
             <div class="row">
               <div class="input-field col s12">
-                <input type="text" id="asset-jyoto-account" class="validate" pattern="[A-Z0-9]{11}" maxlength="11" required/>
-                <label>譲渡先アカウントID</label>
+                <input type="text" id="asset-jyoto-account" class="validate" pattern="[A-Z0-9]{11}" maxlength="11" required data-checkstate="false"/>
+                <label for="asset-jyoto-account">譲渡先アカウントID</label>
                 <span class="helper-text" data-error="アカウントID(半角大文字英数字11桁)を指定して下さい"></span>
               </div>
             </div>
@@ -193,7 +193,7 @@
             <div class="row">
               <div class="input-field col s12">
                 <input type="text" id="asset-jyoto-pin" class="validate" pattern="[0-9a-zA-Z]{6}" maxlength="6" required/>
-                <label>譲渡用PIN(6桁の英数字)</label>
+                <label for="asset-jyoto-pin">譲渡用PIN(6桁の英数字)</label>
                 <span class="helper-text" data-error="6桁の英数字を指定して下さい"></span>
               </div>
             </div>
@@ -207,7 +207,7 @@
       </div>
 
       <!-- 譲渡取り消し画面 -->
-      <div id="ch1-2-sub2" class="function-box hide">
+      <div id="ch1-2-sub2" class="function-box hide" data-assetid="">
         <div>
           <p><span name="product"></span> <span name="product"></span> は <span name="user"></span> さんへ譲渡する手続き中です。<p>
           <p>譲渡を取り消しますか?</p>
@@ -218,10 +218,52 @@
         </div>
       </div>
 
+      <!-- 証明書登録画面, 写真変更画面共通のテンプレート-->
+      <!-- テンプレート -->
+      <template id="asset-tmp-photo">
+        <div class="photo_up">
+          <span></span>
+          <p class="pic"></p>
+          <label><input type="file" onchange="" data-change="false" accept="image/*"/>証明書ファイル</label>
+        </div>
+      </template>
+
+      <!-- 証明書登録画面 -->
+      <div id="ch1-2-sub3" class="photo-box hide" data-assetid="">
+        <div>         
+          <!-- 投稿フォーム -->
+          <div id="asset-syomei-root">  
+            <p>証明書類を添付して下さい<p></p>
+          </div>
+
+          <!-- 送信ボタン -->
+          <div class="flex">
+            <a id="asset_syomei_submit" class="btn" onclick="asset_syomei_up_run()">送信</a> &nbsp; <a class="btn" onClick="asset_syomei_up_close()">キャンセル</a>
+          </div>
+          <div id="asset-syomei-up-preload" class="progress hide"><div class="indeterminate"></div></div>
+      </div>
+    </div>
+
+      <!-- 写真変更画面 -->
+    <div id="ch1-2-sub4" class="photo-box hide" data-assetid="">
+       <div>
+          <!-- 投稿フォーム -->
+          <div id="asset-photo-root">  
+            <p>画像を添付して下さい<p></p>
+          </div>
+
+          <!-- 送信ボタン -->
+          <div class="flex">
+            <a class="btn" onclick="asset_photo_up_run()">送信</a> &nbsp; <a class="btn" onClick="asset_photo_up_close()">キャンセル</a>
+         </div>
+         <div id="asset-photo-up-preload" class="progress hide"><div class="indeterminate"></div></div>
+      </div>
+    </div>
+
       <div id="asset-top" class="asset-box">
       <!--テンプレート-->
         <template id="asset-tmp">
-        <div class="card" data-assetid="">
+        <div class="card" data-assetid="" data-type="">
           <!--画像-->
           <div class="card-image waves-effect waves-block waves-light">
             <img name="img" class="card-detail" src="" oncontextmenu="return false;">

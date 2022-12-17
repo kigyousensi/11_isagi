@@ -8306,6 +8306,55 @@ div.function-box > div > p:nth-child(1) > span {
   font-size: 1.5rem;
 }
 
+div.photo-box {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(128, 128, 128, 0.4);
+  z-index: 95;
+}
+div.photo-box > div {
+  position: relative;
+  width: calc(80vw + 48px);
+  left: calc(10vw - 24px);
+  top: 10vh;
+  padding: 24px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #fff;
+}
+div.photo-box > div > p:nth-child(1) > span {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+div.photo_up {
+  margin-bottom: 48px;
+}
+div.photo_up > span {
+  font-weight: bold;
+}
+div.photo_up > span:before {
+  content: "■";
+}
+div.photo_up > p {
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-image: url("../img/X1000001.jpg");
+}
+div.photo_up > label {
+  padding: 10px 40px;
+  color: #ffffff;
+  background-color: #80cbc4;
+}
+div.photo_up > label > input[type=file] {
+  display: none;
+}
+
 .modal-text {
   text-align: left;
 }

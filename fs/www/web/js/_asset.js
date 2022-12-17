@@ -22,8 +22,8 @@ let asset_const=()=>{
    //サーバーから資産一覧を取得
    let ajaxcall=new Promise((resolve_func)=>{
        let rt=[
-         {"assetid":"X1000001","maker":"GIANT","model":"TCR","model-detail":"SL1","regist":"2022-12-10","serial":"K7EK20662","bouhan":"千123456789","comment":"メモ","rel":"true","repsw":"true","repdate":"2022-10-10","repno":"A00001","jyoto":"B01"},
-         {"assetid":"X1000002","maker":"Bianchi","model":"SPRINT","model-detail":"DISK","regist":"2022-12-10","serial":"K7EK20663","bouhan":"千123456780","comment":"メモ","rel":"false","repsw":"false","repdate":"2022-10-10","repno":"A00002","jyoto":""}
+         {"assetid":"X1000001","type":1,"maker":"GIANT","model":"TCR","model-detail":"SL1","regist":"2022-12-10","serial":"K7EK20662","bouhan":"千123456789","comment":"メモ","rel":"true","repsw":"true","repdate":"2022-10-10","repno":"A00001","jyoto":"B01","proof":"true"},
+         {"assetid":"X1000002","type":1,"maker":"Bianchi","model":"SPRINT","model-detail":"DISK","regist":"2022-12-10","serial":"K7EK20663","bouhan":"千123456780","comment":"メモ","rel":"false","repsw":"false","repdate":"2022-10-10","repno":"A00002","jyoto":"","proof":"false"}
       ];
        setTimeout(resolve_func,1000,rt);
    });
@@ -34,7 +34,7 @@ let asset_const=()=>{
    ajaxcall.then((recv)=>{
       ///
       /// main
-      /// 
+      ///
       /// 受信した検索結果を元にテンプレートからカードを作成
       for(let i=0;i<recv.length;i++){asset_create_card(recv[i]);}
    });
@@ -68,6 +68,7 @@ let asset_create_card=(data)=>{
          { // <div class="card">
             items=node.querySelectorAll('.card');
             items[0].setAttribute("data-assetid",data["assetid"]);
+            items[0].setAttribute("data-type",data["type"]);
             items[0].setAttribute("id","asset_id_"+data["assetid"]);
          }
          /// カードを作成
@@ -78,11 +79,28 @@ let asset_create_card=(data)=>{
          }
          { //// 譲渡手続中の表示
             elm=node.querySelector('[name="jyoto"]');
-            if(data["jyoto"] !== ""){
-               elm.classList.remove("hide");
-               elm.dataset.state="true";
-               elm.dataset.user=data["jyoto"];
+            /// proofがtrueならjyotoの状態で値を設定
+            ///  jyotoが空白 = 譲渡の予定がない > スタンプ非表示。state=false。譲渡先名=""
+            ///  jyotoが指定 = 譲渡の予定あり   > スタンプ表示。  state=true。 譲渡先名=指定された値
+            /// proofがfalseなら譲渡できない    > スタンプ非表示。state=close。譲渡名=""
+            if(data["proof"]==="true"){ //本人確認済み
+               if(data["jyoto"] == ""){ // 譲渡予定なし
+                  elm.classList.add("hide");
+                  elm.dataset.state="false";
+                  elm.dataset.user="";
+               }
+               else{ //譲渡予定あり
+                  elm.classList.remove("hide");
+                  elm.dataset.state="true";
+                  elm.dataset.user=data["jyoto"];
+               }
             }
+            else{ //本人未確認
+               elm.classList.add("hide");
+                  elm.dataset.state="close";
+                  elm.dataset.user="";
+            }
+            
          }
          { //// メーカーや型名+サブモデル
             items=node.querySelectorAll('[name="product"]');
@@ -95,8 +113,8 @@ let asset_create_card=(data)=>{
          }
          { //// スイッチ
             items=node.querySelectorAll('[name="sw"]');
-            if(data["rel"]==="true"){items[0].checked=true;}else{items[0].checked=false;}
-            if(data["repsw"]==="true"){items[1].checked=true;}else{items[1].checked=false;}
+            if(data["rel"]==="true"){items[0].checked=true;}else{items[0].checked=false;}    //公開
+            if(data["repsw"]==="true"){items[1].checked=true;}else{items[1].checked=false;}  //盗難
          }
          { //// 資産情報
             items=node.querySelectorAll('[name="info"]');
@@ -279,6 +297,7 @@ let asset_delete_run=(ansr,prm)=>{
 //
 //  data-state=falseの状態で譲渡を選択すると新規譲渡画面を表示する。    <div id="ch1-2-sub1">
 //  data-state=trueの状態で譲渡を選択すると譲渡取り消し画面を表示する。 <div id="ch1-2-sub2">
+//  data-state=closeの状態で譲渡を選択すると譲渡取り消し画面を表示する。 <div id="ch1-2-sub2">
 
 // 譲渡項目を選択した際の動作 /////////
 // 新規譲渡/譲渡取消し画面を表示///////
@@ -294,7 +313,14 @@ let asset_jyoto_item=(e)=>{
    //
    // main
    //
-   // 譲渡スタンプのstate属性で処理を分岐
+   // 譲渡スタンプのstate属性、本人確認書類の状態で処理を分ける。
+   // 本人確認が済んでいない場合はその旨を表示。
+   // 譲渡スタンプがfalseなら新規画面を表示。
+   // 譲渡スタンプがtrueなら取消画面を表示。
+   if(item.dataset.state==="close"){// 本人確認が済んでいない
+      artMsg(type="error",title="所有者の確認",text="所収者の確認が完了していません。<br/>資産を登録した直後や譲渡された場合に本メッセージが表示されます。<br/>「証明書類を送る」であなたが本来の所有者であることを証明できます。<br/>あなたがこの資産の所有者であることを確認できるまで譲渡はできません。",submit="閉じる")
+   }
+
    if(item.dataset.state==="false"){
       //
       // 新規譲渡画面を作成して表示する
@@ -318,7 +344,7 @@ let asset_jyoto_item=(e)=>{
       //新規譲渡画面を表示
       Elm_view("ch1-2-sub1");
    }
-   else{
+   if(item.dataset.state==="true"){
       //
       // 譲渡取消し画面を作成して表示
       //
@@ -364,9 +390,10 @@ let asset_jyoto_active_button=(e)=>{
    if(e.target.getAttribute("id")=="asset-jyoto-account"){
       // アカウントIDが変更になった場合
       // アカウントIDの書式が合っていれば実在するか確認する
+      Elm_disable("asset-jyoto-run");        // 一旦ボタンを非活性化する
       if(Elm_check("asset-jyoto-account")){ //アカウントIDの書式チェック
          // アカウントの存在を問い合わせ
-         // 開発中はA0000000001なら"Genki"、それ以外なら空白が帰ってくる使用とした。
+         // 開発中はA0000000001なら"Genki"、それ以外なら空白が帰ってくる。
          let data=[];
          if(Elm_get("asset-jyoto-account")[1]==="A0000000001"){data={"user":"Genki"};}
          else{data={"user":""};}
@@ -377,12 +404,13 @@ let asset_jyoto_active_button=(e)=>{
             if(recv["user"] !== ""){
                //  ユーザーが存在する場合は正常なメッセージを表示
                textMsg("asset-jyoto-account-msg","info",`${recv["user"]}に譲渡します。`);
-               document.getElementById("ch1-2-sub1").dataset.user=recv["user"];
+               Elm_dataset_set("asset-jyoto-account","checkstate","true");   //入力フォームのステータスをtrueにする
+               Elm_dataset_set("ch1-2-sub1","user",recv["user"]);       //取得したユーザー名を保存
             }
             else{
-               //  ユーザーが存在しない場合は入力欄を空白にしてエラー表示
+               //  ユーザーが存在しない場合はエラー表示
                textMsg("asset-jyoto-account-msg","err",`ユーザーが存在しません`);
-               Elm_text("asset-jyoto-account","");
+               Elm_dataset_set("asset-jyoto-account","checkstate","false");   //入力フォームのステータスをfalseにする
             }
             asset_jyoto_active_button_next();//ボタンのステータス変更
          });
@@ -397,7 +425,7 @@ let asset_jyoto_active_button=(e)=>{
 // 入力欄が全て正しく入力されていれば「譲渡する」ボタンが有効になる。
 // また、リスナーが登録される(asset_jyoto_run
 let asset_jyoto_active_button_next=()=>{
-   if(Elm_check("asset-jyoto-account") && Elm_check("asset-jyoto-pin")){
+   if(Elm_check("asset-jyoto-account") && Elm_dataset_check("asset-jyoto-account") && Elm_check("asset-jyoto-pin")){
       // アカウントIDとPINが正しく入力されている場合、譲渡するボタンをactiveにしてイベントリスナーを登録する
       Elm_active("asset-jyoto-run");
       document.getElementById("asset-jyoto-run").addEventListener("click",asset_jyoto_run);
@@ -426,7 +454,8 @@ let asset_jyoto_run=()=>{
    //
    // define
    //
-    let assetid=document.getElementById("ch1-2-sub1").dataset.assetid; // 資産番号を新規譲渡画面から取得
+    let assetid=Elm_dataset_get("ch1-2-sub1","assetid"); // 資産番号を新規譲渡画面から取得
+    Elm_dataset_set("asset-jyoto-account","checkstate","false");   //入力フォームのステータスをfalseにする
     let card=document.getElementById("asset_id_"+assetid);             // card
 
    //
@@ -502,21 +531,170 @@ let asset_jyoto_reset_run=()=>{
 }
 
 ////////////////////////////////////////
-// 証明書類の送付
+// カードメニュー項目のアクション(証明書類の送付)
 ////////////////////////////////////////
+// 証明書類の送付画面を表示 /////////
 let asset_prof_item=(e)=>{
-   console.log("証明書類");
+   //
+   // preprocess
+   //
    asset_card_menu_close(e.parentNode);//カードメニューを閉じる
+
+   //
+   // define
+   //
+   let rootnode=e.parentNode.parentNode.parentNode;   // card
+   let assetid=rootnode.dataset.assetid;              // assetid
+   let type=rootnode.dataset.type;                    // 資産タイプ(1=ロードバイク)
+
    //証明書類送付フォームを表示
+   asset_syomei_createform(assetid,type);          //ファイル添付フォームを作成
+   Elm_view("ch1-2-sub3");
 }
+
+// 証明書類を送付 //////////////////////
+let asset_syomei_up_run=()=>{
+   // assetidと画像データを推進
+}
+
+// 証明書類の送付をキャンセル //////////
+let asset_syomei_up_close=()=>{
+   Elm_hide("ch1-2-sub3");
+}
+
+// テンプレートから画像添付フォームを作成
+let asset_syomei_createform=(assetid,type)=>{
+   //
+   // preprocess
+   //
+   // 画像の添付フォームを全てリセット(削除)
+   for(obj of document.getElementById("asset-syomei-root").querySelectorAll(":scope> div")){
+      obj.parentNode.removeChild(obj);
+   }
+   // 送信ボタンを無効化
+   Elm_disable("asset_syomei_submit");
+
+   //
+   // define
+   //
+   let root=document.getElementById("asset-syomei-root"); 　// この下にテンプレートを追加していく
+   let tmp=document.getElementById("asset-tmp-photo");      // テンプレートを取得
+   let node,items,cols=[];                                  //ループ用変数
+
+   //
+   // main
+   //
+   // 資産タイプで表示するフォームの数を変える
+   switch(type){
+      case "1" :cols=["防犯登録カード(防犯登録番号と車体番号が記載されているもの)","車体(防犯登録番号)","車体(車体番号"];
+            break;
+      default:cols=["製品の本体(型名)","製品の本体(製造番号)"];
+   }
+   for(let i=0;i<cols.length;i++){
+      // テンプレートのクローンノードを作成
+      node=tmp.content.cloneNode(true);
+
+      // 説明文を記載
+      items=node.querySelector("span");
+      items.textContent=cols[i];
+
+      // リスナーを登録
+      items=node.querySelector("input");
+      items.addEventListener("change",asset_syomei_preview);
+
+      // 子ノードを作成
+      root.appendChild(node);
+   } 
+}
+
+// プレビューを表示 //////////////////////
+let asset_syomei_preview=(el)=>{
+   //
+   // define
+   //
+   let root=el.target.parentNode.parentNode;     //テンプレートルート
+   let preview=root.querySelector(".pic");        //P要素
+
+   //画像の高さを決定(幅の3/4)
+   let width=preview.clientWidth;
+   let hight=parseInt(width*3/4);
+   preview.style.height=hight+"px";
+   
+   //
+   // main
+   //
+   // 添付した画像データをプレビュー領域に反映
+   let fr=new FileReader();
+   fr.onload=(()=>{preview.style.backgroundImage=`url(${fr.result})`;});
+   fr.readAsDataURL(el.target.files[0]);
+   
+   // ファイルを添付したフォームのchangeデータセットをtrueにする
+   el.target.dataset["change"]="true";
+   //
+   // end
+   //
+   // 上位要素の高さを調整
+   {
+    let box=root.parentNode.parentNode;
+    let h=120;
+    for(obj of box.querySelectorAll(":scope>div")){
+       h+=obj.offsetHeight;
+    }
+    box.style.height=`min(80vh,${h}px)`;
+   }
+   // 全ての添付ファイルが選択されたら送信ボタンを活性化する
+   let f=0;
+   for(obj of document.getElementById("asset-syomei-root").querySelectorAll('[type="file"]')){
+      if(obj.dataset["change"]==="false"){f=1;}
+   }
+   if(f==0){
+      Elm_active("asset_syomei_submit");
+   }
+ }
+
 ////////////////////////////////////////
 // 画像の変更
 ////////////////////////////////////////
 let asset_photo_item=(e)=>{
-   console.log("画像を変更");
    asset_card_menu_close(e.parentNode);//カードメニューを閉じる
+   asset_photo_createform();           //ファイル添付フォームを表示
+   //
+   // define
+   //
+   let rootnode=e.parentNode.parentNode.parentNode;   // card
+   let assetid=rootnode.dataset.assetid;              // assetid
 
+   //画像変更画面を表示
+   Elm_view("ch1-2-sub4");
 }
+
+// 写真を送付 //////////////////////////
+let asset_photo_up_run=()=>{
+}
+
+// 写真の送付をキャンセル //////////////
+let asset_photo_up_close=()=>{
+   Elm_hide("ch1-2-sub4");
+}
+// テンプレートから画像添付フォームを作成
+let asset_photo_createform=()=>{
+   // define
+   let root=document.getElementById("asset-photo-root");  // この下にテンプレートを追加していく
+   let tmp=document.getElementById("asset-tmp-photo");   // テンプレートを取得
+   let node,items,elm;                             //ループ用変数
+
+   for(let i=0;i<1;i++){
+      // テンプレートのクローンノードを作成
+      node=tmp.content.cloneNode(true);
+
+      //既に登録されている画像があれば表示
+
+      //画像が変更された場合のリスナーを登録
+      //子ノードを作成
+   root.appendChild(node);
+   } 
+}
+//////
 //######################################
 // css調整
 //######################################
@@ -539,3 +717,4 @@ document.getElementById("asset-jyoto-pin-help").addEventListener("click",()=>{
 // 譲渡入力画面の入力フォーム
 document.getElementById("asset-jyoto-account").addEventListener("change",asset_jyoto_active_button);  // アカウントID
 document.getElementById("asset-jyoto-pin").addEventListener("change",asset_jyoto_active_button);      // PIN
+
