@@ -20,7 +20,7 @@ USERNAME=$1
 if [ $RC -eq 0 ] ;then
  for I in apache 
  do
-   sed -e "s/USERNAME/${USERNAME}/g" ${I}/resource/aduser.org > ${I}/resource/adduser.sh
+   sed -e "s/USERNAME/${USERNAME}/g" ${I}/resource/adduser.org > ${I}/resource/adduser.sh
  done
 fi
 
