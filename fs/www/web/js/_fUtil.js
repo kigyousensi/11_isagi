@@ -17,6 +17,56 @@ function readFile(filepath){
 // テキスト編集
 // ////////////////////////////////////
 /// ///////////////
+/// サニタイズ
+/// ///////////////
+
+/// テキスト→HTMLへ変換
+/// return : {サニタイズ後の文字}
+/// usage  : TxToHtml($str)
+function TxToHtml(str){
+    return String(str).replace(/&/g,"&amp;")
+    .replace(/"/g,"&quot;")
+    .reprace(/'/g,"&#39;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+}
+
+/// HTML→フォームへ変換
+/// return : {変換後の文字}
+/// usage  : HtmlToForm($str)
+function HtmlToForm(str){
+    return String(str).replace(/&amp;/g,"&")
+    .replace(/&quot;/g,'\"')
+    .replace(/&#39;/g,"\'")
+    .replace(/&lt;/g,"<")
+    .replace(/&gt;/g,">")
+}
+
+/// HTML→テキストへ変換 (通常は使わない)
+/// return : {変換後の文字列}
+/// usage  : HtmlToTx($str)
+function HtmlToTx(str){
+    return String(str).replace(/&amp;/g,"&")
+    .replace(/&quot;/g,'"')
+    .replace(/&#39;/g,"'")
+    .replace(/&lt;/g,"<")
+    .replace(/&gt;/g,">")
+}
+
+/// ///////////////
+/// 乱数
+/// ///////////////
+function fRnd(num=6){
+  let result = '';
+  const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < num; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+
+  return result;
+}
+/// ///////////////
 /// 連想配列の中に特定のキーが存在するか確認する
 /// return : {"" | 一致した配列のキー}
 /// usage  : txcompkey(key,ary)
@@ -31,57 +81,140 @@ function txcompkey(key,ary){
   return rc;
 }
 
+/// ///////////////
+/// 描画の完了を待つ
+/// ///////////////
+function rePaint() {
+     let p=new Promise((resolve)=>{requestAnimationFrame(resolve);}).then(()=>{new Promise((resolve)=>{requestAnimationFrame(resolve);});});
+     return p;
+}
+
+/// ///////////////
+/// 空白の判断
+/// ///////////////
+function isNull(value){ // 文字列が空白、null、undefinedその他のエラーだった場合はtrueを返す
+    let rt=false;
+    if(!value || value.length==0 || value === null || value === undefined){rt=true;}
+    return rt;
+}
+
+// ////////////////////////////////////
+// オブジェクト
+// ////////////////////////////////////
+function isObject(value){return value !== null && typeof value === 'object';}
+
 // ////////////////////////////////////
 // 要素制御のショートカット
 // ////////////////////////////////////
-let Elm_active=function(id){ // 要素を活性化する
-    let obj=document.getElementById(id);
+
+/// フォームの入出力
+let Elm_active=function(id){    // inputまたはa要素を活性化する
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
     //フォームの場合はdisabled属性を削除。それ以外の場合はdisableクラスを削除
-    switch(document.getElementById(id).tagName.toLowerCase()){
+    switch(obj.tagName.toLowerCase()){
         case "input":obj.removeAttribute("disabled","disabled");break;
         default:obj.classList.remove("disabled");
     }
 }  
-let Elm_disable=function(id){ // 要素を非活性化する
-    let obj=document.getElementById(id);
+let Elm_disable=function(id){   // inputまたはa要素を非活性化する
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
     //フォームの場合はdisabled属性を追加。それ以外の場合はdisableクラスを追加
-    switch(document.getElementById(id).tagName.toLowerCase()){
+    switch(obj.tagName.toLowerCase()){
         case "input":obj.setAttribute("disabled","disabled");break;
         default:obj.classList.add("disabled");
     }
 }
-let Elm_get=function(id){// フォームから値を取得する。
+let Elm_value=function(id,txt){ // フォームの値を設定する
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    obj.value=txt;
+}
+let Elm_radio_select=function(grp,val){ //ラジオボックスにチェックを付ける
+    let radios=document.querySelectorAll(`input[type='radio'][name='${grp}']`);
+    for(let i=0;i<radios.length;i++){
+        if(radios[i].value===val){radios[i].checked=true;i=radios.length;}
+    }
+}
+let Elm_select_key=function(id,key){ //keyが一致するリストを選択する
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    for(let i=0;i<obj.options.length;i++){
+        if(obj.options[i].value===key){obj.options[i].selected=true;}
+    }
+}
+let Elm_checkbox_set=function(id,val="off"){ //チェックボックスをon/offする
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    if(
+         (typeof(val) === "string" && (val.toLowerCase() === "on" || val.toLowerCase() === "true")) ||
+         (typeof(val) === "boolean" && val === true)
+      ){obj.checked=true;}
+    else{obj.checked=false;}
+}
+let Elm_get=function(id){       // フォームの値、またはタグ内のテキストを取得する。
+    // id 要素またはテキスト名
+    //   idがテキストの場合は要素に置き換える(select,text,radio,checkbox,tx(div,p,span,i,b,li))
     // 結果は配列であることに注意
     // 要素が無い場合 [] (length=0)
     // 単一要素の場合 [1,value]
     // 複数要素の場合 [要素数,[要素配列]] ([0,[]]もありえる)
-    let rc=[];
-    if(document.querySelectorAll("#"+id).length==1){// IDで検索できる場合(通常)
-        let obj=document.getElementById(id);
-        switch(obj.tagName.toLowerCase()){
-            case "input":rc[0]=1;rc[1]=obj.value;
-            break;
-            case "select":
-                //複数選択されている可能性があるためmaltipleを判断
-                if(obj.maltiple){
-                    let buf=[];
-                    for(let i=0;i<obj.length;i++){
-                        if(obj[i].selected){buf.push(obj[i].value);}
-                    }
-                    rc[0]=buf.length;rc[1]=buf;
+    let rc,type="id",obj,tag="";
+    // 要素を確定
+    if(isObject(id)){type="obj";obj=id;}
+    else{
+        type="id";
+        if(document.querySelectorAll("#"+id).length==1){obj=document.getElementById(id);}//通常
+        else{ // idが指定されていない場合はradioのnameが指定されたと判断する
+            obj=document.querySelector(`input[type='radio'][name='${id}']`);
+        }
+    }
+    // 要素のタグを判断
+    switch(obj.tagName.toLowerCase()){
+     case "select":tag="select";break;
+     case "input": tag=obj.getAttribute("type");break
+     case "div":tag="tx";break
+     case "p":tag="tx";break
+     case "span":tag="tx";break
+     case "li":tag="tx";break
+     case "b":tag="tx";break
+     case "i":tag="tx";break
+     default:tag="none";
+    }
+
+    // タグのタイプによって処理を変更
+    switch(tag){
+        case "tx":rc=obj.textContent;break;
+        case "select":
+            //複数選択されている可能性があるためmaltipleを判断
+            if(obj.maltiple){
+               let buf=[];
+                for(let i=0;i<obj.length;i++){
+                    if(obj[i].selected){buf.push(obj[i].value);}
                 }
-                else{rc[0]=1;rc[1]=obj.value;}
-                break;
-        }
-    }else{ // radioの場合
-        let radios=document.querySelectorAll(`input[type='radio'][name='${id}']`);
-        for(let i=0;i<radios.length;i++){
-            if(radios[i].checked){rc[0]=1;rc[1]=radios[i].value;i=radios.length;}
-        }
+                rc=buf;
+            }
+            else{rc=obj.value;}
+            break;
+        case "checkbox":rc=obj.value;break;
+        case "text":rc=obj.value;break;
+        case "password":rc=obj.value;break;
+        case "radio":
+            let name=obj.getAttribute("name");
+            let radios,limit=5;cnt=0;//ラジオグループ名からラジオボックスを検索する(上位limitまで)
+            while(limit > cnt){
+                obj=obj.parentNode;
+                radios=obj.querySelectorAll(`input[type='radio'][name='${id}']`);
+                if(radios.length >1){cnt=limit+1;}
+                else{cnt++;}
+            }
+            for(let i=0;i<radios.length;i++){
+                if(radios[i].checked){rc=radios[i].value;i=radios.length;}
+            }
+            break;
     }
     return rc;
 }
-let Elm_check=function(id,opt=false){ //フォームの値をチェックする
+
+
+/// フォームのコントロール
+let Elm_check=function(id,opt=false){       // フォームにエラーがないかチェックする
     // id:element id
     // opt:false=空白はエラーとみなさない,true=空白をエラーとみなす
     // 
@@ -91,7 +224,7 @@ let Elm_check=function(id,opt=false){ //フォームの値をチェックする
     // input-checkboxの場合はチェックされているか否かを返す
     // selectの場合は選択されているか否かを返す
     rc=true;
-    let obj=document.getElementById(id);
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
     if(obj.tagName.toLowerCase()==="input"){
       switch(obj.getAttribute("type").toLowerCase()){
         case "text":rc=obj.validity.valid;  // 成約チェック
@@ -108,7 +241,7 @@ let Elm_check=function(id,opt=false){ //フォームの値をチェックする
     }
     return rc;
 }
-let Elm_require=function(id,status=true){ //入力を必須にするまたは必須を解除する
+let Elm_require=function(id,status=true){   // 入力を必須にするまたは必須を解除する
     // status=on or true ->必須
     // status=off or false ->必須解除
     let obj=document.getElementById(id);
@@ -120,51 +253,146 @@ let Elm_require=function(id,status=true){ //入力を必須にするまたは必
     else{obj.removeAttribute("required");}
     obj.checkValidity();
 }
-let Elm_hide=function(id){document.getElementById(id).classList.add("hide");}          //要素を非表示にする
-let Elm_view=function(id){document.getElementById(id).classList.remove("hide");}       //要素を表示する
-let Elm_text=function(id,txt){document.getElementById(id).textContent=txt;}            //要素のテキストを編集する
-let Elm_html=function(id,txt){document.getElementById(id).innerHTML=txt;}              //要素のテキストを編集する
-let Elm_value=function(id,txt){document.getElementById(id).value=txt;}                 //フォームの内容を編集する
-let Elm_radio_select=function(grp,val){
-    let radios=document.querySelectorAll(`input[type='radio'][name='${grp}']`);
-    for(let i=0;i<radios.length;i++){
-        if(radios[i].value===val){radios[i].checked=true;i=radios.length;}
+let asset_picture_preview=(el)=>{           // 画像添付フォームのプレビュー表示
+    //
+    // 以下の構成のフォームで画像ファイルを選択した際
+    // div id="asset-機能名-root" [data-func="機能名"]
+    //   div class=photo_up  ---- 以下テンプレート "asset-tmp-photo"
+    //     p class="pic" <-ここに選択した画像のプレビューを表示
+    //     label
+    //       input [type='file' data-change=''] <-ここでファイルを選択
+    //
+    // define
+    //
+    let root=el.target.parentNode.parentNode;         //テンプレートルート
+    let preview=root.querySelector(".pic");           //P要素
+    let func=Elm_dataset_get(root.parentNode,"func"); // 呼び出し元の機能名(syomei,photo)
+ 
+    //画像の高さを決定(幅の3/4)
+    let width=preview.clientWidth;
+    let hight=parseInt(width*3/4);
+    Elm_style(preview,"height",hight+"px");
+    
+    //
+    // main
+    //
+    // 添付した画像データをプレビュー領域に反映
+    let fr=new FileReader();
+    fr.onload=(()=>{Elm_style(preview,"backgroundImage",`url(${fr.result})`);});
+    fr.readAsDataURL(el.target.files[0]);
+    
+    // ファイルを添付したフォームのchangeデータセットをtrueにする
+    Elm_dataset_set(el.target,"change","true");
+    //
+    // end
+    //
+    // 上位要素の高さを調整
+    {
+     let box=root.parentNode.parentNode;
+     let h=Elm_sumHight(box);
+     Elm_style(box,"height",`min(80vh,${h}px)`);
     }
-};
-let Elm_attribute=function(id,name,value){document.getElementById(id).setAttribute(name,value);}//属性を変更
-let Elm_style=function(id,typ,val){
-    let obj=document.getElementById(id);
+ 
+    // 全ての添付ファイルが選択されたら送信ボタンを活性化する
+    let f=0;
+    for(obj of document.getElementById("asset-"+func+"-root").querySelectorAll('[type="file"]')){
+       if(obj.dataset["change"]==="false"){f=1;}
+    }
+    if(f==0){
+       Elm_active("asset_"+func+"_submit");
+    }
+}
+let Elm_select_add=function(id,data){       // selectにoptionを追加する
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    let opt
+    for(key in data){
+        opt=document.createElement("option");
+        Elm_attribute(opt,"value",key);
+        Elm_text(opt,data[key]);
+        obj.appendChild(opt);
+    }
+
+
+}
+
+/// ブロック・要素
+let Elm_hide=function(id){ //要素を非表示にする
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    obj.classList.add("hide");
+}     
+let Elm_view=function(id){ //要素を表示する
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    obj.classList.remove("hide");
+}
+let Elm_switch_hide=function(id){ //要素の表示と非表示を反転させる
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    if(obj.classList.contains('hide')==true){obj.classList.remove("hide");}
+    else{obj.classList.add("hide");}
+}
+let Elm_text=function(id,txt){//要素のテキスト(プレーンテキスト)を編集する
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    obj.textContent=txt;
+}            
+let Elm_html=function(id,txt){//要素のテキスト(html)を編集する
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    obj.innerHTML=txt;}              
+
+/// 要素の属性
+let Elm_attribute=function(id,name,value){ //属性を設定
+    let obj; if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    obj.setAttribute(name,value);
+}
+
+let Elm_style=function(id,typ,val){ //スタイルを変更
+    let obj; //idがオブジェクトならそのまま使用。id名なら要素を取得
+    if(isObject(id)){obj=id;}
+    else{obj=document.getElementById(id);}
+
     switch(typ){
         case "height":obj.style.height=val;break;
         case "backgroundImage":obj.style.backgroundImage=val;break;
         case "top":obj.style.top=val;break;
     }
 }
-let Elm_switch_hide=function(el){
-    if(el.classList.contains('hide')==true){el.classList.remove("hide");}
-    else{el.classList.add("hide");}
+let Elm_sumHight=function(id){ //直下のブロック要素の高さを合計する
+    let obj,style;
+    let hi=0;
+    if(isObject(id)){obj=id;}
+    else{obj=document.getElementById(id);}
+    // 要素の直下にあるP、DIV、UL、OLタグの高さを合計する
+    for(item of obj.querySelectorAll(":scope > div,:scope > p, :scope > ul,:scope > ol, :scope > li")){
+        style=window.getComputedStyle(item);
+        hi+=item.offsetHeight+parseInt(style.marginTop.replace(/[a-zA-Z]/g,""))+parseInt(style.marginBottom.replace(/[a-zA-Z]/g,""));;
+    }
+    return hi;
 }
-let Elm_dataset_get=function(id,key){
+
+/// データセット
+let Elm_dataset_get=function(id,key){ // 値を取得
     /// dataset["key"]から値を取得。キーが存在しない場合は""を返す
-    let rc="";
-    if(document.getElementById(id).dataset[key] !=="undefined"){rc=document.getElementById(id).dataset[key];}
+    let rc="",obj;
+    if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    if(obj.dataset[key] != null){rc=obj.dataset[key];}
     return rc;
 }
-let Elm_dataset_set=function(id,key,value){
+let Elm_dataset_set=function(id,key,value){ // 値を設定
     /// dataset["key"]に値を設定
-    document.getElementById(id).dataset[key]=value;
+    let obj;if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    obj.dataset[key]=value;
 }
-let Elm_dataset_check=function(id){
+let Elm_dataset_check=function(id){ //checkstateの値(true/false)を文字列からBoolに変換して返す
     /// dataset["checkstate"]の状態をチェック。
     /// checkstateが存在しない場合はtrue。
     let rt=true;
     let key="checkstate";
-    switch(document.getElementById(id).dataset[key]){
+    let obj;if(isObject(id)){obj=id;}else{obj=document.getElementById(id);}
+    switch(obj.dataset[key]){
         case "true":rc=true;break;
         case "false":rc=false;break;
     }
     return rc;
 }
+
 // ////////////////////////////////////
 // アラートメッセージ
 // ////////////////////////////////////
@@ -178,12 +406,12 @@ function artMsg(type="info",title="info",text="",submit="閉じる"){
     if(text.length > 100){
         lines=(Math.ceil(text.length-100)/20);
         lines+=(text.match(/\<br|\<p|\<div|\<li/g)||[]).length;
-        if(lines>5){lines=3;}//多くても追加は３行まで。それ以上はスクロール。
     }
     // Boxサイズを決定
     texth+=lines*3;
+    if(texth>45){texth=45;} //最大45vhまで
     buttontop=13+texth+2;
-    boxh=buttontop+7+5;
+    boxh=buttontop+7+4;
     //高さ調整
     Elm_style("alert-text","height",`${texth}vh`);
     Elm_style("alert-submit","top",`${buttontop}vh`);
@@ -214,8 +442,8 @@ let yesnoMsg=(title,msg,cb,prm)=>{
 
     /// タイトルとメッセージを表示
     let elms=root.querySelectorAll('[name="bord"]');
-    elms[0].textContent=title;
-    elms[1].textContent=msg;
+    Elm_text(elms[0],title);
+    Elm_html(elms[1],msg);
 
     /// コールバック関数とパラメタをセット
     elms=root.querySelectorAll(':scope>span');
@@ -363,6 +591,3 @@ let fAutocomlete=((fileid,id)=>{
     }
   });
 
-// ////////////////////////////////////
-// クラスリスナー
-// ////////////////////////////////////

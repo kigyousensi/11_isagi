@@ -107,7 +107,7 @@ let ownr_select_category=function(el){
 /// 照合方法を選択した際の動作
 ///////////////////
 let ownr_check_radio=(()=>{
-  if(Elm_get("ownr_radio1")[1]==="bn"){ //防犯登録
+  if(Elm_get("ownr_radio1")==="bn"){ //防犯登録
     Elm_hide("ownr-bind-product");  //製品関連を非表示
     Elm_require("ownr_maker",false); ///メーカー
     Elm_require("ownr_model",false); ///型名
@@ -131,8 +131,8 @@ let ownr_change_maker=(()=>{
   // その後空白を_に変換して小文字し、モデル予測変換ファイル名を作成する
   let cat,maker,model,chk;
   if(Elm_check("ownr_maker",true)){
-    cat=Elm_get("ownr_category")[1];
-    maker=Elm_get("ownr_maker")[1].replace(/ *$/,"");
+    cat=Elm_get("ownr_category");
+    maker=Elm_get("ownr_maker").replace(/ *$/,"");
     //メーカーリストの中から選択された場合はモデルの予測変換リストを更新
     /// 入力値からファイル名を指定してモデル入力欄の予測変換リストを更新する
     /// メーカーリストkeysと入力値が一致している場合のみ本処理を行う。
@@ -159,7 +159,7 @@ let ownr_change_maker=(()=>{
 ///////////////////
 let ownr_change_model=()=>{
   //大文字小文字の差異を吸収して予測変換文字に寄せる
-  let model=Elm_get("ownr_model")[1].replace(/ *$/,"");
+  let model=Elm_get("ownr_model").replace(/ *$/,"");
   let chk=txcompkey(model,document.getElementById("ownr_model").M_Autocomplete.options.data);//モデル予測リストの内容と比較
   if(chk !== "" && chk !== model){Elm_value("ownr_model",chk);}
   // 入力内容を確認して照会ボタンをアクティブ化
@@ -181,11 +181,11 @@ let ownr_search=()=>{
   }
   ///[カテゴリ,メーカー,型名,自転車の照合方法,個体番号]
   let data=[];
-  data["category"]=Elm_get("ownr_category")[1];
-  data["maker"]=Elm_get("ownr_maker")[1];
-  data["model"]=Elm_get("ownr_model")[1];
-  data["method"]=Elm_get("ownr_radio1")[1];
-  data["selial"]=Elm_get("ownr_bind_selial")[1];
+  data["category"]=Elm_get("ownr_category");
+  data["maker"]=Elm_get("ownr_maker");
+  data["model"]=Elm_get("ownr_model");
+  data["method"]=Elm_get("ownr_radio1");
+  data["selial"]=Elm_get("ownr_bind_selial");
   
   // 検索
   /// 前回の検索結果を非表示
@@ -234,7 +234,7 @@ let ownr_search=()=>{
       node=tmp.content.cloneNode(true);
       // 画像
       items=node.querySelectorAll('[name="img"]');
-      items[0].setAttribute("src","img/"+recv[i]["assetid"]+".jpg");
+      items[0].setAttribute("src","img/"+recv[i]["assetid"]+".jpg?"+fRnd());
       items[0].setAttribute("onclick","setOwnrCardDetail(this)");
       // メーカー、型名、警告
       items=node.querySelectorAll('[name="product"]');
@@ -318,8 +318,8 @@ let ownr_check_search=()=>{
   let rc=0;
   if(! Elm_check("ownr_category")){rc=4;}
   else{
-   if(Elm_get("ownr_category")[1]==="Roadbike"){ // 自転車の場合
-     if(Elm_get("ownr_radio1")[1]==="bn"){       /// 防犯登録の場合
+   if(Elm_get("ownr_category")==="Roadbike"){ // 自転車の場合
+     if(Elm_get("ownr_radio1")==="bn"){       /// 防犯登録の場合
        //個別の確認項目なし
      }
      else{ /// 車体番号の場合

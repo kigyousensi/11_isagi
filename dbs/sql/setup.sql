@@ -25,7 +25,7 @@ cnt INT UNSIGNED);
 CREATE TABLE IF NOT EXISTS asset(
 asid char(11) primary key,
 regist DATETIME,
-type SMALLINT UNSIGNED,
+type varchar(16),
 corp CHAR(32),
 model CHAR(32),
 sup CHAR(32),
@@ -33,9 +33,10 @@ serial CHAR(32),
 bouhan CHAR(32),
 memo varchar(64),
 release BOOL,
+repsw BOOL,
 repdate DATETIME,
-repplace TINYINT UNSIGNED,
 repno char(10),
+proof BOOL,
 state BOOL);
 
 CREATE TABLE IF NOT EXISTS touki(

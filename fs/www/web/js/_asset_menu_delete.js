@@ -15,13 +15,13 @@ let asset_delete_item=(e)=>{
    // define
    //
    let rootnode=e.parentNode.parentNode.parentNode;   //card
-   let assetid=rootnode.dataset.assetid;              //資産番号を取得
+   let assetid=Elm_dataset_get(rootnode,"assetid");   //資産番号を取得
 
    //
    // main
    //
    // yesnoMsgにコールバック関数(asset_delete_run)と削除対象のassetidを渡してダイアログを表示する
-   yesnoMsg("資産の削除","この資産を削除しますか？","asset_delete_run",[assetid]);
+   yesnoMsg("資産の削除","<p>この資産を削除しますか？</p><p><p class='msginfo'><i class='material-icons'>info_outline</i> 資産を譲渡する場合</p>この資産を他の人に譲渡する場合は「削除」ではなく「譲渡」を選択して下さい。「譲渡」すると譲渡した相手はメーカーや型名の入力を省略できます。</p>","asset_delete_run",[assetid]);
 }
 
 // 削除処理 ////////////////////////

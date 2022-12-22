@@ -24,18 +24,18 @@ let asset_jyoto_item=(e)=>{
    // define
    //
    let rootnode=e.parentNode.parentNode.parentNode;   // card
-   let assetid=rootnode.dataset.assetid;              // assetid
+   let assetid=Elm_dataset_get(rootnode,"assetid");   // assetid
    let item=rootnode.querySelector('[name="jyoto"]'); // 譲渡スタンプ
    
    //
    // main
    //
    // 譲渡スタンプのstate属性、本人確認書類の状態で処理を分ける。
-   if(item.dataset.state==="close"){      // 本人確認が済んでいない
+   if(Elm_dataset_get(item,"state")==="close"){      // 本人確認が済んでいない
       artMsg(type="error",title="所有者の確認",text="所収者の確認が完了していません。<br/>資産を登録した直後や譲渡された場合に本メッセージが表示されます。<br/>「証明書類を送る」であなたが本来の所有者であることを証明できます。<br/>あなたがこの資産の所有者であることを確認できるまで譲渡はできません。",submit="閉じる")
    }
 
-   if(item.dataset.state==="false"){      // 新規譲渡画面を作成して表示する
+   if(Elm_dataset_get(item,"state")==="false"){      // 新規譲渡画面を作成して表示する
       //
       // preprocess
       //
@@ -49,7 +49,7 @@ let asset_jyoto_item=(e)=>{
       //
       //ドキュメントオブジェクトを作成
       let funcbox=document.getElementById("ch1-2-sub1"); // 新規譲渡画面のルート
-      funcbox.dataset.assetid=assetid;                   // 新規譲渡画面にassetidをセット
+      Elm_dataset_set(funcbox,"assetid",assetid);        // 新規譲渡画面にassetidをセット
 
       //
       // main
@@ -57,32 +57,34 @@ let asset_jyoto_item=(e)=>{
 
       //画面の冒頭のメッセージを作成
       // <メーカー> <モデル + サブモデル>を譲渡します
+      Elm_text("asset-jyoto-account-msg",[""]);
       let items=funcbox.querySelectorAll('[name="product"]');        //新規譲渡画面側
       let carditems=rootnode.querySelectorAll('[name="product"]');   //カード側
-      items[0].textContent=carditems[0].textContent;                 //メーカーをカード側からコピー
-      items[1].textContent=carditems[1].textContent;                 //モデル+サブモデルをカード側からコピー
+      Elm_text(items[0],carditems[0].textContent);                 //メーカーをカード側からコピー
+      Elm_text(items[1],carditems[1].textContent);                 //モデル+サブモデルをカード側からコピー
 
       //新規譲渡画面を表示
       Elm_view("ch1-2-sub1");
    }
-   if(item.dataset.state==="true"){                      // 譲渡取消し画面を作成して表示
+
+   if(Elm_dataset_get(item,"state")==="true"){                      // 譲渡取消し画面を作成して表示
       //
       // define
       //
       //ドキュメントオブジェクトを作成
-      let funcbox=document.getElementById("ch1-2-sub2");    // 譲渡取消し画面のルート
-       funcbox.dataset.assetid=assetid;                     // 譲渡取消し画面にassetidをセット
+      let funcbox=document.getElementById("ch1-2-sub2");             // 譲渡取消し画面のルート
+      Elm_dataset_set(funcbox,"assetid",assetid);                    // 譲渡取消し画面にassetidをセット
 
        //カード側から取消画面へメーカ等の情報をコピーして冒頭の説明文を作る
        //<メーカー> <モデル + サブモデル>は<ユーザー>に譲渡手続き中
       let items=funcbox.querySelectorAll('[name="product"]');        //譲渡取消し画面側
       let carditems=rootnode.querySelectorAll('[name="product"]');   //カード側
-      items[0].textContent=carditems[0].textContent;                 //メーカーをカード側からコピー
-      items[1].textContent=carditems[1].textContent;                 //モデル+サブモデルをカード側からコピー
+      Elm_text(items[0],Elm_get(carditems[0]));                   //メーカーをカード側からコピー
+      Elm_text(items[1],Elm_get(carditems[1]));                   //モデル+サブモデルをカード側からコピー
 
       items=funcbox.querySelectorAll('[name="user"]');               //譲渡取消し画面側
       item=rootnode.querySelector('[name="jyoto"]');                 //カード側
-      items[0].textContent=item.dataset.user;                        //ユーザー名をカード側からコピー
+      Elm_text(items[0],HtmlToForm(Elm_dataset_get(item,"user")));              //ユーザー名をカード側からコピー
 
       //譲渡取消し画面を表示
        Elm_view("ch1-2-sub2");
@@ -120,7 +122,7 @@ let asset_jyoto_active_button=(e)=>{
          // アカウントの存在を問い合わせ
          // 開発中はA0000000001なら"Genki"、それ以外なら空白が帰ってくる。
          let data=[];
-         if(Elm_get("asset-jyoto-account")[1]==="A0000000001"){data={"user":"Genki"};}
+         if(Elm_get("asset-jyoto-account")==="A0000000001"){data={"user":"Genki&#39;s"};}
          else{data={"user":""};}
          let ajax=new Promise((resolve)=>{
             setTimeout(resolve,1000,data);
@@ -128,7 +130,7 @@ let asset_jyoto_active_button=(e)=>{
          ajax.then((recv)=>{ // ajaxの結果
             if(recv["user"] !== ""){
                //  ユーザーが存在する場合は正常なメッセージを表示
-               textMsg("asset-jyoto-account-msg","info",`${recv["user"]}に譲渡します。`);
+               textMsg("asset-jyoto-account-msg","info",`${HtmlToForm(recv["user"])}さんに譲渡します。`);
                Elm_dataset_set("asset-jyoto-account","checkstate","true");   //入力フォームのステータスをtrueにする
                Elm_dataset_set("ch1-2-sub1","user",recv["user"]);       //取得したユーザー名を保存
             }
@@ -179,9 +181,9 @@ let asset_jyoto_run=()=>{
    //
    // define
    //
-    let assetid=Elm_dataset_get("ch1-2-sub1","assetid"); // 資産番号を新規譲渡画面から取得
-    Elm_dataset_set("asset-jyoto-account","checkstate","false");   //入力フォームのステータスをfalseにする
-    let card=document.getElementById("asset_id_"+assetid);             // card
+    let assetid=Elm_dataset_get("ch1-2-sub1","assetid");          // 資産番号を新規譲渡画面から取得
+    Elm_dataset_set("asset-jyoto-account","checkstate","false");  // 入力フォームのステータスをfalseにする
+    let card=document.getElementById("asset_id_"+assetid);        // 操作対象のcard
 
    //
    // main
@@ -189,8 +191,8 @@ let asset_jyoto_run=()=>{
    // ajaxcallした後カードのステータスを譲渡手続き中にしてダイアログを閉じる
    let data={
      "assetid":assetid,
-     "touser":Elm_get("asset-jyoto-account")[1],
-     "pin":Elm_get("asset-jyoto-pin")[1]
+     "touser":Elm_get("asset-jyoto-account"),
+     "pin":Elm_get("asset-jyoto-pin")
    };
    // ajaxcall
    let ajaxcall=new Promise((resoleve)=>{
@@ -198,10 +200,10 @@ let asset_jyoto_run=()=>{
    });
    ajaxcall.then(()=>{
       // カードのステータスを譲渡手続き中に変更
-      let item=card.querySelector('[name="jyoto"]');        // 譲渡スタンプ
-      item.classList.remove("hide");                        // スタンプを表示
-      item.dataset.state="true";                            // 譲渡中フラグを立てる
-      item.dataset.user=document.getElementById("ch1-2-sub1").dataset.user;   //譲渡先ユーザー
+      let item=card.querySelector('[name="jyoto"]');  // 譲渡スタンプ
+      Elm_view(item);                                 // スタンプを表示
+      Elm_dataset_set(item,"state","true");           // 譲渡中フラグを立てる
+      Elm_dataset_set(item,"user",Elm_dataset_get("ch1-2-sub1","user"));   //譲渡先ユーザー
 
       // 新規譲渡画面を閉じる
       asset_jyoto_close();
@@ -232,8 +234,8 @@ let asset_jyoto_reset_run=()=>{
    //
    // define
    //
-    let assetid=document.getElementById("ch1-2-sub2").dataset.assetid;  //取消し画面から資産番号を取得
-    let card=document.getElementById("asset_id_"+assetid);              //card
+    let assetid=Elm_dataset_get("ch1-2-sub2","assetid");   //取消し画面から資産番号を取得
+    let card=document.getElementById("asset_id_"+assetid); //card
 
    //
    // main
@@ -246,9 +248,9 @@ let asset_jyoto_reset_run=()=>{
    ajaxcall.then(()=>{
       // カードのステータスを通常の状態に変更
       let item=card.querySelector('[name="jyoto"]');  // 譲渡スタンプ   
-      item.classList.add("hide");                     // スタンプを非表示
-      item.dataset.state="false";                     // 譲渡しないステータス
-      item.dataset.user="";                           // 譲渡先ユーザーをリセット
+      Elm_hide(item);                     // スタンプを非表示
+      Elm_dataset_set(item,"state","false");         // 譲渡しないステータス
+      Elm_dataset_set(item,"user","");               // 譲渡先ユーザーをリセット
       
       // 取り消し画面を閉じる
       asset_jyoto_reset_close();
