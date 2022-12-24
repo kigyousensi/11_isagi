@@ -2,11 +2,22 @@
 // 資産登録画面
 // ////////////////////////////////////////////////////////////////////////////
 
-//初期画面の設定 //////////////////////
-// オーナーが持っている資産一覧を取得して資産一覧に表示する
-// ログイン時と更新ボタンが押された場合のみ起動される
-// カードの作成は別途asset_create_cardで行う
+//
+// 資産登録画面の入口
+//
+
+// ////////////////////////////////////
+// 初期化
+// ////////////////////////////////////
+// # 初期画面を表示
 let asset_const=()=>{ 
+  // オーナーが持っている資産一覧を取得して資産一覧に表示する
+  // usage asset_const()
+  // return なし
+  // /
+  // / ログイン成功時にコールされる。(テスト時はonload時にもコールされる)
+  // / カードの作成は別途asset_create_cardで行う
+
    //
    // pre-process
    //
@@ -14,6 +25,9 @@ let asset_const=()=>{
    // 既存のカードがある場合は全て削除
    let delroot=document.getElementById("asset-top");
    for(obj of delroot.querySelectorAll('.card')){obj.parentNode.removeChild(obj);}
+
+   // 機能別画面の高さを0に設定
+   Elm_style("ch1-2-sub10-first","height",0);   //新規作成画面
 
    //
    // init
@@ -39,8 +53,11 @@ let asset_const=()=>{
    });
 }
 
-//######################################
+// ////////////////////////////////////
 // ファビコン
-//######################################
+// ////////////////////////////////////
 // 画面右下に編集ボタンを作成する
-M.FloatingActionButton.init(document.getElementById("asset-add"));
+let gmAsset_action=M.FloatingActionButton.init(document.getElementById("asset-action"));
+
+// リスナーを登録
+document.getElementById("asset-action-add").addEventListener('click',()=>{func_asset_action_add()});

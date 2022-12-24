@@ -145,7 +145,7 @@ div.yesno-top{
        }
     }
   }
-  >div:nth-child(2){
+  >div:nth-child(3){
     // button
     display:flex;
     justify-content: flex-end;
@@ -186,6 +186,8 @@ div.function-box{
     left:calc(5vw - 24px);top:10vh;
     padding:24px;
     background-color:#fff;
+    transition-duration:0.3s;
+    transition-timing-function:ease-in-out;
     >p:nth-child(1){
       >span{
       font-weight:bold;
@@ -614,6 +616,10 @@ line-height:max(2.2vh,12px);
   font-size:max(2.1vh,12px);
  }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// img
+///////////////////////////////////////////////////////////////////////////////
 
  ///////////////////////////////////////////////////////////////////////////////
 // 画面サイズで表示を変更

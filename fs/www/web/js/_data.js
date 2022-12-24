@@ -1,7 +1,7 @@
 // カテゴリーリスト
 // 所収者の検索で使用
 let gCategorys={
-   "Roadbike":{name:"自転車",img:"Roadbike.png","selial":"防犯登録番号","type":1},
+   "Roadbike":{name:"自転車",img:"Roadbike.png","selial":"車体番号","type":1},
    "kaden":{name:"家電品",img:"kaden.png","selial":"製造番号","type":2}
 };
 

@@ -1,6 +1,11 @@
-////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// 資産登録画面
+// ////////////////////////////////////////////////////////////////////////////
+
+//
 // カードメニュー項目のアクション(譲渡)
-////////////////////////////////////////
+//
+// let JyotoAsset =new cSubFunction("ch1-2-sub1");    譲渡
 
 // 譲渡ボタンを押すと資産の譲渡ができる。
 // 既に資産を譲渡しようとしている場合は譲渡のキャンセルができる。
@@ -32,7 +37,7 @@ let asset_jyoto_item=(e)=>{
    //
    // 譲渡スタンプのstate属性、本人確認書類の状態で処理を分ける。
    if(Elm_dataset_get(item,"state")==="close"){      // 本人確認が済んでいない
-      artMsg(type="error",title="所有者の確認",text="所収者の確認が完了していません。<br/>資産を登録した直後や譲渡された場合に本メッセージが表示されます。<br/>「証明書類を送る」であなたが本来の所有者であることを証明できます。<br/>あなたがこの資産の所有者であることを確認できるまで譲渡はできません。",submit="閉じる")
+      ArtMsg.open(type="error",title="所有者の確認",text="所収者の確認が完了していません。<br/>資産を登録した直後や譲渡された場合に本メッセージが表示されます。<br/>「証明書類を送る」であなたが本来の所有者であることを証明できます。<br/>あなたがこの資産の所有者であることを確認できるまで譲渡はできません。",submit="閉じる")
    }
 
    if(Elm_dataset_get(item,"state")==="false"){      // 新規譲渡画面を作成して表示する
@@ -48,8 +53,7 @@ let asset_jyoto_item=(e)=>{
       // define
       //
       //ドキュメントオブジェクトを作成
-      let funcbox=document.getElementById("ch1-2-sub1"); // 新規譲渡画面のルート
-      Elm_dataset_set(funcbox,"assetid",assetid);        // 新規譲渡画面にassetidをセット
+      Elm_dataset_set(JyotoAsset.getChRoot(),"assetid",assetid); // 新規譲渡画面にassetidをセット
 
       //
       // main
@@ -58,36 +62,30 @@ let asset_jyoto_item=(e)=>{
       //画面の冒頭のメッセージを作成
       // <メーカー> <モデル + サブモデル>を譲渡します
       Elm_text("asset-jyoto-account-msg",[""]);
-      let items=funcbox.querySelectorAll('[name="product"]');        //新規譲渡画面側
+      let items=JyotoAsset.getChFirst().querySelectorAll('[name="product"]');        //新規譲渡画面側
       let carditems=rootnode.querySelectorAll('[name="product"]');   //カード側
       Elm_text(items[0],carditems[0].textContent);                 //メーカーをカード側からコピー
       Elm_text(items[1],carditems[1].textContent);                 //モデル+サブモデルをカード側からコピー
 
       //新規譲渡画面を表示
-      Elm_view("ch1-2-sub1");
+      JyotoAsset.open();
    }
 
    if(Elm_dataset_get(item,"state")==="true"){                      // 譲渡取消し画面を作成して表示
       //
       // define
       //
-      //ドキュメントオブジェクトを作成
-      let funcbox=document.getElementById("ch1-2-sub2");             // 譲渡取消し画面のルート
-      Elm_dataset_set(funcbox,"assetid",assetid);                    // 譲渡取消し画面にassetidをセット
-
-       //カード側から取消画面へメーカ等の情報をコピーして冒頭の説明文を作る
-       //<メーカー> <モデル + サブモデル>は<ユーザー>に譲渡手続き中
-      let items=funcbox.querySelectorAll('[name="product"]');        //譲渡取消し画面側
-      let carditems=rootnode.querySelectorAll('[name="product"]');   //カード側
-      Elm_text(items[0],Elm_get(carditems[0]));                   //メーカーをカード側からコピー
-      Elm_text(items[1],Elm_get(carditems[1]));                   //モデル+サブモデルをカード側からコピー
-
-      items=funcbox.querySelectorAll('[name="user"]');               //譲渡取消し画面側
-      item=rootnode.querySelector('[name="jyoto"]');                 //カード側
-      Elm_text(items[0],HtmlToForm(Elm_dataset_get(item,"user")));              //ユーザー名をカード側からコピー
-
+      //カード側から取消画面へメーカ等の情報をコピーして冒頭の説明文を作る
+      //<メーカー> <モデル + サブモデル>は<ユーザー>に譲渡手続き中
+      let text;
+      let products=rootnode.querySelectorAll('[name="product"]'); //プロダクト
+          user=rootnode.querySelector('[name="jyoto"]');          //ユーザー
+      text=`<p>${Elm_get(products[0])} ${Elm_get(products[1])} は
+            ${HtmlToForm(Elm_dataset_get(user,"user"))} さんへ譲渡する手続き中です。</p>
+            <p>譲渡を取り消しますか?</p>`;
+ 
       //譲渡取消し画面を表示
-       Elm_view("ch1-2-sub2");
+       YesnoMsg.open("譲渡の取消",text,"asset_jyoto_reset",[assetid]);
    }
 }
 
@@ -152,6 +150,9 @@ let asset_jyoto_active_button=(e)=>{
 // 入力欄が全て正しく入力されていれば「譲渡する」ボタンが有効になる。
 // また、リスナーが登録される(asset_jyoto_run
 let asset_jyoto_active_button_next=()=>{
+   //preprocess
+   JyotoAsset.resize(); //再表示
+
    if(Elm_check("asset-jyoto-account") && Elm_dataset_check("asset-jyoto-account") && Elm_check("asset-jyoto-pin")){
       // アカウントIDとPINが正しく入力されている場合、譲渡するボタンをactiveにしてイベントリスナーを登録する
       Elm_active("asset-jyoto-run");
@@ -162,11 +163,9 @@ let asset_jyoto_active_button_next=()=>{
    }
 }
 
-// 新規譲渡画面を閉じる /////////////////
-// 単純に新規譲渡画面を閉じる。waitバーが表示されていれば非表示にしておく
+// [キャンセル]ボタンの動作
 let asset_jyoto_close=()=>{
-   Elm_hide("ch1-2-sub1");
-   Elm_hide("asset-jyoto-preload");
+   JyotoAsset.close();
 }
 
 // 「譲渡する」ボタンの動作 /////////////
@@ -176,8 +175,7 @@ let asset_jyoto_run=()=>{
    //
    // preprocess
    //
-   Elm_view("asset-jyoto-preload"); //waitを表示する
-   
+ 
    //
    // define
    //
@@ -194,6 +192,9 @@ let asset_jyoto_run=()=>{
      "touser":Elm_get("asset-jyoto-account"),
      "pin":Elm_get("asset-jyoto-pin")
    };
+
+   // waitを表示
+   JyotoAsset.wait("on");
    // ajaxcall
    let ajaxcall=new Promise((resoleve)=>{
       setTimeout(resoleve,1500);
@@ -204,23 +205,36 @@ let asset_jyoto_run=()=>{
       Elm_view(item);                                 // スタンプを表示
       Elm_dataset_set(item,"state","true");           // 譲渡中フラグを立てる
       Elm_dataset_set(item,"user",Elm_dataset_get("ch1-2-sub1","user"));   //譲渡先ユーザー
-
-      // 新規譲渡画面を閉じる
-      asset_jyoto_close();
+     
+      JyotoAsset.close();
    });
    
 }
 
 // 譲渡取り消し系 ///////////////////////
-// 取り消すかやめるかの2択で、やめる場合は単純に画面を消す
+// 取り消すかやめるかの2択で、やめる場合は単純に画面を消す(YesnoMsgで実施済み)
 // 取り消す場合はサーバーとローカル画面を更新
 
-// 譲渡取り消し画面をクローズ////////////
-// 単純に譲渡取り消し画面をクローズする。
-// waitが表示されている場合は非表示に戻す
-let asset_jyoto_reset_close=()=>{
-   Elm_hide("ch1-2-sub2");
-   Elm_hide("asset-jyoto-reset-preload");
+let asset_jyoto_reset=(ans,recv)=>{
+ if(ans==="yes"){ //取り消す
+  //define
+  let assetid=recv[0];
+  let card=document.getElementById("asset_id_"+assetid); //card
+
+  // main 
+  // ajaxcallした後カードのステータスを通常に戻してダイアログを閉じる
+  let data={"assetid":assetid};
+  let ajaxcall=new Promise((resolve)=>{
+     setTimeout(resolve,1500);
+  });
+  ajaxcall.then(()=>{
+      // カードのステータスを通常の状態に変更
+      let item=card.querySelector('[name="jyoto"]');  // 譲渡スタンプ   
+      Elm_hide(item);                                 // スタンプを非表示
+      Elm_dataset_set(item,"state","false");         // 譲渡しないステータス
+      Elm_dataset_set(item,"user","");               // 譲渡先ユーザーをリセット
+  });
+ }
 }
 
 // 譲渡取り消し処理 /////////////////////
@@ -263,11 +277,11 @@ let asset_jyoto_reset_run=()=>{
 // 新規譲渡画面のヘルプ ////////////////
 // アカウントID
 document.getElementById("asset-jyoto-account-help").addEventListener("click",()=>{
-   artMsg(type="info",title="譲渡先アカウントID",text="譲渡する相手のアカウントID(A0000000001の様な11桁のアカウント)を記載して下さい。<br/>譲渡する相手が当サイトのアカウントを持ってる必要があります。譲渡する相手が当サイトのアカウントを持っておらず、アカウントを作成する予定も無い場合は「譲渡」ではなく「削除」を行って下さい。<br/>可能な限り譲渡先に当サイトのアカウントを作成して頂いて譲渡手続きを行うことを推奨致します。<br/>当サイトで譲渡手続きを行った場合、個体番号で現在の所有者を追跡できます。<br/>例えば「転売しない」約束で自転車を譲渡した場合、現在の利用者を追跡することで約束が守られているか確認できます。",submit="閉じる");
+   ArtMsg.open(type="info",title="譲渡先アカウントID",text="譲渡する相手のアカウントID(A0000000001の様な11桁のアカウント)を記載して下さい。<br/>譲渡する相手が当サイトのアカウントを持ってる必要があります。譲渡する相手が当サイトのアカウントを持っておらず、アカウントを作成する予定も無い場合は「譲渡」ではなく「削除」を行って下さい。<br/>可能な限り譲渡先に当サイトのアカウントを作成して頂いて譲渡手続きを行うことを推奨致します。<br/>当サイトで譲渡手続きを行った場合、個体番号で現在の所有者を追跡できます。<br/>例えば「転売しない」約束で自転車を譲渡した場合、現在の利用者を追跡することで約束が守られているか確認できます。",submit="閉じる");
 });
 // PIN
 document.getElementById("asset-jyoto-pin-help").addEventListener("click",()=>{
-   artMsg(type="info",title="譲渡用PIN",text="譲渡手続きで使用するパスワードです。任意のパスワードを設定して譲渡相手に伝えて下さい。<br/>譲渡する相手がこのPINを入力することで資産の所有者があなたから譲渡先へ切り替わります。<br/>PINを使用することで誤った相手に譲渡されることを防止できます。例えばあなたが譲渡する相手のアカウントIDを誤って指定してしまっても、その相手はPINを知らないため譲渡を受けられません。",submit="閉じる");
+   ArtMsg.open(type="info",title="譲渡用PIN",text="譲渡手続きで使用するパスワードです。任意のパスワードを設定して譲渡相手に伝えて下さい。<br/>譲渡する相手がこのPINを入力することで資産の所有者があなたから譲渡先へ切り替わります。<br/>PINを使用することで誤った相手に譲渡されることを防止できます。例えばあなたが譲渡する相手のアカウントIDを誤って指定してしまっても、その相手はPINを知らないため譲渡を受けられません。",submit="閉じる");
 });
 
 // 譲渡入力画面の入力フォーム

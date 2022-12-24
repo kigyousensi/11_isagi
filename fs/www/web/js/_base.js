@@ -73,7 +73,7 @@ let base_listerner=(item)=>{
     // end
     ///////////////////////////////
     switch(rc){
-        case 2:artMsg(type="error",title="SNSアカウントエラー",text="SNSのアカウントを指定して下さい",submit="閉じる");break;
+        case 2:ArtMsg.open(type="error",title="SNSアカウントエラー",text="SNSのアカウントを指定して下さい",submit="閉じる");break;
     }
 }
 
@@ -111,7 +111,7 @@ let base_help=(item)=>{
         例えば盗まれた自転車がinstagramで転売されている場合、照会者があなたに連絡する助けになります。";break;
  
   }
-  artMsg("info",helptitle,helptext,submit="ok");
+  ArtMsg.open("info",helptitle,helptext,submit="ok");
 }
 
 // 

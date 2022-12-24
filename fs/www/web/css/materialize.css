@@ -8273,11 +8273,11 @@ div.yesno-top > div:nth-child(1) > p:nth-child(2) .img {
 div.yesno-top > div:nth-child(1) > p:nth-child(2) .img > img {
   width: 80%;
 }
-div.yesno-top > div:nth-child(2) {
+div.yesno-top > div:nth-child(3) {
   display: flex;
   justify-content: flex-end;
 }
-div.yesno-top > div:nth-child(2) > p {
+div.yesno-top > div:nth-child(3) > p {
   width: max(15vw, 30px);
   height: max(5vh, 30px);
   margin: 1vh 5px 0 0;
@@ -8291,14 +8291,14 @@ div.yesno-top > div:nth-child(2) > p {
   border-radius: 5px;
   color: #757575;
 }
-div.yesno-top > div:nth-child(2) > p:nth-child(2) {
+div.yesno-top > div:nth-child(3) > p:nth-child(2) {
   margin-right: 24px;
 }
-div.yesno-top > div:nth-child(2) > p:nth-child(1):hover {
+div.yesno-top > div:nth-child(3) > p:nth-child(1):hover {
   background-color: #f6b2b5;
   color: white;
 }
-div.yesno-top > div:nth-child(2) > p:nth-child(2):hover {
+div.yesno-top > div:nth-child(3) > p:nth-child(2):hover {
   background-color: #26a69a;
   color: white;
 }
@@ -8319,6 +8319,8 @@ div.function-box > div {
   top: 10vh;
   padding: 24px;
   background-color: #fff;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
 }
 div.function-box > div > p:nth-child(1) > span {
   font-weight: bold;

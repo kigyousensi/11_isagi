@@ -8,7 +8,7 @@
 <meta name="author" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
- <link type="text/css" rel="stylesheet" href="css/materialize.css?v1.6"  media="screen,projection"/>
+ <link type="text/css" rel="stylesheet" href="css/materialize.css?v1.9"  media="screen,projection"/>
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <link rel="icon" type="image/png" href="icon/fav.png"/>
 <title>test</title>
@@ -44,6 +44,7 @@
     <div id="yesno" class="yesno-box hide">
       <div id="yesno-top" class="yesno-top">
        <div><p name="bord">title</p><p name="bord">text</p></div>
+       <div id="yesno-wait" class="progress hide"><div class="indeterminate"></div></div>
        <div><p name="anser" data-val="yes">はい</p><p name="anser" data-val="no">いいえ</p></div>
        <span data-cb="" data-prm="" class="hide"></span>
       </div>
@@ -172,8 +173,8 @@
     </div>
     <!--動産の管理--><div id="ch1-2" class="channel">
       <!-- 新規譲渡画面 -->
-      <div id="ch1-2-sub1" class="function-box hide" data-assetid="" data-user="">
-        <div>
+      <div id="ch1-2-sub1" class="function-box function-scroll hide" data-assetid="" data-user="">
+        <div id="ch1-2-sub1-first">
           <p><span name="product"></span> <span name="product"></span> を譲渡します。<p>
           <p>譲渡先を指定して下さい</p>
           <p id="asset-jyoto-account-msg"></p>
@@ -201,19 +202,7 @@
           <div class="flex">
              <a id="asset-jyoto-run" class="btn disabled">譲渡する</a> &nbsp; <a class="btn" onClick="asset_jyoto_close()">キャンセル</a>
           </div>
-          <div id="asset-jyoto-preload" class="progress hide"><div class="indeterminate"></div></div>
-        </div>
-      </div>
-
-      <!-- 譲渡取り消し画面 -->
-      <div id="ch1-2-sub2" class="function-box hide" data-assetid="">
-        <div>
-          <p><span name="product"></span> <span name="product"></span> は <span name="user"></span> さんへ譲渡する手続き中です。<p>
-          <p>譲渡を取り消しますか?</p>
-          <div class="flex">
-            <a class="btn" onclick="asset_jyoto_reset_run()">譲渡を取り消す</a> &nbsp; <a class="btn" onClick="asset_jyoto_reset_close()">取り消さない</a>
-         </div>
-         <div id="asset-jyoto-reset-preload" class="progress hide"><div class="indeterminate"></div></div>
+          <div id="ch1-2-sub1-wait" class="progress hide"><div class="indeterminate"></div></div>
         </div>
       </div>
 
@@ -229,7 +218,7 @@
 
       <!-- 証明書登録画面 -->
       <div id="ch1-2-sub3" class="function-box function-scroll hide" data-assetid="">
-        <div>         
+        <div id="ch1-2-sub3-first">         
           <!-- 投稿フォーム -->
           <p><span>証明書類</span></p><p></p>
           <div id="asset-syomei-root" data-func="syomei"></div>
@@ -238,12 +227,12 @@
           <div class="flex">
             <a id="asset_syomei_submit" class="btn" onclick="asset_syomei_up_run()">送信</a> &nbsp; <a class="btn" onClick="asset_syomei_up_close()">キャンセル</a>
           </div>
-          <div id="asset-syomei-up-preload" class="progress hide"><div class="indeterminate"></div></div>
+          <div id="ch1-2-sub3-wait" class="progress hide"><div class="indeterminate"></div></div>
       </div>
-    </div>
+      </div>
 
       <!-- 写真変更画面 -->
-    <div id="ch1-2-sub4" class="function-box function-scroll hide" data-assetid="">
+      <div id="ch1-2-sub4" class="function-box function-scroll hide" data-assetid="">
        <div>
           <!-- 投稿フォーム -->
           <p><span>画像を変更</span></p><p></p>
@@ -254,8 +243,75 @@
             <a  id="asset_photo_submit" class="btn" onclick="asset_photo_up_run()">送信</a> &nbsp; <a class="btn" onClick="asset_photo_up_close()">キャンセル</a>
          </div>
          <div id="asset-photo-up-preload" class="progress hide"><div class="indeterminate"></div></div>
+        </div>
       </div>
-    </div>
+
+      <!-- 新規作成 -->
+      <div id="ch1-2-sub10" class="function-box function-scroll hide">
+        <div id="ch1-2-sub10-first">
+          <!-- タイトル --> 
+          <p><span>資産を登録</span></p>
+          <!-- 資産カテゴリ --> 
+          <div class="row">
+            <div class="input-field col s12">
+              <template id="asset-new-category-temp"><option value=""></option></template>
+              <select id="asset-new-category" class="icons">
+                <option value="" disabled selected="selected">カテゴリーを選択</option>
+              </select>
+              <label>資産カテゴリ</label>
+            </div>
+          </div>
+          <!-- メーカー -->
+          <div class="row" name="asset-act">
+            <div class="input-field col s6">
+                 <input type="text" id="asset-new-maker" class="autocomplete validate" required/>
+                 <label for="asset-new-maker">メーカー</label>
+                 <span class="helper-text" data-error="必須の入力項目です"></span>
+             </div>
+             <i id="asset-new-maker-help" class="material-icons">info_outline</i>
+          </div>
+          <!-- メジャーモデル、マイナーモデル -->
+          <div class="row" name="asset-act">
+            <div class="input-field col s6">
+              <input type="text" id="asset-new-model" class="autocomplete validate" pattern="^([^ 　]).*$"  required/>
+              <label for="asset-new-model">メジャーモデル</label>
+              <span class="helper-text" data-error="必須の入力項目です。空白は使用できません"></span>
+           </div>
+            <div class="input-field col s6">
+                 <input type="text" id="asset-new-sup"/>
+                 <label for="asset-new-sup">マイナーモデル(任意)</label>
+             </div>
+          </div>
+          <!-- 防犯登録番号,個体番号 -->
+          <div class="row" name="asset-act">
+            <div class="input-field col s6" id="asset-bind-new-bouhan">
+              <input type="text" id="asset-new-bouhan" class="validate" pattern="^([^ 　]).*$" required/>
+              <label for="asset-new-bouhan">防犯登録番号</label>
+              <span class="helper-text" data-error="必須の入力項目です。空白は使用できません"></span>
+           </div>
+            <div class="input-field col s6">
+                 <input type="text" id="asset-new-serial" class="validate" pattern="^([^ 　]).*$" required/>
+                 <label id="asset-new-serial-label" for="asset-new-serial">個体番号</label>
+                 <span class="helper-text" data-error="必須の入力項目です。空白は使用できません"></span>
+             </div>
+          </div>
+          <!-- メモ -->
+          <div class="row" name="asset-act">
+            <div class="input-field col s12">
+              <textarea id="asset-new-memo" class="materialize-textarea" data-length="64"></textarea>
+              <label for="asset-new-memo" class="active">メモ</label>
+              <span class="helper-text">購入場所や特徴など。個人情報は記載しないで下さい。</span>
+            </div>
+          </div>
+          <!-- 画像 -->
+          <!-- 送信ボタン -->
+          <div class="flex">
+            <a  id="asset_add_submit" class="btn" onclick="asset_add_up_run()">送信</a> &nbsp; <a class="btn" onClick="asset_add_up_close()">キャンセル</a>
+          </div>
+           <!-- wait -->
+          <div id="ch1-2-sub10-wait" class="progress hide"><div class="indeterminate"></div></div>
+        </div>
+      </div>
 
     <div id="asset-top" class="asset-box">
       <!--テンプレート-->
@@ -314,7 +370,7 @@
               <div class="row">
                 <div class="input-field col s12">
                   <textarea name="asset-comment" class="materialize-textarea" data-length="64"></textarea>
-                  <label name="asset-comment" for="" class="active">コメント</label>
+                  <label name="asset-comment" for="" class="active">メモ</label>
                 </div>
               </div>
               <div class="info"><i name="asset-comment" class="material-icons">help_outline</i></div>
@@ -471,12 +527,12 @@
      </div>
      <!--テンプレートここまで-->
      <!--アクションボタン-->
-     <div id="asset-add" class="fixed-action-btn">
+     <div id="asset-action" class="fixed-action-btn">
       <a class="btn-floating btn-large red">
       <i class="large material-icons">mode_edit</i>
       </a>
       <ul>
-      <li><a class="btn-floating red"><i class="material-icons">add</i></a></li>
+      <li><a class="btn-floating red" id="asset-action-add"><i class="material-icons">add</i></a></li>
       </ul>
      </div>
       
@@ -523,7 +579,7 @@
       <!--個体番号の入力欄-->
       <div id="ownr_selial" class="row hide">
         <div class="input-field col s12">
-          <input id="ownr_bind_selial" type="text" class="validate" pattern="^([^ ])*$" required/>
+          <input id="ownr_bind_selial" type="text" class="validate active" pattern="^([^ ])*$" required/>
           <label for="ownr_bind_selial" id="ownr_bind_selial_label"></label>
           <span class="helper-text" data-error="必須の入力項目です。スペースは使用できません"></span>
         </div>
@@ -653,14 +709,17 @@
 <!-- load javascript-->
 <script type="text/javascript" src="js/if.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
-<script type="text/javascript" src="js/_cAjax.js"></script>
-<script type="text/javascript" src="js/_fUtil.js"></script>
 <script type="text/javascript" src="js/_data.js"></script>
+<script type="text/javascript" src="js/_cAjax.js"></script>
+<script type="text/javascript" src="js/_cMsgs.js"></script>
+<script type="text/javascript" src="js/_fUtil.js"></script>
 <script type="text/javascript" src="js/_menu.js"></script>
 <script type="text/javascript" src="js/_base.js"></script>
 <script type="text/javascript" src="js/_ownr.js"></script>
+<script type="text/javascript" src="js/_ownr_search.js"></script>
 <script type="text/javascript" src="js/_asset.js"></script>
 <script type="text/javascript" src="js/_asset_card.js"></script>
+<script type="text/javascript" src="js/_asset_action_add.js"></script>
 <script type="text/javascript" src="js/_asset_menu_delete.js"></script>
 <script type="text/javascript" src="js/_asset_menu_jyoto.js"></script>
 <script type="text/javascript" src="js/_asset_menu_prof.js"></script>
@@ -669,6 +728,6 @@
 <script type="text/javascript" src="js/_signup.js"></script>
 <script type="text/javascript" src="js/_reset.js"></script>
 <script type="text/javascript" src="js/_logout.js"></script>
-
+<script type="text/javascript" src="js/_site.js"></script>
 </body>
 </html>

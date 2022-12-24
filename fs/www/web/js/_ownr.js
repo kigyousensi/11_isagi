@@ -8,7 +8,7 @@
 // チャンネルの初期化
 //////////////////////////
 let ownr_const=()=>{
-  //ヘッダーの位置を変更する
+  //ヘッダー画像の動作
   let header=document.querySelector(".ownr-head");
   header.style.transitionDuration="0s";
   setTimeout(()=>{
@@ -20,7 +20,6 @@ let ownr_const=()=>{
     },1000);
   },100);
 
-  
   setTimeout(()=>{
     header.style.transitionDuration="2s";
     header.style.backgroundPosition="right 20% bottom 20%";
@@ -32,28 +31,26 @@ let ownr_init=function(){
   //////////////////////////
   // カテゴリーリストを作成
   //////////////////////////
-  /// カテゴリ選択リストにUIインスタンスをバインド
-  let ownr_category_elems = document.querySelectorAll('#ownr_category');
-  let ownr_category_instances = M.FormSelect.init(ownr_category_elems);
-  let ownr_category_instance = M.FormSelect.getInstance(ownr_category_elems[0]);
-
    /// define
    let select_category=document.getElementById("ownr_category");  //selectタグ
    let template=document.getElementById("ownr_category_list");    //templateタグ
    let node;    //テンプレートをコピーして作成するノード
    let option;  //テンプレート内のoptioオブジェクト
-   let i=0;
 
    /// OptionタグをgCategorys配列から作成
    for(let key in gCategorys){
      // Optionタグを作成
      node=template.content.cloneNode(true);
      option=node.querySelector("option");
-     option.textContent=gCategorys[key]["name"];
-     option.setAttribute("value",key);
-     option.setAttribute("data-icon","icon/"+gCategorys[key]["img"]);
+     Elm_text(option,gCategorys[key]["name"]);
+     Elm_attribute(option,"value",key);
+     Elm_dataset_set(option,"icon","icon/"+gCategorys[key]["img"]);
      select_category.appendChild(node);
    }
+   /// カテゴリ選択リストにUIインスタンスをバインド
+   let ownr_category_elems = document.querySelectorAll('#ownr_category');
+   M.FormSelect.init(ownr_category_elems);
+   M.FormSelect.getInstance(ownr_category_elems[0]);
 
   //////////////////////////
   // カテゴリの選択をリセットする
@@ -84,19 +81,20 @@ let ownr_select_category=function(el){
       Elm_hide("ownr-bind-product");  //製品関連を非表示にして入力の必須を解除
       Elm_require("ownr_maker",false); ///メーカー
       Elm_require("ownr_model",false); ///型名
+      Elm_text("ownr_bind_selial_label","防犯登録番号(ハイフンと()は入力不要)");
     }
     else{
       Elm_hide("ownr_bind_Roadbike"); //防犯登録 or 車体番号を非表示
       Elm_view("ownr-bind-product");  //製品関連を表示して入力を必須にする
       Elm_require("ownr_maker",true);  ///メーカー
       Elm_require("ownr_model",true);  ///型名
+      //個体番号入力欄の表示のラベルを変更
+     Elm_text("ownr_bind_selial_label",gCategorys[el.target.value]["selial"]);
     }
     maker=fAutocomlete(el.target.value,"ownr_maker"); //メーカーの予測変換候補を編集
     Elm_value("ownr_maker","");       //メーカーを初期化
     Elm_value("ownr_model","");       //型名を初期化
    }
-   //個体番号入力欄の表示のラベルを変更
-     Elm_text("ownr_bind_selial_label",gCategorys[el.target.value]["selial"]);
      Elm_view("ownr_selial");//個体番号
 
    //検索ボタンの表示を変更
@@ -111,7 +109,7 @@ let ownr_check_radio=(()=>{
     Elm_hide("ownr-bind-product");  //製品関連を非表示
     Elm_require("ownr_maker",false); ///メーカー
     Elm_require("ownr_model",false); ///型名
-    Elm_text("ownr_bind_selial_label","防犯登録番号(ハイフンとは入力不要)");
+    Elm_text("ownr_bind_selial_label","防犯登録番号(ハイフンと()は入力不要)");
   }
   else{ //車体番号
     Elm_view("ownr-bind-product");  //製品関連を表示
@@ -125,32 +123,9 @@ let ownr_check_radio=(()=>{
 ///////////////////
 // メーカーを変更した場合の動作
 ///////////////////
+// # メーカー名の補完とモデルの予測変換を作成
 let ownr_change_maker=(()=>{
-  // 空白でなければフォームからメーカー名を取得する。
-  // メーカー名は大文字/小文字の差異を吸収して予測変換のメーカー名に置き換える
-  // その後空白を_に変換して小文字し、モデル予測変換ファイル名を作成する
-  let cat,maker,model,chk;
-  if(Elm_check("ownr_maker",true)){
-    cat=Elm_get("ownr_category");
-    maker=Elm_get("ownr_maker").replace(/ *$/,"");
-    //メーカーリストの中から選択された場合はモデルの予測変換リストを更新
-    /// 入力値からファイル名を指定してモデル入力欄の予測変換リストを更新する
-    /// メーカーリストkeysと入力値が一致している場合のみ本処理を行う。
-    /// (この判断が無いと存在しない定義ファイルを読むためのhttp callが発生してしまう)
-    /// 入力値が一致しない場合はモデルの予測変換リストをリセットする
-    chk=txcompkey(maker,document.getElementById("ownr_maker").M_Autocomplete.options.data);//メーカー予測リストの内容と比較
-    if(chk !==""){
-      // 大文字と小文字が不一致の場合はフォームの値を予測変換値に置き換え
-      if(chk !== maker){Elm_value("ownr_maker",chk);}
-      //型名を初期化
-      Elm_value("ownr_model","");
-      // カテゴリとメーカー名からモデル予測変換ファイル名を作成する
-      maker=maker.replace(/ *$/,"");
-      maker=maker.replace(" ","_");
-      model=fAutocomlete(cat+"_"+maker.toLowerCase(),"ownr_model");
-    }
-    else{model=fAutocomlete("","ownr_model");}
-  }
+  input_change_maker("ownr_category","ownr_maker","ownr_model");
   ownr_check_search(); // 入力内容を確認して照会ボタンをアクティブ化
 });
 
@@ -197,13 +172,13 @@ let ownr_search=()=>{
     let rt=[];
     if(data["maker"] ==="GIANT"){
       rt=[
-        {"maker":"GIANT","model":"TCR SL1","twitter":"YahooCare","instagram":"inst","serial":"A0000001","comment":"コメント","caution":"false","assetid":"X1000001"}
+        {"maker":"GIANT","model":"TCR","sup":"XL","twitter":"YNekohige","instagram":"finefennec","serial":"A0000001","comment":"かーまーど〜　かーまーど〜　せーとのうーみは　おか〜さん　さぬきのやまは〜　おと〜さん","caution":"false","assetid":"X1000001"}
       ];
     }
     else{
       rt=[
-        {"maker":"GIANT","model":"TCR SL1","twitter":"YahooCare","instagram":"","serial":"A0000001","comment":"コメント","caution":"false","assetid":"X1000001"},
-        {"maker":"GIANT","model":"TCR SL1","twitter":"","instagram":"finefennec","serial":"A0000001","comment":"コメント","caution":"true","assetid":"X1000002"}
+        {"maker":"GIANT","model":"TCR","sup":"SL1","twitter":"YNekohige","instagram":"","serial":"A0000001","comment":"いつもの　よおーに　まくーがあ〜き〜　こーいーの〜　う〜た　うったうわったあしにっ　とーどいたー　しんらんせんは〜　くーろーいー　ふちーどり〜が〜　ありましーたー","caution":"false","assetid":"X1000001"},
+        {"maker":"GIANT","model":"TCR","sup":"SL2","twitter":"","instagram":"finefennec","serial":"A0000001","comment":"きゃっわいった〜　かみをっ　かーらーまーせぇぇぇぇ　あっなたっほゥ〜　つぅれぇてぇく↑ぅのぅさ〜","caution":"true","assetid":"X1000002"}
       ];
     }
     setTimeout(resolve_func,2000,rt);
@@ -223,60 +198,8 @@ let ownr_search=()=>{
     if(recv.length>1){tx=`${tx} &gt;&gt;<a onclick="ownr_serched_msg()">複数の結果が表示される場合</a>`}
     Elm_html("ownr_serched_msg","検索結果 : "+tx);
 
-    // 検索結果をテンプレートに反映してカードを表示
-    /// テンプレート取得
-    let rslt=document.getElementById("ownr-result-top");
-    let tmp=document.getElementById("ownr_result_tmp");
-    let node,items,flg;
-    
-    for(let i=0;i<recv.length;i++){
-      flg=0;
-      node=tmp.content.cloneNode(true);
-      // 画像
-      items=node.querySelectorAll('[name="img"]');
-      items[0].setAttribute("src","img/"+recv[i]["assetid"]+".jpg?"+fRnd());
-      items[0].setAttribute("onclick","setOwnrCardDetail(this)");
-      // メーカー、型名、警告
-      items=node.querySelectorAll('[name="product"]');
-      items[0].textContent=recv[i]["maker"];
-      items[1].textContent=recv[i]["model"];
-      items[1].setAttribute("onclick","setOwnrCardDetail(this)");
-      if(recv[i]["caution"]==="true"){
-        items[2].classList.remove("hide");
-        //盗品の説明
-          items[2].addEventListener("click",()=>{
-            artMsg(type="warn",title="盗難品の可能性があります",text="この動産は所有者によって盗難届が提出されています。<br/>SNSやフリマアプリで購入しようとしている場合は取引の中止を推奨します。<br/><br/>[お願い]<br/>差し支えなければ発見した場所を本来の所有者へ連絡して下さい。所収者のSNSのアカウントへ直接連絡するか、匿名でメッセージを送信できます。",submit="閉じる");
-          });
-      }    
-      else{items[2].classList.add("hide");}
-
-      // twitter
-      items=node.querySelectorAll('[name="twitter"]');
-      if(recv[i]["twitter"] !==""){
-        items[0].classList.remove("hide");
-        items[1].setAttribute("href","https://twitter.com/"+recv[i]["twitter"]);
-        items[1].textContent=recv[i]["twitter"];
-        flg++;
-      }
-      else{items[0].classList.add("hide");}
-      // instagram
-      items=node.querySelectorAll('[name="instagram"]');
-      if(recv[i]["instagram"] !==""){
-        items[0].classList.remove("hide");
-        items[1].setAttribute("href","https://www.instagram.com/"+recv[i]["instagram"]);
-        items[1].textContent=recv[i]["instagram"];
-        flg++;
-      }
-      else{items[0].classList.add("hide");}
-      //SNS枠
-      items=node.querySelectorAll('[name="sns"]');
-      if(flg==0){items[0].classList.add("hide");}else{items[0].classList.remove("hide");}
-      // 車体番号、メモ
-      items=node.querySelectorAll('[name="param"]');
-      items[0].textContent=recv[i]["serial"];
-      items[1].textContent=recv[i]["comment"];
-      rslt.appendChild(node);
-    }
+    // 1件づつカードを作成 
+    for(let i=0;i<recv.length;i++){create_ownr_card(recv[i]);}
   });
 }
 
@@ -303,7 +226,7 @@ let setOwnrCardDetail=(el)=>{
 
 // 検索結果が複数ある場合のメッセージ
 let ownr_serched_msg=()=>{
-  artMsg(type='warn',title='検索結果が複数ある場合',text='複数の結果が表示される場合は盗品の可能性を疑って下さい。<br/>通常はメーカー、型名、シリアル番号の組み合わせが重複することはありません。メーカーによってはモデルをマイナーチェンジした際にシリアル番号が重複する場合がありますが稀なケースです。');
+  ArtMsg.open(type='warn',title='検索結果が複数ある場合',text='複数の結果が表示される場合は盗品の可能性を疑って下さい。<br/>通常はメーカー、型名、シリアル番号の組み合わせが重複することはありません。メーカーによってはモデルをマイナーチェンジした際にシリアル番号が重複する場合がありますが稀なケースです。');
 }
 ///////////////////
 // フォームの値が変わったら検索ボタンを有効にするか判断する
@@ -340,11 +263,6 @@ let ownr_check_search=()=>{
 // ///////////////////////
 // イベントリスナー
 // ///////////////////////
-// // onload
-window.addEventListener('load',()=>{
-  ownr_const();
-  asset_const(); // テスト時のみ
-});
 
 // // input & click
 document.getElementById("ownr_category").addEventListener("change",(el)=>{ownr_select_category(el)});

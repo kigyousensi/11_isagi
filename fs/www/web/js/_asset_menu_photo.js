@@ -1,6 +1,12 @@
-////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////
+// 資産登録画面
+// ////////////////////////////////////////////////////////////////////////////
+
+//
 // カードメニュー項目のアクション(画像を送付)
-////////////////////////////////////////
+//
+// let PhotoAsset  =new cSubFunction("ch1-2-sub4");      //写真変更 
+
 let asset_photo_item=(e)=>{
    asset_card_menu_close(e.parentNode);//カードメニューを閉じる
    //
@@ -15,8 +21,8 @@ let asset_photo_item=(e)=>{
    //
    // フォームに既存の画像を登録
    //証明書類送付フォームを表示
-   asset_photo_createform(assetid,type);    //ファイル添付フォームを作成
-   Elm_view("ch1-2-sub4");                   //画像変更画面を表示
+   asset_photo_createform(assetid,type);  //ファイル添付フォームを作成
+   PhotoAsset.open();                     //画像変更画面を表示
 }
 
 // 写真を送付 //////////////////////////
@@ -25,7 +31,7 @@ let asset_photo_up_run=()=>{
 
 // 写真の送付をキャンセル //////////////
 let asset_photo_up_close=()=>{
-   Elm_hide("ch1-2-sub4");
+   PhotoAsset.close();
 }
 
 // テンプレートから画像添付フォームを作成 ///
@@ -72,7 +78,7 @@ let asset_photo_createform=(assetid,type)=>{
          width=obj.clientWidth;
          hight=parseInt(width*3/4);
          Elm_style(obj,"height",hight+"px");    
-         Elm_style(obj,"backgroundImage",`url('../img/${assetid}.jpg?${fRnd()}')`);
+         Elm_style(obj,"backgroundImage",`url('img/${assetid}.jpg?${fRnd()}')`);
      }
    
      // ボックス領域を拡張
