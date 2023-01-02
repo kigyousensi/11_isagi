@@ -1,4 +1,5 @@
 ## ignore filename in all directory
 *.swp
 adduser.sh
+apps/log/error.log
 *.log
