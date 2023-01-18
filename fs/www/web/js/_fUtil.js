@@ -192,6 +192,7 @@ let Elm_get=function(id){       // フォームの値、またはタグ内のテ
             break;
         case "checkbox":rc=obj.value;break;
         case "text":rc=obj.value;break;
+        case "email":rc=obj.value;break;
         case "password":rc=obj.value;break;
         case "radio":
             let name=obj.getAttribute("name");

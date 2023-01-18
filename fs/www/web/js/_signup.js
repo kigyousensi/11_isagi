@@ -1,7 +1,12 @@
 // ////////////////////////////////////////////////////////////////////////////
 // アカウント新規作成(Sign up)画面
 // ////////////////////////////////////////////////////////////////////////////
-function signupbutton_control(){ //アカウント登録ボタンの表示を制御
+
+// ////////////////////////////////////
+// 新規登録画面の制御
+// ////////////////////////////////////
+// # アカウント登録ボタンの表示を制御
+function signupbutton_control(){
     // 入力内容に問題がなければアカウント登録ボタンを有効化する
     let flg=0;
     if(! document.getElementById("signup-agreeck").checked){flg=3;}
@@ -30,7 +35,9 @@ function signupbutton_control(){ //アカウント登録ボタンの表示を制
     }
 
 }
-function signupModalRecv(){ //利用条件の同意用モーダルボックス
+
+// # 利用条件の同意用モーダルボックス
+function signupModalRecv(){
     // モーダルボックスを作成
     let elems = document.querySelectorAll('#signup-modal');
     let instances=M.Modal.init(elems);
@@ -47,32 +54,59 @@ function signupModalRecv(){ //利用条件の同意用モーダルボックス
         instance.open();
     });
 }
+
+// ////////////////////////////////////
+// Ajax Call
+// ////////////////////////////////////
 function trySignup(){ // アカウントを新規登録
+    //
+    // preprocess
+    //
+
+    let data=[],ajax,prom;
     { //描画の制御
         Elm_view("signup-preload");// プリロードを表示
         document.getElementById("signup-button").classList.add("disabled");//ログインボタンを非活性にする
         Elm_text("signup-error","");// エラーメッセージを削除
     }
-// アカウント登録を試行
-let prom=new Promise((resolve_func)=>{
-    let f=100;
-    if(document.getElementById("signup-email").value ==="adgjmptw@mineo.jp"){f=1;}
-    setTimeout(resolve_func,2000,[f]);
-});
-prom.then((v)=>{
-    { //画面の制御
+
+    //
+    // main
+    //
+    // アカウント登録を試行
+    { // 入力値を取得
+        data["adr"]=Elm_get("signup-email");
+        data["pwd"]=Elm_get("signup-pword1");
+    }
+    { // ajax call
+        ajax=new cAjax("/ap/trysignup.aspx");
+        prom=ajax.send(data,'json');
+    }
+
+    //
+    // end
+    //
+    prom.then((recv)=>{
+     { //画面の制御
         Elm_hide("signup-preload");// プリロードを非表示
         Elm_active("signup-button");//アカウント登録ボタンを活性にする
-    }
-    if(v[0]==1){ // 成功した場合     
-        // チャンネルをログイン画面に切替え
-        changech("ch3");
-    }
-    else {//失敗した場合
-        Elm_text("signup-error","既にアカウントが登録されています");//エラーを表示
-    }
-});
+     }
+     switch(recv["result"]){
+        case 0: // 成功 チャンネルをログイン画面に切替え
+                changech("ch3");break;
+        case 1: // 失敗(アカウント重複)
+                Elm_text("signup-error","既にアカウントが登録されています");//エラーを表示
+                break;
+        default: // 原因不明のエラー
+                Elm_text("signup-error","原因不明のエラーが発生しました");//エラーを表示
+                break;
+     }
+    });
 }
+
+// ////////////////////////////////////
+// リスナー
+// ////////////////////////////////////
 // アカウント登録画面のemail、パスワード欄、利用条件の同意にchangeイベントリスナーを登録
 document.getElementById("signup-email").addEventListener("change",()=>{signupbutton_control();});
 document.getElementById("signup-pword1").addEventListener("change",()=>{signupbutton_control();});

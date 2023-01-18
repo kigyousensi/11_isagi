@@ -70,6 +70,7 @@ class cAjax
           let recv;
           if((self.request.readyState == 4) && (self.request.status == 200))
           {
+            console.log(self.request.responseText);
 	        	if(recvtype=="text"){recv=eval("(self.request.responseText)");}
         		if(recvtype=="xml") {recv=eval("(self.request.responseXML)");}
 		        if(recvtype=="json"){recv=eval('('+self.request.responseText+')');}

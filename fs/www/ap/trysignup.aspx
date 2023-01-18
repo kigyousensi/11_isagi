@@ -4,6 +4,7 @@
 // init
 // ///////////////
 // # require
+require "lib/file.php";
 require "lib/json.php";
 require "lib/unescape.php";
 require "conf/encript.php";
@@ -23,28 +24,56 @@ if(empty($_POST['pwd'])){$flg=2;}   //パスワードチェック
 // ///////////////
 // # パスワードからハッシュを作成
 $pass=password_hash($_POST['pwd'],PASSWORD_DEFAULT);
-// # メールアドレスからトークンを作成
-$token="";
-// # メールアドレスのアカウント部分から仮アカウントを作成
-$name="";
-// # アカウントIDを作成
- // ロックを取得
- // grptyp=10,grpcnt=100001の現状を取得
- // accntを1インクリメントする。999900を超えたらgrpofをカウントアップしてaccntを1にリセットする
- // 新grpof,accntを上書きする
- // grptyp(11)-grpof(22)-gpcnt(333333)-accnt(444444)からチェックビット(55)を算出
- // 112233333344444455をidとして使う
-usid="";
 
+// # トークンを作成
+$token=bin2hex(random_bytes(12));
+
+// # メールアドレスのアカウント部分から仮アカウントを作成
+$dumy=explode("@",$_POST['adr']);
+$name=$dumy[0];
+
+// # アカウントIDを作成
+ // accountdb.account_countのロックを取得
+ $idname=mt_rand(100,999);
+ $lockname="tmp/trysignup.lock";
+ $rockresult=flk($lockname,$idname);
+ if($rockresult==1){$flg=3;}
+
+ // アカウント順序から順序を取り出し、次の順序をセットする
+ if($flg == 0){
+ }
+
+ // accountdb.account_countのロックを解除
+ if($flg == 0){fulk($lockname);}
+ 
+ // アカウントIDを構成
+$usid="";
+
+fad("log/log.txt",$name." ".$token,"\n");
 
 // ///////////////
 // maim
 // ///////////////
-$db=new MysqlClass($hsvs['db1']['host'],$hsvs['db1']['db'],$hsvs['db1']['user'],$hsvs['db1']['pass']);
-$db->Pre("insert into ".$table." (usid,token,name,mail,pass,state) values(?,?,AES_ENCRYPT(?,'".$ENCRYPT."'),?,true);
-   $data=$db->Run(unescape($usid,$token,$name,$_POST['adr']),$pass);
+if($flg == 0){
+   // # アカウントIDをデータベースに登録
+    // DBハンドラを作成
+    //$db=new MysqlClass($hsvs['db1']['host'],$hsvs['db1']['db'],$hsvs['db1']['user'],$hsvs['db1']['pass']);
+    // # プレースホルダーを作成
+    //$db->Pre("insert into ".$table." (usid,token,name,mail,pass,state) values(?,?,AES_ENCRYPT(?,'".$ENCRYPT."'),?,true);
+    // # 実行
+    //$data=$db->Run(unescape($usid,$token,$name,$_POST['adr']),$pass);
+    // 結果を確認してフラグをセット
+}
 
 // ///////////////
 // end
 // ///////////////
+// # 結果を返す
+$flg=1;
+$data["result"]=$flg;
+$json=new Services_JSON();
+print $json->encode($data);
+
+// # 成功した場合は履歴に記録
+// 
 ?>
