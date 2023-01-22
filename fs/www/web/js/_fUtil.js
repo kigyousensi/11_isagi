@@ -441,7 +441,7 @@ let Elm_select_add=function(id,data){ // selectにoptionを追加する
 }
 
 //###############################
-//## select
+//## チェックボックス
 //###############################
 // on/off
 let Elm_checkbox_set=function(id,val="off"){ //チェックボックスをon/offする

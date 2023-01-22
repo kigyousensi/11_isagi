@@ -233,7 +233,7 @@
 
       <!-- 写真変更画面 -->
       <div id="ch1-2-sub4" class="function-box function-scroll hide" data-assetid="">
-       <div>
+        <div id="ch1-2-sub4-first"> 
           <!-- 投稿フォーム -->
           <p><span>画像を変更</span></p><p></p>
           <div id="asset-photo-root" data-func="photo"></div>
@@ -242,7 +242,7 @@
           <div class="flex">
             <a  id="asset_photo_submit" class="btn" onclick="asset_photo_up_run()">送信</a> &nbsp; <a class="btn" onClick="asset_photo_up_close()">キャンセル</a>
          </div>
-         <div id="asset-photo-up-preload" class="progress hide"><div class="indeterminate"></div></div>
+         <div id="ch1-2-sub4-wait" class="progress hide"><div class="indeterminate"></div></div>
         </div>
       </div>
 
@@ -538,7 +538,7 @@
       
     </div>
     </div>
-    <!--所有者の確認--><div id="ch2" class="channel hide">
+    <!--所有者の確認--><div id="ch2" class="channel">
       <div class="ownr-head"></div>
       <div class="ownr-box">
       <!--カテゴリ-->
@@ -642,7 +642,7 @@
           <div >アカウントをお持ちで無い場合は<a id="login-signup">新規登録</a></div>
         </div>
     </div>
-    <!--サインアップ画面--><div id="ch4" class="channel">
+    <!--サインアップ画面--><div id="ch4" class="channel hide">
       <div class="account-box signup-box">
         <div></div>
         <div class="account-header signup-header"><span>Sign Up</span></div>
@@ -651,7 +651,7 @@
             <!-- メールアドレスとパスワード -->
             <div class="row">
               <div class="input-field col s12">
-                <input id="signup-email" type="email" class="validate" required>
+                <input id="signup-email" type="email" class="validate" required data-checkstate="">
                 <label for="signup-email">Email</label>
                 <span class="helper-text" data-error="メールアドレスの形式が不正です。"></span>
               </div>

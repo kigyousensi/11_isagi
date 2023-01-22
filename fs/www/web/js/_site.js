@@ -60,9 +60,11 @@ function changech(ch){
     // 対象のチャンネル以外は非表示にし、対象のチャンネルを表示にする。
     // 必要に応じて各チャンネルの初期化(const)をコールする。
       if(items[i].getAttribute("id") == ch){
-          items[i].classList.remove("hide");
+          //items[i].classList.remove("hide");
+          Elm_view(items[i]);
           switch(ch){
-              case "ch2":ownr_const();
+              case "ch2":ownr_const();break;
+              case "ch4":signup_const();break;
           }
       }
       else{

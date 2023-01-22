@@ -9,6 +9,7 @@
 // rmf($filename)
 // flk($lockname,$idname)
 // fulk($lockname,$idname)
+// flkexit($lockname)
 // dirlist($dir) 　$dirの最後に/を忘れないように
 // filelist($dir)　$dirの最後に/を忘れないように
 //
@@ -39,7 +40,7 @@ function frd($filename)
 // 追記関数
 // ファイルの最後尾にテキスト配列を出力する。
 
-function fad($filename,$tx,$cr)
+function fad($filename,$tx,$cr="\n")
 {
  //最後の1行が空白行かどうか判断する。
  if(!file_exists($filename)){return -1;}
@@ -102,7 +103,7 @@ function flk($lockname,$idname)
 	// Set flag
 		$lockname=$lockname.".lockfile";
 		$flag=0;
-		$rc=0;		// return code:0isOK 1is NG
+		$rc=(bool) False;		// true or false
 		$second=5; 	// it is wait interbal time for file exist check.
 		$maxcount=4;// it is max count of file exit check. 
 
@@ -114,14 +115,14 @@ function flk($lockname,$idname)
 			while(file_exists("$lockname"))
 			{
 				$count++;
-				if($count>=$maxcount){$rc=1;$flag=1;break;}
+				if($count>=$maxcount){$flag=1;break;}
 				sleep($second);
 				clearstatcache();
 			}
 
-			if($rc==0)
+			if($flag==0)
 			{
-			// Freate file
+			// Create file
 			$tx[0]=$idname;
 			fwt($lockname,$tx,"\n");
 
@@ -129,7 +130,10 @@ function flk($lockname,$idname)
 			// If you can get Second Commit, $flag is change to 1.
 			$userid=frd($lockname);
 			$userid[0]=str_replace("\n","",$userid[0]);
-			if($userid[0] == $idname){$flag=1;}
+			if($userid[0] == $idname){
+				$rc=(bool)True;
+				$flag=1;
+			  }
 			}
 		}
 		return $rc;
@@ -139,10 +143,22 @@ function flk($lockname,$idname)
 // ロック解除
 function fulk($lockname)
 {
- $lockname=$lockname.".lockfile";
- if(!unlink($lockname)){echo "ERROR:ロックの解除に失敗しました($lockname)<br/>";};
+	$rt=(bool) True;
+	$lockname=$lockname.".lockfile";
+	if(!unlink($lockname)){$rt=(bool)False;}
+ 	return $rt;
 }
 
+///////////////////////////////////////////////////////////////////////
+// ロックの有無を確認
+function flkexit($lockname){
+	$rc = (bool) FALSE;
+	if(file_exists($lockname.".lockfile")){$rc = (bool) True;}
+	return $rc;
+}
+
+////////////////////////////////////////////////////////////////////////
+// ファイルにキストを上書き
 function fout($filename,$txt)
 {
  $fp=fopen("$filename",'w');
@@ -150,6 +166,8 @@ function fout($filename,$txt)
  fclose($fp);
 }
 
+////////////////////////////////////////////////////////////////////////
+// ファイルからテキストを取得
 function fin($filename)
 {
  $fp=fopen("$filename",'r');
@@ -204,6 +222,23 @@ function dirlist($dir)
 		closedir($dh);
 	}
 	return $list;
+}
+
+////////////////////////////////////////////////////////////////////////
+//ログ出力
+// usage : logger(level,operation,msg)
+//    level : { E | W | I }
+//     operation : { user | corp | asset | system | other }
+//     msg  : message
+// log
+//  yyyymmdd::E::user:: create user A00000001
+function logger($level,$operation,$msg){
+	$file="./log/".$operation.".log";
+	$dt=new DateTime('Asia/Tokyo');$timstamp=$dt->format('Y-m-d H:i:s',);
+	//ファイルがなければ作成
+	if(!file_exists("./log/")){mkdir("./log/",0777);}
+	if(!file_exists($file)){mkf($file);}
+	fad($file,$timstamp."::".$level."::".$operation."::".$msg,$cr="\n");
 }
 
 ?>
